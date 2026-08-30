@@ -1,0 +1,763 @@
+%  LaTeX support: latex@mdpi.com 
+%  For support, please attach all files needed for compiling as well as the log file, and specify your operating system, LaTeX version, and LaTeX editor.
+
+%=================================================================
+\documentclass[journal,article,submit,pdftex,moreauthors]{Definitions/mdpi} 
+
+\usepackage{url}
+\usepackage[ruled,vlined]{algorithm2e}
+\SetKwComment{Comment}{/* }{ */}
+
+%\documentclass[preprints,article,submit,pdftex,moreauthors]{Definitions/mdpi} 
+% For posting an early version of this manuscript as a preprint, you may use "preprints" as the journal. Changing "submit" to "accept" before posting will remove line numbers.
+
+% Below journals will use APA reference format:
+% admsci, aieduc, behavsci, businesses, econometrics, economies, education, ejihpe, famsci, games, humans, ijcs, ijfs, journalmedia, jrfm, languages, psycholint, publications, tourismhosp, youth
+
+% Below journals will use Chicago reference format:
+% arts, genealogy, histories, humanities, jintelligence, laws, literature, religions, risks, socsci
+
+%--------------------
+% Class Options:
+%--------------------
+%----------
+% journal
+%----------
+% Choose between the following MDPI journals:
+% accountaudit, acoustics, actuators, addictions, adhesives, admsci, adolescents, aerobiology, aerospace, agriculture, agriengineering, agrochemicals, agronomy, ai, air, algorithms, allergies, alloys, amh, analytica, analytics, anatomia, anesthres, animals, antibiotics, antibodies, antioxidants, applbiosci, appliedchem, appliedmath, appliedphys, applmech, applmicrobiol, applnano, applsci, aquacj, architecture, arm, arthropoda, arts, asc, asi, astronomy, atmosphere, atoms, audiolres, automation, axioms, bacteria, batteries, bdcc, behavsci, beverages, biochem, bioengineering, biologics, biology, biomass, biomechanics, biomed, biomedicines, biomedinformatics, biomimetics, biomolecules, biophysica, biosensors, biosphere, biotech, birds, blockchains, bloods, blsf, brainsci, breath, buildings, businesses, cancers, carbon, cardiogenetics, catalysts, cells, ceramics, challenges, chemengineering, chemistry, chemosensors, chemproc, children, chips, cimb, civileng, cleantechnol, climate, clinbioenerg, clinpract, clockssleep, cmd, cmtr, coasts, coatings, colloids, colorants, commodities, complications, compounds, computation, computers, condensedmatter, conservation, constrmater, cosmetics, covid, crops, cryo, cryptography, crystals, csmf, ctn, curroncol, cyber, dairy, data, ddc, dentistry, dermato, dermatopathology, designs, devices, diabetology, diagnostics, dietetics, digital, disabilities, diseases, diversity, dna, drones, dynamics, earth, ebj, ecm, ecologies, econometrics, economies, education, eesp, ejihpe, electricity, electrochem, electronicmat, electronics, encyclopedia, endocrines, energies, eng, engproc, ent, entomology, entropy, environments, epidemiologia, epigenomes, esa, est, famsci, fermentation, fibers, fintech, fire, fishes, fluids, foods, forecasting, forensicsci, forests, fossstud, foundations, fractalfract, fuels, future, futureinternet, futureparasites, futurepharmacol, futurephys, futuretransp, galaxies, games, gases, gastroent, gastrointestdisord, gastronomy, gels, genealogy, genes, geographies, geohazards, geomatics, geometry, geosciences, geotechnics, geriatrics, glacies, grasses, greenhealth, gucdd, hardware, hazardousmatters, healthcare, hearts, hemato, hematolrep, heritage, higheredu, highthroughput, histories, horticulturae, hospitals, humanities, humans, hydrobiology, hydrogen, hydrology, hygiene, idr, iic, ijerph, ijfs, ijgi, ijmd, ijms, ijns, ijpb, ijt, ijtm, ijtpp, ime, immuno, informatics, information, infrastructures, inorganics, insects, instruments, inventions, iot, j, jal, jcdd, jcm, jcp, jcs, jcto, jdad, jdb, jeta, jfb, jfmk, jimaging, jintelligence, jlpea, jmahp, jmmp, jmms, jmp, jmse, jne, jnt, jof, joitmc, joma, jop, jor, journalmedia, jox, jpbi, jpm, jrfm, jsan, jtaer, jvd, jzbg, kidney, kidneydial, kinasesphosphatases, knowledge, labmed, laboratories, land, languages, laws, life, lights, limnolrev, lipidology, liquids, literature, livers, logics, logistics, lubricants, lymphatics, machines, macromol, magnetism, magnetochemistry, make, marinedrugs, materials, materproc, mathematics, mca, measurements, medicina, medicines, medsci, membranes, merits, metabolites, metals, meteorology, methane, metrics, metrology, micro, microarrays, microbiolres, microelectronics, micromachines, microorganisms, microplastics, microwave, minerals, mining, mmphys, modelling, molbank, molecules, mps, msf, mti, multimedia, muscles, nanoenergyadv, nanomanufacturing, nanomaterials, ncrna, ndt, network, neuroglia, neurolint, neurosci, nitrogen, notspecified, nursrep, nutraceuticals, nutrients, obesities, oceans, ohbm, onco, oncopathology, optics, oral, organics, organoids, osteology, oxygen, parasites, parasitologia, particles, pathogens, pathophysiology, pediatrrep, pets, pharmaceuticals, pharmaceutics, pharmacoepidemiology, pharmacy, philosophies, photochem, photonics, phycology, physchem, physics, physiologia, plants, plasma, platforms, pollutants, polymers, polysaccharides, populations, poultry, powders, preprints, proceedings, processes, prosthesis, proteomes, psf, psych, psychiatryint, psychoactives, psycholint, publications, purification, quantumrep, quaternary, qubs, radiation, reactions, realestate, receptors, recycling, regeneration, religions, remotesensing, reports, reprodmed, resources, rheumato, risks, robotics, rsee, ruminants, safety, sci, scipharm, sclerosis, seeds, sensors, separations, sexes, signals, sinusitis, siuj, skins, smartcities, sna, societies, socsci, software, soilsystems, solar, solids, spectroscj, sports, standards, stats, std, stresses, surfaces, surgeries, suschem, sustainability, symmetry, synbio, systems, tae, targets, taxonomy, technologies, telecom, test, textiles, thalassrep, therapeutics, thermo, timespace, tomography, tourismhosp, toxics, toxins, transplantology, transportation, traumacare, traumas, tropicalmed, universe, urbansci, uro, vaccines, vehicles, venereology, vetsci, vibration, virtualworlds, viruses, vision, waste, water, wem, wevj, wild, wind, women, world, youth, zoonoticdis
+
+%---------
+% article
+%---------
+% The default type of manuscript is "article", but can be replaced by: 
+% abstract, addendum, article, benchmark, book, bookreview, briefcommunication, briefreport, casereport, changes, clinicopathologicalchallenge, comment, commentary, communication, conceptpaper, conferenceproceedings, correction, conferencereport, creative, datadescriptor, discussion, entry, expressionofconcern, extendedabstract, editorial, essay, erratum, fieldguide, hypothesis, interestingimages, letter, meetingreport, monograph, newbookreceived, obituary, opinion, proceedingpaper, projectreport, reply, retraction, review, perspective, protocol, shortnote, studyprotocol, supfile, systematicreview, technicalnote, viewpoint, guidelines, registeredreport, tutorial,  giantsinurology, urologyaroundtheworld
+% supfile = supplementary materials
+
+%----------
+% submit
+%----------
+% The class option "submit" will be changed to "accept" by the Editorial Office when the paper is accepted. This will only make changes to the frontpage (e.g., the logo of the journal will get visible), the headings, and the copyright information. Also, line numbering will be removed. Journal info and pagination for accepted papers will also be assigned by the Editorial Office.
+
+%------------------
+% moreauthors
+%------------------
+% If there is only one author the class option oneauthor should be used. Otherwise use the class option moreauthors.
+
+%---------
+% pdftex
+%---------
+% The option pdftex is for use with pdfLaTeX. Remove "pdftex" for (1) compiling with LaTeX & dvi2pdf (if eps figures are used) or for (2) compiling with XeLaTeX.
+
+%=================================================================
+% MDPI internal commands - do not modify
+\firstpage{1} 
+\makeatletter 
+\setcounter{page}{\@firstpage} 
+\makeatother
+\pubvolume{1}
+\issuenum{1}
+\articlenumber{0}
+\pubyear{2025}
+\copyrightyear{2025}
+%\externaleditor{Firstname Lastname} % More than 1 editor, please add `` and '' before the last editor name
+\datereceived{ } 
+\daterevised{ } % Comment out if no revised date
+\dateaccepted{ } 
+\datepublished{ } 
+%\datecorrected{} % For corrected papers: "Corrected: XXX" date in the original paper.
+%\dateretracted{} % For retracted papers: "Retracted: XXX" date in the original paper.
+\hreflink{https://doi.org/} % If needed use \linebreak
+%\doinum{}
+%\pdfoutput=1 % Uncommented for upload to arXiv.org
+%\CorrStatement{yes}  % For updates
+%\longauthorlist{yes} % For many authors that exceed the left citation part
+%\IsAssociation{yes} % For association journals
+
+%=================================================================
+% Add packages and commands here. The following packages are loaded in our class file: fontenc, inputenc, calc, indentfirst, fancyhdr, graphicx, epstopdf, lastpage, ifthen, float, amsmath, amssymb, lineno, setspace, enumitem, mathpazo, booktabs, titlesec, etoolbox, tabto, xcolor, colortbl, soul, multirow, microtype, tikz, totcount, changepage, attrib, upgreek, array, tabularx, pbox, ragged2e, tocloft, marginnote, marginfix, enotez, amsthm, natbib, hyperref, cleveref, scrextend, url, geometry, newfloat, caption, draftwatermark, seqsplit
+% cleveref: load \crefname definitions after \begin{document}
+
+%=================================================================
+% Please use the following mathematics environments: Theorem, Lemma, Corollary, Proposition, Characterization, Property, Problem, Example, ExamplesandDefinitions, Hypothesis, Remark, Definition, Notation, Assumption
+%% For proofs, please use the proof environment (the amsthm package is loaded by the MDPI class).
+
+%=================================================================
+% Full title of the paper (Capitalized)
+\Title{DeforTrack: A Multi-Source Annotated Dataset for Forest Segmentation and Deforestation Monitoring}
+
+% MDPI internal command: Title for citation in the left column
+\TitleCitation{DeforTrack: A Multi-Source Annotated Dataset for Forest Segmentation and Deforestation Monitoring}
+
+% Author Orchid ID: enter ID or remove command
+\newcommand{\orcidauthorA}{0009-0004-8844-5238} %Alvaro
+\newcommand{\orcidauthorB}{0000-0002-7225-7783} %Evandro
+\newcommand{\orcidauthorC}{0009-0003-2912-4859} %Luigi 
+\newcommand{\orcidauthorD}{0009-0009-6971-4574} % Gabriel
+\newcommand{\orcidauthorJ}{0000-0002-2167-7286} %Felipe
+%\newcommand{\orcidauthorB}{0000-0000-0000-000X} % Add \orcidB{} behind the author's name
+
+% Authors, for the paper (add full first names)
+\Author{Álvaro S. Careli~$^{1}$\orcidA{}, Evandro C. Vilas Boas~$^{1,2}$*\orcidB{}, Luigi P. Raimundo~$^{1}$\orcidC{}, Gabriel G. de Oliveira~$^{1}$\orcidD{}, and Felipe A. P. de Figueiredo$^{1,2}$\orcidJ{}}
+
+%\longauthorlist{yes}
+
+% MDPI internal command: Authors, for metadata in PDF
+\AuthorNames{Álvaro S. Careli, Evandro C. Vilas Boas, Luigi P. Raimundo, Gabriel G. de Oliveira, Felipe A. P. de Figueiredo}
+
+% MDPI internal command: Authors, for citation in the left column, only choose below one of them according to the journal style
+% If this is a Chicago style journal 
+% (arts, genealogy, histories, humanities, jintelligence, laws, literature, religions, risks, socsci): 
+% Lastname, Firstname, Firstname Lastname, and Firstname Lastname.
+
+% If this is a APA style journal 
+% (admsci, behavsci, businesses, econometrics, economies, education, ejihpe, games, humans, ijfs, journalmedia, jrfm, languages, psycholint, publications, tourismhosp, youth): 
+% Lastname, F., Lastname, F., \& Lastname, F.
+
+% If this is a ACS style journal (Except for the above Chicago and APA journals, all others are in the ACS format): 
+% Lastname, F.; Lastname, F.; Lastname, F.
+\isAPAStyle{%
+       \AuthorCitation{Careli, A. S.; Boas, E. C. V.; Raimundo, L. P.; Oliveira, G. G.; Figueiredo, F. A. P.}
+         }{%
+        \isChicagoStyle{%
+        \AuthorCitation{Lastname, Firstname, Firstname Lastname, and Firstname Lastname.}
+        }{
+        \AuthorCitation{Careli, A. S.; Boas, E. C. V.; Raimundo, L. P.; Oliveira, G. G.; Figueiredo, F. A. P.}
+        }
+}
+
+% Affiliations / Addresses (Add [1] after \address if there is only one affiliation.)
+\address{%
+$^{1}$ \quad Radio and Communication Laboratory (RadioCom Lab.), Department of Telecommunication, National Institute of Telecommunications (Instituto Nacional de Telecomunicações - Inatel), João de Camargo Avenue 510 P.O. Box 05, 37540-000, Santa Rita do Sapucaí, MG, Brazil. (email: alvaro.sampaio@ges.inatel.br, evandro.cesar@inatel.br, luigi.prado@get.inatel.br, gabriel.gregorio@gec.inatel.br, felipe.figueiredo@inatel.br)\\
+$^{2}$ \quad Wireless and Artificial Intelligence Laboratory (WAI Lab.), Department of Telecommunication, National Institute of Telecommunications (Instituto Nacional de Telecomunicações - Inatel), João de Camargo Avenue 510 P.O. Box 05, 37540-000, Santa Rita do Sapucaí, MG, Brazil. (email: evandro.cesar@inatel.br, felipe.figueiredo@inatel.br)}
+% Contact information of the corresponding author
+\corres{Correspondence: evandro.cesar@inatel.br}
+
+% Current address and/or shared authorship
+%\firstnote{Current address: Affiliation.}  
+% Current address should not be the same as any items in the Affiliation section.
+
+%\secondnote{These authors contributed equally to this work.}
+% The commands \thirdnote{} till \eighthnote{} are available for further notes.
+
+%\simplesumm{} % Simple summary
+
+%\conference{} % An extended version of a conference paper
+
+% Abstract (Do not insert blank lines, i.e. \\) 
+\abstract{Reliable forest monitoring increasingly depends on deep learning models trained on high-quality annotated datasets, yet publicly available resources remain limited for high-resolution forest/non-forest semantic segmentation. This paper presents DeforTrack, a multi-source, large-scale, manually annotated RGB dataset developed specifically for deforestation monitoring applications. DeforTrack comprises 6,094 original images acquired from UAV surveys, satellite imagery, and public environmental repositories, and expands to 14,648 images after data augmentation. The dataset combines cross-platform imagery, fine-grained polygon-based pixel-level annotations, and diverse environmental conditions, while providing a quantitative characterization of image sources, annotation quality, and forest-cover distribution. Beyond dataset construction, DeforTrack establishes a task-oriented benchmark for evaluating both segmentation accuracy and deployment-oriented performance. We evaluate U-Net, Mask R-CNN, YOLOv8, and YOLOv11 using segmentation metrics (IoU and mAP) together with inference latency, memory footprint, and energy consumption. The results show that YOLOv8s achieves the highest overall segmentation accuracy, whereas YOLOv8n and YOLOv11n provide the best trade-off between accuracy and computational efficiency, indicating their potential for near-real-time monitoring and future embedded deployment. By publicly releasing DeforTrack~\url{https://universe.roboflow.com/alvaro-z5qmu/floresta-wgiln}, this work provides a reproducible benchmark that supports the development, evaluation, and deployment of robust deep learning solutions for forest segmentation and operational deforestation monitoring.}
+% Keywords
+\keyword{Remote sensing, deforestation monitoring, semantic segmentation, forest mapping, UAV imagery.} 
+
+% The fields PACS, MSC, and JEL may be left empty or commented out if not applicable
+%\PACS{J0101}
+%\MSC{}
+%\JEL{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Diversity
+%\LSID{\url{http://}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Applied Sciences
+%\featuredapplication{Authors are encouraged to provide a concise description of the specific application or a potential application of the work. This section is not mandatory.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Data
+%\dataset{DOI number or link to the deposited data set if the data set is published separately. If the data set shall be published as a supplement to this paper, this field will be filled by the journal editors. In this case, please submit the data set as a supplement.}
+%\datasetlicense{License under which the data set is made available (CC0, CC-BY, CC-BY-SA, CC-BY-NC, etc.)}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal BioTech, Fishes, Neuroimaging and Toxins
+%\keycontribution{The breakthroughs or highlights of the manuscript. Authors can write one or two sentences to describe the most important part of the paper.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Encyclopedia
+%\encyclopediadef{For entry manuscripts only: please provide a brief overview of the entry title instead of an abstract.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Different journals have different requirements. Please check the specific journal guidelines in the "Instructions for Authors" on the journal's official website.
+%\addhighlights{yes}
+%\renewcommand{\addhighlights}{%
+%
+%\noindent The goal is to increase the discoverability and readability of the article via search engines and other scholars. Highlights should not be a copy of the abstract, but a simple text allowing the reader to quickly and simplified find out what the article is about and what can be cited from it. Each of these parts should be devoted up to 2~bullet points.\vspace{3pt}\\
+%\textbf{What are the main findings?}
+% \begin{itemize}[labelsep=2.5mm,topsep=-3pt]
+% \item First bullet.
+% \item Second bullet.
+% \end{itemize}\vspace{3pt}
+%\textbf{What is the implication of the main finding?}
+% \begin{itemize}[labelsep=2.5mm,topsep=-3pt]
+% \item First bullet.
+% \item Second bullet.
+% \end{itemize}
+%}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+
+\section{Introduction}
+
+Forest preservation is threatened by anthropogenic activities and natural disturbances, such as illegal logging, uncontrolled fires, and land exploitation~\cite{g1,g2,g3}. For instance, the Brazilian Amazon has experienced rising deforestation rates, which disrupt ecosystems and hinder conservation efforts. Thus, accurate and timely deforestation monitoring is essential to inform authorities, support environmental enforcement, and enable sustainable reforestation initiatives. Traditional deforestation monitoring methods, such as field-based surveys and visual interpretation of imagery, are labor-intensive, time-consuming, and often inadequate for large-scale or near real-time applications~\cite{g1, g2}. In contrast, remote sensing technologies, including satellite imagery and unmanned aerial vehicles (UAVs), also known as drones, have emerged as scalable and cost-effective alternatives for observing forest change dynamics~\cite{g1, g4, g5, g6, g7, g8}. Temporal sequences of high-resolution images enable the tracking of deforestation by capturing pixel-level variations over time.
+
+
+To process this growing volume of data, a range of computational methods has been applied. Early approaches relied on algebra-based techniques and classical machine learning classifiers, whereas recent advances have shifted toward deep learning, such as convolutional neural networks (CNNs), for semantic segmentation tasks~\cite{g1, g4, g5, g6, g7, g8}. Deep learning-based models achieve high accuracy in distinguishing between forested and deforested areas by classifying each pixel based on its spatial and spectral content, enhancing spatial precision and temporal consistency in environmental monitoring. Several CNN-based architectures have been deployed in remote sensing applications. U-Net, for instance, is widely used due to its encoder-decoder structure, which maintains local detail while capturing global context~\cite{g4,g5}. Mask R-CNN extends object detection methods by enabling instance-level segmentation and pixel-precise classification~\cite{g10,g11,g12}. Additionally, YOLO-based architectures are favored for real-time monitoring due to their balance of speed and accuracy~\cite{g10,g16,rs17183170}. Techniques such as data augmentation and the simulation of lighting variations, shadows, and atmospheric conditions further enhance model robustness and generalization.
+
+Despite these advances, there remains a critical gap in the availability of task-specific datasets designed for high-resolution forest segmentation. Several existing platforms and datasets provide valuable resources for environmental monitoring and remote sensing analysis. However, they were developed with different objectives and do not meet the specific requirements for training semantic segmentation models. Global Forest Watch, for instance, offers large-scale forest monitoring products derived from satellite time series, including tree-cover loss information suitable for regional and global assessments~\cite{watch2002global}. Nevertheless, these datasets do not provide high-resolution RGB image patches with manual polygon-based masks, which are essential for training and evaluating deep learning segmentation models. Similarly, MapBiomas delivers annual land-use and land-cover maps based on Landsat imagery at 30 m spatial resolution, making it a valuable resource for long-term territorial and historical analyses~\cite{rosa2019mapbiomas}. However, it does not offer manually annotated RGB imagery at the fine-grained pixel level required for accurate forest/non-forest segmentation.
+
+Other remote sensing datasets also diverge from the specific task of training semantic segmentation models for forest/non-forest tracking. BigEarthNet is a large-scale Sentinel benchmark designed for remote sensing image classification and retrieval, with land-cover labels automatically derived from reference maps rather than manually annotated for semantic segmentation~\cite{sumbul2019bigearthnet}. SpaceNet provides high-resolution satellite imagery with geospatial annotations, but its focus is predominantly on urban mapping applications, including building footprint extraction, road extraction, and change detection, rather than forest monitoring \cite{van2018spacenet}. Even datasets commonly used for deforestation detection, such as those based on MODIS or Landsat time series, generally operate at coarser spatial resolutions and rely on spectral indices or change-detection algorithms rather than pixel-level manual annotations for binary forest/non-forest classification.
+
+Recently, we proposed an embedded remote sensing framework for deforestation monitoring using UAV-based imagery~\cite{g10}. The system employed deep learning models to locally segment aerial images into forested and deforested regions. A lightweight algorithm was introduced to calculate the percentage of forested area based on pixel counts and transmit this information, along with geolocation metadata, to a central node for temporal analysis. However, due to the limited availability of annotated training data, comprising just 224 images sourced via web scraping and external datasets, the segmentation models exhibited suboptimal performance in terms of mean average precision (mAP), which limited their practical deployment.
+
+Based on that, this paper addresses the low quality of existing datasets for deforestation by introducing DeforTrack, a novel dataset comprising $6,094$ high-resolution, manually segmented images collected from drones, satellite platforms, and public environmental sources. The dataset encompasses a diverse range of forested and deforested landscapes under various environmental conditions, enabling robust training of deep learning models. The main contributions of this work are as follows:
+
+\begin{itemize}
+    \item Development of DeforTrack, a multi-source, high-resolution RGB dataset specifically designed for forest/non-forest semantic segmentation, combining drone, satellite, and public environmental imagery with manual polygon-based pixel-level annotations.
+    
+    \item Quantitative characterization of the dataset in terms of acquisition sources, geographic and environmental diversity, annotation protocol, and forest-cover distribution extracted from the segmentation masks.
+    
+    \item Performance evaluation of multiple semantic segmentation models trained on DeforTrack, covering segmentation accuracy, boundary quality, computational efficiency, and deployment-oriented metrics such as inference time, memory usage, and energy consumption.
+\end{itemize}
+
+DeforTrack is designed as a task-oriented benchmark for deep learning-based forest segmentation and deforestation monitoring. Its distinctiveness lies in the unique combination of several key features: high-resolution RGB image patches with manual polygon-based pixel-level annotations; a binary forest/non-forest segmentation protocol optimized for deforestation detection; images collected from multiple sources (drones, satellites, and public repositories) encompassing diverse environmental conditions and geographical contexts; and the combination of Brazilian UAV and Google Earth Engine (GEE) imagery with public forest and environmental imagery from multiple datasets, increasing visual diversity across vegetation structures, illumination conditions, terrain types, and non-forest
+patterns. These features make DeforTrack the first dataset to combine these elements specifically for high-resolution forest segmentation, providing the research community with a dedicated resource for both accuracy evaluation and deployment-oriented assessments in real-world monitoring applications. Table~\ref{t1} compares the proposed dataset with the abovementioned datasets. 
+
+\begin{table*}[t]
+\centering
+\caption{Comparison between DeforTrack and representative remote sensing datasets/platforms.}
+\label{t1}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|p{2.4cm}|p{2.2cm}|p{2.2cm}|p{2.5cm}|p{2.5cm}|p{2.8cm}|p{3.1cm}|}
+\hline
+\textbf{Dataset / Platform} & \textbf{Number of images} & \textbf{Spatial resolution} & \textbf{Annotation type} & \textbf{Classes / labels} & \textbf{Geographic diversity} & \textbf{Intended use} \\
+\hline
+Global Forest Watch / Global Forest Change & Global raster products & Landsat-based products, commonly 30 m & Raster tree-cover loss/gain products & Tree cover, tree-cover loss, tree-cover gain & Global & Large-scale forest monitoring and temporal analysis \\
+\hline
+MapBiomas & Annual land-use and land-cover maps & 30 m Landsat-based maps & Thematic pixel-level land-cover maps & Multiple land-use and land-cover classes & Brazil and other regional initiatives & Historical land-use and land-cover mapping \\
+\hline
+BigEarthNet & 549,488 Sentinel-1/Sentinel-2 patch pairs & Sentinel-1/Sentinel-2 spatial resolutions & Patch-level land-cover labels and reference maps & Multiple land-cover classes & Europe & Remote sensing image classification and retrieval \\
+\hline
+SpaceNet & Multiple challenge datasets & High-resolution satellite imagery, depending on the challenge & Object/polygon annotations & Buildings, roads, urban objects, and change-detection targets & Multiple cities and regions & Urban mapping, building extraction, road extraction, and change detection \\
+\hline
+DeforTrack (this work) & 6,094 original images; 14,648 after augmentation & 640 $\times$ 640 RGB image patches & Manual polygon-based pixel-level masks & Forest / Non-forest &Brazilian UAV/GEE imagery combined with public forest/environmental images from multiple datasets & High-resolution forest segmentation and deforestation monitoring \\
+\hline
+\end{tabular}%
+}
+\end{table*}
+
+The remainder of this paper is organized as follows. Section II describes the DeforTrack dataset, including data acquisition, annotation methodology, augmentation strategy, and dataset characterization. Section III presents the evaluated deep-learning semantic segmentation models, the training configuration, the proposed forest-area estimation algorithm, and the performance metrics. Section IV reports the experimental results, including quantitative benchmarking, external cross-dataset evaluation, qualitative segmentation analysis, and a discussion of the dataset limitations and generalization considerations. Finally, Section V concludes the paper and outlines future research directions.
+
+\section{Dataset Implementation}
+\label{sec:dataset}
+
+This section outlines the processes involved in data acquisition, annotation, augmentation, and organization for the development of the dataset, as illustrated in Fig.~\ref{f1}.
+
+\subsection{Data Collection}
+
+% Figura 01 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure*}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/Imagem4.pdf}
+    \caption{\small{Overview of the DeforTrack dataset construction and evaluation pipeline.}}
+    \label{f1}
+\end{figure*}
+% Figura 01 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The dataset comprises $640 \times 640$ RGB images collected from three main sources: drone-based aerial surveys, the Google Earth Engine platform~\cite{velastegui2023google}, and publicly available environmental image repositories. Some images were resized or adjusted to align with this resolution. From GEE, we extracted satellite images by selecting regions across Brazil with visible evidence of environmental degradation, such as deforestation scars, forest fragmentation, exposed soil, and transitions between forested and non-forested areas. The selected imagery spans different seasons, lighting conditions, vegetation patterns, and land-use configurations to enhance diversity and support model generalization. A total of $400$ satellite images were collected. We acquired drone-based imagery through planned UAV missions over forested and partially deforested areas in southeastern Brazil. UAVs were equipped with high-resolution RGB sensors and operated at altitudes ranging from $800$ to $1,200$ meters, simulating an orbital imaging perspective while minimizing atmospheric distortion. This process yielded $350$ images. 
+
+Additionally, $5,344$ images were sourced from publicly available environmental monitoring repositories containing aerial and remote-sensing scenes of forested areas, vegetation cover, exposed soil, agricultural surroundings, and forest/non-forest transitions. These external images were included to increase the visual variability of the dataset, covering differences in vegetation structure, canopy density, terrain characteristics, illumination conditions, image acquisition perspective, and non-forest background patterns. These three sources contributed to an initial pool of $6,094$ original images capturing diverse forest structures, vegetation densities, terrain types, and anthropogenic disturbances. Overall, DeforTrack combines drone-based imagery, satellite imagery, and publicly available environmental images to provide a heterogeneous set of forest and non-forest scenes for training and evaluating high-resolution segmentation models under different visual conditions.
+
+\begin{table}[t]
+\centering
+\caption{Inter-annotator agreement on the validation subset ($n=248$ images).}
+\label{tab:interannotator}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Annotator pair} & \textbf{IoU [\%]} & \textbf{Dice/F1 [\%]} & \textbf{Precision [\%]} & \textbf{Kappa} \\
+\hline
+Annotator 1 $\times$ Annotator 2 & $71.54 \pm 19.75$ & $81.47 \pm 17.30$ & $81.63 \pm 19.38$ & $0.701 \pm 0.206$ \\ \hline
+Annotator 1 $\times$ Annotator 3 & $74.37 \pm 18.36$ & $83.77 \pm 14.80$ & $81.89 \pm 16.68$ & $0.723 \pm 0.206$ \\ \hline
+Annotator 2 $\times$ Annotator 3 & $77.73 \pm 20.20$ & $85.49 \pm 17.83$ & $85.97 \pm 14.37$ & $0.759 \pm 0.231$ \\ \hline
+\textbf{Mean} & $\mathbf{74.55 \pm 19.44}$ & $\mathbf{83.58 \pm 16.64}$ & $\mathbf{83.17 \pm 16.81}$ & $\mathbf{0.727 \pm 0.216}$ \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Annotation Process}
+
+All images were manually annotated using polygon-based pixel-level masks on the Roboflow platform~\cite{roboflow2026defortrack}, following a binary forest/non-forest labeling protocol. To assess the reliability of the manual annotation process, we conducted an inter-annotator agreement study on a validation subset comprising $5~\%$ of the dataset ($n=248$ images, after matching by original filename across annotators). This subset was independently annotated by three annotators, and the resulting polygon masks were rasterized to a common $640 \times 640$ canvas to enable pixel-wise comparison. For each pair of annotators, we computed the Intersection over Union (IoU), Dice/F1 coefficient~\cite{dice1945measures}, precision, and pixel-level Cohen's Kappa coefficient~\cite{wan2015kappa}, using one annotator as reference and the other as the compared mask. IoU, Dice/F1, precision, and Kappa are reported as mean $\pm$ standard deviation over the $n=248$ image-level values, and the $95~\%$ confidence interval for the mean IoU was additionally estimated. Table~\ref{tab:interannotator} summarizes the results.
+ 
+The mean pairwise IoU across the three annotator pairs was $74.55 \pm 19.44~\%$, with a mean Dice/F1 of $83.58 \pm 16.64~\%$ and a mean per-image Kappa of $0.727 \pm 0.216$. According to the Landis and Koch scale~\cite{landis1977}, Kappa values between $0.61$ and $0.80$ indicate good agreement, and the mean values for all three annotator pairs fall within this range, although a subset of images with extreme forest-cover ratios ($\approx 0~\%$ or $\approx 100~\%$) yielded lower or occasionally negative per-image Kappa values, since the coefficient is highly sensitive to class imbalance at the single-image level. We additionally computed a two-of-three majority-vote consensus mask for each image and measured each annotator's IoU against this consensus, obtaining $82.75~\%$, $86.67~\%$, and $89.72~\%$ for Annotator 1, Annotator 2, and Annotator 3, respectively. These results demonstrate a good level of agreement among annotators, consistent with the inherent ambiguity of forest/non-forest boundaries in fragmented or transitional landscapes, as discussed in Subsection~\ref{sec:limitations}. This quantitative assessment provides an empirical estimate of labeling quality and annotation uncertainty for the DeforTrack dataset.
+ 
+\subsection{Data Augmentation and Availability}
+\label{sec:data_augmentation}
+
+We applied data augmentation techniques to the annotated training images, resulting in a final exported dataset with $14,648$ images, including original and augmented samples. The Roboflow augmentation configuration was set to generate three outputs per training example and included geometric transformations and photometric variations. Specifically, the applied
+transformations were horizontal and vertical flipping, random cropping with $0~\%$ minimum zoom and $20~\%$ maximum zoom, affine shearing of up to $\pm 13^{\circ}$ in both horizontal and vertical directions, brightness adjustment between $-22~\%$ and $+22~\%$, Gaussian blur of up to $3.7$ pixels, and noise injection affecting up to $1.56~\%$ of pixels. These augmentations emulate real-world image variability caused by seasonal changes, illumination differences, acquisition conditions, and sensor artifacts, enhancing the robustness of models trained on the dataset. The Roboflow platform performed the data split before the data augmentation stage, reducing the risk that augmented versions of the same original file were replicated across different subsets. DeforTrack is partitioned into $12,861$ training images ($88~\%$), $895$ validation images ($6~\%$), and $892$ final test images ($6~\%$). The final test subset was held out from training and was used to report the segmentation results in Table~\ref{tab:segmentation_metrics}. These ratios correspond to the default Roboflow configuration and were maintained because they provide a large training subset while preserving independent validation and testing partitions. 
+
+Although the split was performed before data augmentation, reducing the risk of direct augmentation leakage, this image-level partitioning does not fully guarantee spatial or temporal independence among the subsets. To further inspect potential overlap, we performed a filename-based analysis across the training, validation, and test partitions. This inspection identified $586$ normalized image names appearing across more than one subset. Since the normalization procedure removes augmentation-specific suffixes and export identifiers, these cases should be interpreted as potential, rather than definitive, split overlap. Nevertheless, this result indicates that complete independence among subsets cannot be guaranteed using filename inspection alone.
+Therefore, although the current protocol reduces direct augmentation leakage, it does not fully ensure spatial or temporal independence. In remote sensing datasets, images acquired from nearby regions, similar acquisition campaigns, or close acquisition dates may share visual and spatial patterns. If such correlated samples are distributed across training, validation, and testing subsets, model performance may be overestimated.
+
+\subsection{Dataset Diversity Statistics}
+
+Table~\ref{tab:forest_ratio_statistics} reports the forest-cover ratio for each annotated mask, quantifying the internal diversity of DeforTrack. The forest-cover ratio is defined as the number of pixels labeled as forest divided by the total number of pixels in the image. Across the $14,648$ images, the mean forest-cover ratio was $42.71~\%$, with a standard deviation of $26.82~\%$. The values ranged from $0.00~\%$ to $99.99~\%$, indicating that the dataset includes images with very low, intermediate, and nearly complete forest coverage. This distribution provides quantitative evidence of the diversity of forest density and annotation granularity across the dataset.
+
+\begin{table}[t]
+\centering
+\caption{Quantitative statistics of forest-cover distribution in DeforTrack.}
+\label{tab:forest_ratio_statistics}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Metric} & \textbf{Value} \\
+\hline
+Total images after augmentation & $14,648$ \\
+Mean forest-cover ratio & $42.71~\%$ \\
+Standard deviation & $26.82~\%$ \\
+Minimum forest-cover ratio & $0.00~\%$ \\
+Maximum forest-cover ratio & $99.99~\%$ \\
+Images with $0$--$25~\%$ forest cover & $4,903$ \\
+Images with $25$--$50~\%$ forest cover & $4,053$ \\
+Images with $50$--$75~\%$ forest cover & $3,288$ \\
+Images with $75$--$100~\%$ forest cover & $2,404$ \\
+\hline
+\end{tabular}
+\end{table}
+
+% Figura 02 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure*}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/Imagem2.png}
+    \caption{\small{Segmented mask outputs from models (a) YOLOv8x, (b) YOLOv11s, (c) Mask R-CNN R101 C4 3x, and (d) U-Net.}}
+    \label{f2}
+\end{figure*}
+% Figura 02 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Deep-learning Semantic Segmentation Models Evaluation}
+\label{sec:evaluation}
+
+We conducted a comprehensive evaluation of state-of-the-art semantic segmentation models widely used in remote sensing and computer vision to assess the DeforTrack dataset. This section describes the training setup, segmentation pipeline, forest area estimation methodology, and performance metrics used for model benchmarking.
+
+\subsection{Deep-learning models and training setup}
+
+The evaluation encompassed multiple deep learning architectures selected based on their relevance to environmental monitoring tasks and suitability for embedded deployment. The tested models include U-Net, Mask R-CNN (Region-based Convolutional Neural Network) (via Detectron2), and two versions of the YOLO (You Only Look Once) family (YOLOv8 and the recently proposed YOLOv11), with the notebooks publicly available\footnote{\url{https://github.com/alvarosamp/DeforTrack}}. 
+For YOLO-based models, we considered five variants per version: nano, small, medium, large, and extra-large, capturing a range of trade-offs between computational load and accuracy. Similarly, multiple Mask R-CNN variants were evaluated, differing in backbone depth (ResNet-50 vs. ResNet-101) and head configuration (C4, DC5, and FPN). The U-Net model was included as a semantic-segmentation baseline due to its prevalence in geospatial segmentation tasks and its interpretable architecture. The supplied checkpoints were trained using Python 3 and an NVIDIA T4 GPU in Google Colab. The standardized re-evaluations reported in this revision were executed locally with an NVIDIA GeForce RTX 4060 Laptop GPU with 8 GB of VRAM; therefore, computational measurements are hardware-specific and should not be interpreted as universal deployment values.
+
+\subsection{Pixel-wise Mask Fusion for Forest Area Estimation}
+\label{subsec:algorithm}
+
+We applied a post-processing algorithm that aggregates multiple segmentation
+masks to estimate the forested area. Each model output yields one or more binary
+segmentation masks $M_k \in \{0,1\}^{m \times n}$, where a value of 1 indicates
+the presence of forest at a given pixel coordinate. Figure~\ref{f2} exemplifies
+the segmented mask output for YOLOv8x, YOLOv11s, Mask R-CNN, and U-Net. A final
+segmentation mask $M_f$ is computed via a pixel-wise Boolean OR operation across
+the $k$ masks.
+
+\begin{equation}
+    M_f = M^1 \lor M^2 \lor \cdots \lor M^k,
+\end{equation}
+
+where $\lor$ denotes the Boolean OR operator. Each element $M_{ij}^f$ of the
+final mask is given by
+
+\begin{equation}
+M_{ij}^f = M_{ij}^1 \lor M_{ij}^2 \lor \cdots \lor M_{ij}^k.
+\end{equation}
+
+The union operation was adopted because each predicted instance mask represents
+a candidate forest region. Therefore, a pixel is classified as forest if it is
+included in at least one predicted forest mask. This strategy avoids discarding
+valid forest pixels when multiple masks partially overlap or when a forest
+region is split into more than one predicted instance. In contrast, an
+intersection-based rule would be overly restrictive, since only pixels shared by
+all masks would be retained. A weighted average was not adopted because it would
+require calibrated mask confidence values and an additional thresholding step.
+
+The resulting final mask $M_f$ is then used to compute the percentage of forest
+cover $A_f$ in the image, given by:
+
+\begin{equation}
+    A_f = \frac{1}{m\times n}\sum_{i=1}^{m} \sum_{j=1}^{n} M_{ij}^f.
+\end{equation}
+
+This method provides a simple and efficient estimate of forest-cover percentage
+from the segmentation outputs. In this work, the method was evaluated as a
+post-processing step under the same computational setup used for model
+benchmarking; deployment on resource-constrained embedded platforms remains
+future work.
+
+\subsection{Evaluation Metrics}
+
+Model performance was quantitatively assessed using both accuracy-oriented and resource-efficiency metrics:
+\begin{itemize}
+    \item \textbf{Intersection over Union (IoU):} Measures the overlap between the predicted mask $M_p$ and the ground truth mask $M_t$. It is defined as:
+    \[
+    \text{IoU} = \frac{\sum_{i=1}^{m} \sum_{j=1}^{n} (M_{p_{ij}} \land M_{t_{ij}})}{\sum_{i=1}^{m} \sum_{j=1}^{n} (M_{p_{ij}} \lor M_{t_{ij}})},
+    \]
+    where $\land$ and $\lor$ represent the Boolean AND and OR operations, respectively. The mask used to calculate the IoU is the $M^f$ defined in (1).
+    \item \textbf{Mean Average Precision (mAP):} Evaluates the overall detection and localization performance by averaging the precision across multiple IoU thresholds.
+    \item \textbf{Inference Time and FPS:} Represent the average time (in seconds) required to segment a single image and the effective throughput in frames per second, respectively.
+    \item \textbf{Computational Resource Metrics:} Include peak RAM usage, CPU utilization, and estimated energy consumption during inference. These metrics support the assessment of model deployability on real-time and embedded systems.
+    %They allow for assessing the deployability of models on real-time and embedded systems.
+\end{itemize}
+
+The evaluations were performed on the same final test subset of 892 images to ensure consistency and fairness across model comparisons. 
+For mAP, we report mAP@50 and mAP@50:95, where the latter corresponds to IoU thresholds ranging from 0.50 to 0.95 in steps of 0.05. 
+%Regarding the mAP, we set an IoU threshold of 0.5 and a second metric with it varying between 0.5 and 0.95.
+RAM usage, CPU utilization, inference time, FPS, and energy consumption were measured using the same profiling procedure for all evaluated models. CPU and
+RAM were monitored with \texttt{psutil}, while GPU power consumption was sampled
+with NVML and converted to energy by multiplying the average power by the
+inference time.
+
+To provide uncertainty estimates and improve repeatability analysis, we computed confidence intervals for the main image-level metrics. For each metric, the mean value was computed over the validation images, and the $95~\%$ confidence interval was estimated as:
+\begin{equation}
+CI_{95\%} = \bar{x} \pm 1.96 \cdot \frac{s}{\sqrt{n}},
+\end{equation}
+where $\bar{x}$ is the sample mean, $s$ is the standard deviation across test images, and $n$ is the number of evaluated images. This analysis provides an estimate of the uncertainty associated with the reported average performance and complements the single-point values reported in the comparison tables.
+
+\section{Results and Discussion}
+
+This section presents a comprehensive performance analysis of the evaluated models, which were trained on the DeforTrack dataset. Tables~\ref{tab:segmentation_metrics} and~\ref{tab:computational_metrics} summarize the metrics across all model variants. Among the YOLOv8 series, the YOLOv8s variant achieved the highest segmentation accuracy, with an IoU of $88.98~\%$, an mAP of $91.34~\%$, Dice/F1 of $93.62~\%$, and Pixel Accuracy of  $95.95~\%$. This result indicates that YOLOv8s provided a strong balance between segmentation quality and computational efficiency. In contrast, YOLOv8x presented a lower IoU of $70.93~\%$, despite its larger model size of $274.25$~MB. This behavior suggests that increasing model complexity did not necessarily improve the segmentation performance for the evaluated dataset. The YOLOv8n variant achieved the highest throughput among the YOLOv8 models, with $47.71$ FPS and an inference time of $21.40$~ms, making it suitable for latency-sensitive or resource-constrained applications.
+
+The YOLOv11 variants followed a similar accuracy--efficiency pattern. YOLOv11m obtained the highest IoU within the YOLOv11 family, reaching $88.36~\%$, whereas YOLOv11x achieved the best boundary-oriented performance, with Boundary IoU of $49.14~\%$ and Boundary F1 of $71.39~\%$. YOLOv11n was the smallest model, with $5.75$ MB, and achieved $43.58$ FPS with an inference time of
+$23.30$ ms. Overall, YOLOv11n provides a compact profile for near-real-time monitoring and potential future embedded deployment, while YOLOv8s showed the strongest segmentation accuracy.
+
+Figure~\ref{f3}(a--b) displays two images of the same region captured at two different dates. The YOLOv11n model processed these images, and the
+resulting segmentation masks were integrated using the proposed pixel-based
+algorithm to estimate the percentage of forested area, as described in
+Subsection~\ref{subsec:algorithm}. Figures~\ref{f3}(c--d) show the
+corresponding outputs with the estimated forest-cover percentages. Based on the
+processing defined in~(3), the initial forest coverage was estimated at
+$51.78~\%$, while the second image presented $72.92~\%$ of forest coverage.
+These results demonstrate the applicability of the proposed method for
+quantifying vegetation-cover variation over time.
+
+\begin{table*}[t]
+\centering
+\caption{Segmentation performance metrics of YOLO, Mask R-CNN, and U-Net models trained on the proposed DeforTrack dataset.}
+\label{tab:segmentation_metrics}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Variant} & \textbf{Images} & \textbf{IoU [\%]} & \textbf{mAP@50} & \textbf{mAP@50--95} & \textbf{Dice/F1 [\%]} & \textbf{Boundary IoU [\%]} & \textbf{Boundary F1 [\%]} & \textbf{Pixel Accuracy [\%]} & \textbf{Precision [\%]} & \textbf{Recall [\%]} \\
+\hline
+
+\multicolumn{11}{|c|}{\textbf{YOLOv8 Performance}} \\ \hline
+YOLOv8x & 892 & 70.93 & \textbf{93.00} & 83.00 & 77.34 & 39.78 & 59.85 & 81.71 & 84.84 & 76.02 \\ \hline
+YOLOv8l & 892 & 87.72 & \textbf{93.00} & 81.00 & 92.72 & 45.70 & 67.45 & 94.95 & 92.92 & 93.44 \\ \hline
+YOLOv8m & 892 & 82.95 & 85.00 & 63.00 & 89.68 & 33.47 & 52.92 & 93.20 & 90.14 & 90.56 \\ \hline
+YOLOv8s & 892 & \textbf{88.98} & 91.34 & 74.60 & \textbf{93.62} & 46.00 & 67.69 & \textbf{95.95} & 93.25 & 94.67 \\ \hline
+YOLOv8n & 892 & 86.37 & 92.00 & 76.00 & 91.99 & 39.38 & 60.25 & 94.61 & 91.75 & 93.10 \\ \hline
+
+\multicolumn{11}{|c|}{\textbf{YOLOv11 Performance}} \\ \hline
+YOLOv11x & 892 & 88.12 & \textbf{93.00} & \textbf{83.40} & 92.86 & \textbf{49.14} & \textbf{71.39} & 94.75 & \textbf{93.72} & 93.28 \\ \hline
+YOLOv11l & 892 & 87.74 & 92.60 & 82.60 & 92.47 & 48.84 & 71.07 & 94.54 & 93.27 & 92.98 \\ \hline
+YOLOv11m & 892 & 88.36 & 92.30 & 81.00 & 93.05 & 48.01 & 70.17 & 95.12 & 93.48 & 93.71 \\ \hline
+YOLOv11s & 892 & 87.52 & \textbf{93.00} & 80.00 & 92.49 & 45.48 & 67.41 & 94.76 & 92.91 & 93.29 \\ \hline
+YOLOv11n & 892 & 86.76 & 92.00 & 76.80 & 92.19 & 40.27 & 61.49 & 94.78 & 91.99 & 93.27 \\ \hline
+
+\multicolumn{11}{|c|}{\textbf{Mask R-CNN Performance}} \\ \hline
+ResNet-101 FPN 3x & 892 & 77.92 & 68.84 & 41.11 & 85.88 & 25.58 & 42.02 & 90.16 & 83.45 & 91.89 \\ \hline
+ResNet-101 C4 3x & 892 & 77.48 & 61.33 & 39.15 & 85.59 & 23.88 & 39.46 & 90.24 & 85.24 & 89.18 \\ \hline
+ResNet-101 DC5 3x & 892 & 73.05 & 56.22 & 31.80 & 81.44 & 23.09 & 38.46 & 85.96 & 80.47 & 89.36 \\ \hline
+ResNet-50 C4 3x & 892 & 75.92 & 56.58 & 34.31 & 84.82 & 22.90 & 38.02 & 89.74 & 84.44 & 88.26 \\ \hline
+ResNet-50 C4 1x & 892 & 75.59 & 56.03 & 33.88 & 84.37 & 21.54 & 36.12 & 89.29 & 83.24 & 89.13 \\ \hline
+ResNet-50 DC5 1x & 892 & 77.66 & 59.02 & 35.09 & 85.91 & 25.07 & 41.36 & 90.51 & 85.35 & 89.38 \\ \hline
+
+\multicolumn{11}{|c|}{\textbf{U-Net Performance}} \\ \hline
+U-Net & 892 & 49.97 & -- & -- & 61.80 & 20.93 & 34.53 & 72.50 & 70.11 & 68.14 \\ \hline
+\end{tabular}%
+}
+\end{table*}
+
+The resource profile was measured independently of the accuracy benchmark. The
+Images column reports the number of samples used during each profiling run; the
+Mask R-CNN profiling run used 100 images, whereas the YOLO and U-Net profiling
+runs used 892 images. Therefore, this column must not be interpreted as the
+sample size of the segmentation evaluation in Table~\ref{tab:segmentation_metrics}.
+
+\begin{table*}[t] \small
+\centering
+\caption{Computational performance metrics of YOLO, Mask R-CNN, and U-Net models trained on the proposed DeforTrack dataset.}
+\label{tab:computational_metrics}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Variant} & \textbf{Images} & \textbf{Size [MB]} & \textbf{RAM [MB]} & \textbf{Inference Time [s]} & \textbf{FPS} & \textbf{CPU [\%]} & \textbf{Energy [J]} \\
+\hline
+
+\multicolumn{8}{|c|}{\textbf{YOLOv8 Performance}} \\ \hline
+YOLOv8x & 892 & 274.25 & 3662.31 & 0.0784 & 12.91 & 61.05 & 65.02 \\ \hline
+YOLOv8l & 892 & 175.77 & 3548.23 & 0.0549 & 18.42 & 53.34 & 68.22 \\ \hline
+YOLOv8m & 892 & 104.35 & 3501.73 & 0.0534 & 18.89 & 52.64 & 36.69 \\ \hline
+YOLOv8s & 892 & 22.78 & 3498.41 & 0.0324 & 31.07 & 42.31 & 22.59 \\ \hline
+YOLOv8n & 892 & 12.79 & 3492.80 & \textbf{0.0214} & \textbf{47.71} & 33.07 & \textbf{12.63} \\ \hline
+
+\multicolumn{8}{|c|}{\textbf{YOLOv11 Performance}} \\ \hline
+YOLOv11x & 892 & 119.01 & 3490.70 & 0.0803 & 12.62 & 61.28 & 88.07 \\ \hline
+YOLOv11l & 892 & 53.28 & 3478.59 & 0.0549 & 18.90 & 52.56 & 49.21 \\ \hline
+YOLOv11m & 892 & 43.09 & 3486.46 & 0.0535 & 18.90 & 52.28 & 38.25 \\ \hline
+YOLOv11s & 892 & 19.59 & 3480.84 & 0.0317 & 31.85 & 41.77 & 22.73 \\ \hline
+YOLOv11n & 892 & \textbf{5.75} & 3483.31 & 0.0233 & 43.58 & 34.56 & 17.90 \\ \hline
+
+\multicolumn{8}{|c|}{\textbf{Mask R-CNN Performance}} \\ \hline
+ResNet-101 FPN 3x & 100 & 479.84 & 2375.50 & 0.1288 & 7.78 & 119.41 & 80.26 \\ \hline
+ResNet-101 C4 3x & 100 & 412.46 & 2417.17 & 0.4460 & 2.47 & 109.87 & 435.25 \\ \hline
+ResNet-101 DC5 3x & 100 & 1456.46 & 2378.06 & 0.2337 & 4.30 & 114.82 & 172.08 \\ \hline
+ResNet-50 C4 3x & 100 & 267.47 & 2395.23 & 0.3388 & 3.52 & 112.18 & 338.61 \\ \hline
+ResNet-50 C4 1x & 100 & 267.47 & 2387.25 & 0.3320 & 3.56 & 112.95 & 322.07 \\ \hline
+ResNet-50 DC5 1x & 100 & 1311.47 & 2398.46 & 0.1957 & 5.17 & 116.30 & 146.41 \\ \hline
+
+\multicolumn{8}{|c|}{\textbf{U-Net Performance}} \\ \hline
+U-Net & 892 & 21.63 & \textbf{0.60} & 0.0985 & 10.77 & \textbf{17.71} & 166.56 \\ \hline
+
+\end{tabular}
+}
+\end{table*}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/Imagem3.png}
+    \caption{\small{Example of vegetation-cover change estimation using the proposed pixel-based algorithm. Images (a) and (b) show the input scenes acquired at two different dates, before and after vegetation change, respectively. Images (c) and (d) show the corresponding segmentation outputs generated by the model and used by the pixel-based algorithm to estimate forest-cover percentage.}}
+    \label{f3}
+\end{figure}
+
+The Mask R-CNN variants achieved competitive segmentation results, especially
+the ResNet-101 FPN 3x configuration, which obtained the highest IoU among the
+Mask R-CNN models, reaching $77.92~\%$, with a Dice/F1-score of $85.88~\%$ and
+Pixel Accuracy of $90.16~\%$. However, these models showed significantly higher
+computational requirements compared with the YOLO-based architectures. For
+instance, the ResNet-101 C4 3x configuration required an inference time of
+$445.96$~ms and reached only $2.47$ FPS. Although Mask R-CNN models can still be
+useful for offline or batch-processing scenarios, their computational cost
+limits their practicality for real-time monitoring systems.
+
+The U-Net model presented the lowest segmentation performance among the
+evaluated architectures, with an IoU of $49.97~\%$, Dice/F1-score of
+$61.80~\%$, Boundary IoU of $20.93~\%$, and Pixel Accuracy of $72.50~\%$.
+Although U-Net has a compact model size of $21.63$~MB and reached approximately $29.25$ FPS in the standardized 892-image evaluation,
+its lower segmentation accuracy indicates limited suitability for precise
+deforestation mapping in the proposed dataset. Nevertheless, its simple
+architecture and reduced model size may still be useful as a lightweight
+baseline for comparison.
+
+Overall, the results demonstrate that the DeforTrack dataset enables a detailed
+evaluation of both segmentation accuracy and deployment feasibility. The
+YOLO-based architectures achieved the best trade-off between accuracy and
+efficiency. In particular, YOLOv8s showed the strongest overall segmentation
+performance, while YOLOv8n and YOLOv11n offered the most attractive
+computational profiles for real-time and embedded applications. Therefore,
+lightweight YOLO variants are promising candidates for UAV-based and
+edge-oriented forest monitoring systems.
+
+\subsection{External Cross-Dataset Evaluation}
+\label{sec:cross_dataset}
+
+\begin{figure}[!t]
+\centering
+\subfloat[]{
+\includegraphics[width=\linewidth]{Figuras/forest_aerial_examplo.png}
+}
+
+\subfloat[]{
+\includegraphics[width=\linewidth]{Figuras/amazon_atlantic_candidate_4.png}
+}
+\caption{(a) Representative example from the Forest Aerial Images dataset used for external cross-dataset evaluation. (b) Representative example from the Amazon/Atlantic Forest dataset used for external cross-dataset evaluation.}
+\label{f4}
+\end{figure}
+
+
+\begin{table}[!t]
+\centering
+\caption{External cross-dataset evaluation on forest/non-forest segmentation datasets.}
+\label{t6}
+\scriptsize
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{External dataset} & \textbf{Images} & \textbf{Best model} & \textbf{IoU [\%]} & \textbf{Dice/F1 [\%]} \\
+\hline
+Forest Aerial Images~\cite{quadeer2024augmentedforest} &
+5,108 & U-Net & \textbf{60.58} & \textbf{70.36} \\
+\hline
+Amazon/Atlantic Forest~\cite{bragagnolo2021amazon} &
+599 & YOLOv11n & \textbf{47.96} & \textbf{58.59} \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
+To further assess external generalization, we evaluated the trained models on two external forest segmentation datasets with semantic compatibility to DeforTrack. The Forest Aerial Images dataset~\cite{quadeer2024augmentedforest} was selected because its visual appearance is closer to DeforTrack, with RGB-like scenes containing visible forest cover, vegetation texture, exposed soil, and forest boundaries. The Amazon/Atlantic Forest dataset~\cite{bragagnolo2021amazon} was also evaluated because it provides forest/non-forest masks in a Brazilian/Amazonian context, although it introduces a stronger sensor-domain shift due to its Sentinel-2 imagery. Figure~\ref{f4} shows representative examples from the two external datasets.
+
+The external evaluation shows that the models retain partial generalization outside the internal DeforTrack split, as summarized in Table~\ref{t6}. The best external result was obtained on Forest Aerial Images, where U-Net reached $60.58~\%$ IoU and $70.36~\%$ Dice/F1. This dataset is visually closer to DeforTrack because both contain RGB-like scenes where vegetation structure, forest boundaries, and non-forest regions are directly visible. On Amazon/Atlantic Forest, YOLOv11n achieved $47.96~\%$ IoU and $58.59~\%$ Dice/F1. Although this dataset is geographically relevant due to its Brazilian/Amazonian context, its Sentinel-2 imagery introduces a stronger sensor-domain shift. Therefore, Forest Aerial Images was considered the most visually comparable external benchmark, while Amazon/Atlantic Forest was used as an additional test of geographic and sensor-domain generalization.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/F5.png}
+    \caption{\small{Representative YOLOv8s segmentation results. DeforTrack scenarios: (a) vegetation–field boundary and (b) dense canopy. External images: (c) forest–field boundary and (d) mixed forest and open land-cover patterns.}}
+    \label{f5}
+\end{figure}
+
+\subsection{Qualitative Segmentation Examples}
+\label{sec:qualitative_examples}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/F6.png}
+    \caption{\small{Qualitative YOLOv8s segmentation result in different scenarios: (a) high forest cover, (b) continuous canopy, (c) forest boundary, and (d) fragmented canopy.}}
+    \label{f6}
+\end{figure}
+
+To complement the quantitative evaluation, qualitative examples were selected to illustrate the behavior of the YOLOv8s model under visually distinct forest segmentation scenarios. The examples include dense canopy, vegetation-field boundaries, and mixed land-cover patterns, covering both DeforTrack images and external RGB aerial imagery with visual characteristics similar to the proposed dataset. Figure~\ref{f5}(a) illustrates a vegetation-field boundary scenario, in which the model segments a compact forest fragment adjacent to agricultural land. Figure~\ref{f5}(b) shows a dense canopy scenario from DeforTrack, where the model predicts a large continuous forest region consistent with the homogeneous vegetation texture. Figures~\ref{f5}(c-d) show external RGB aerial examples, indicating that the model can transfer its learned forest-boundary representation to visually compatible imagery, although mixed land-cover scenes remain more challenging.
+
+Additional qualitative examples are presented in Figure~\ref{f6}, following the same visual structure, showing the input image, the predicted forest mask, and the prediction overlay. They further illustrate model behavior under additional visual conditions, including high forest-cover regions, continuous canopy, forest boundaries, heterogeneous vegetation, and fragmented canopy patterns. Since complete image-level biome metadata is not available for all samples in the final exported dataset, these examples should be interpreted as visually distinct forest and land-cover scenarios rather than confirmed biome-specific samples.
+
+\subsection{Limitations and Generalization Considerations}
+\label{sec:limitations}
+
+Although the quantitative and qualitative results indicate that YOLO-based models achieved the best trade-off between segmentation accuracy and computational efficiency, some limitations must be considered. Segmentation errors are more likely to occur under shadows, strong illumination variation, low contrast, sparse vegetation, dry vegetation, and mixed land-cover patterns. These conditions can alter the apparent color and texture of vegetation, reducing the boundary definition between forest and non-forest regions. The most difficult cases occur near transition regions between forest and non-forest areas, where boundaries are visually ambiguous. Fragmented landscapes, exposed soil, agricultural areas, roads, shadows, and low vegetation density may present visual patterns similar to forest canopy or partially preserved vegetation. These conditions can lead to false positives, when non-forest regions are predicted as forest, or false negatives, when sparse, low, or degraded forest areas are not detected. This limitation becomes relevant for biome-specific generalization, since some forest types may present lower canopy height, lower vegetation density, or less homogeneous green texture than the examples most represented in the training set.
+
+Another limitation concerns the geographic and biome-level characterization of the final exported dataset. Although DeforTrack was designed to support Brazilian deforestation monitoring and includes a predominance of Brazilian forest scenarios, the dataset was assembled from multiple private and public sources, including environmental image repositories from different regions. Since the final version does not preserve complete image-level metadata about geographic origin, acquisition source, or biome, it is not possible to reliably assign every sample to a specific Brazilian biome. Therefore, the qualitative examples presented in this work should be interpreted as visually distinct forest and land-cover scenarios rather than as confirmed biome-specific samples.
+
+Regarding generalization, the current split does not fully demonstrate geographic or temporal generalization. Although the split was performed before data augmentation, reducing direct leakage from identical augmented samples, a strict geographic, temporal, or source-aware split was not applied. Therefore, spatially close, visually similar, or temporally related samples may still share patterns across training, validation, and test subsets. This limitation may lead to optimistic performance estimates in some scenarios. 
+
+Future work will include more systematic failure-case analysis and source-aware, region-wise, biome-aware, and temporal validation protocols. In such protocols, images should be grouped by acquisition source, geographic region, biome, flight campaign, or acquisition date before partitioning. This would provide a stricter evaluation of model robustness and its ability to generalize to unseen regions,
+biomes, and acquisition conditions.
+
+
+\section{Conclusions}\label{sec:conclusions}
+
+This paper introduced DeforTrack, a large-scale, high-resolution, manually annotated dataset designed to advance deep learning-based forest segmentation and deforestation monitoring. The dataset comprises 14,648 images after augmentation, derived from 6,094 original images acquired from UAV surveys, satellite imagery, and public environmental repositories. Beyond presenting the dataset itself, this work provides a comprehensive characterization of its acquisition sources, annotation protocol, and forest-cover distribution, demonstrating substantial variability in vegetation density and environmental conditions suitable for robust model development and evaluation.
+
+Extensive benchmarking of U-Net, Mask R-CNN, YOLOv8, and YOLOv11 showed that modern YOLO-based architectures achieve the best balance between segmentation accuracy and computational efficiency, making them particularly suitable for real-time and embedded remote sensing applications. In addition, the proposed evaluation framework extends beyond conventional segmentation metrics by incorporating deployment-oriented measurements, including inference latency, memory footprint, and energy consumption, providing a more comprehensive assessment of practical model suitability.
+
+% Although future work requires adopting source-aware, geographically stratified, biome-aware, and temporally independent validation protocols, the current dataset already provides a valuable benchmark for developing and comparing semantic segmentation methods for forest monitoring. 
+
+Although future work should adopt source-aware, geographically stratified, biome-aware, and temporally independent validation protocols, the current dataset already provides a valuable benchmark for developing and comparing semantic segmentation methods for forest monitoring. By making DeforTrack publicly available, this work establishes a reproducible resource that supports future advances in data-driven environmental monitoring and facilitates the development of robust deep learning solutions for operational deforestation assessment.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{6pt} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% optional
+%\supplementary{The following supporting information can be downloaded at:  \linksupplementary{s1}, Figure S1: title; Table S1: title; Video S1: title.}
+
+% Only for journal Methods and Protocols:
+% If you wish to submit a video article, please do so with any other supplementary material.
+% \supplementary{The following supporting information can be downloaded at: \linksupplementary{s1}, Figure S1: title; Table S1: title; Video S1: title. A supporting video article is available at doi: link.}
+
+% Only used for preprtints:
+% \supplementary{The following supporting information can be downloaded at the website of this paper posted on \href{https://www.preprints.org/}{Preprints.org}.}
+
+% Only for journal Hardware:
+% If you wish to submit a video article, please do so with any other supplementary material.
+% \supplementary{The following supporting information can be downloaded at: \linksupplementary{s1}, Figure S1: title; Table S1: title; Video S1: title.\vspace{6pt}\\
+%\begin{tabularx}{\textwidth}{lll}
+%\toprule
+%\textbf{Name} & \textbf{Type} & \textbf{Description} \\
+%\midrule
+%S1 & Python script (.py) & Script of python source code used in XX \\
+%S2 & Text (.txt) & Script of modelling code used to make Figure X \\
+%S3 & Text (.txt) & Raw data from experiment X \\
+%S4 & Video (.mp4) & Video demonstrating the hardware in use \\
+%... & ... & ... \\
+%\bottomrule
+%\end{tabularx}
+%}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\authorcontributions{
+Conceptualization, A. S. Careli, E. C. Vilas Boas, F. A. P. Figueiredo; 
+methodology, A. S. Careli, L. P. Raimundo, G. G. Oliveira, E. C. Vilas Boas, F. A. P. Figueiredo; 
+software, A. S. Careli, L. P. Raimundo, G. G. Oliveira; 
+validation, A. S. Careli, L. P. Raimundo, G. G. Oliveira, F. A. P. Figueiredo; 
+formal analysis, A. S. Careli, L. P. Raimundo, G. G. Oliveira, E. C. Vilas Boas, F. A. P. Figueiredo; 
+investigation, A. S. Careli; 
+resources, E. C. Vilas Boas, F. A. P. Figueiredo; 
+data curation, A. S. Careli, L. P. Raimundo, G. G. Oliveira; 
+writing---original draft preparation, A. S. Careli, E. C. Vilas Boas, F. A. P. Figueiredo; 
+writing---review and editing, A. S. Careli, E. C. Vilas Boas, F. A. P. Figueiredo; 
+visualization, A. S. Careli, E. C. Vilas Boas; 
+supervision, E. C. Vilas Boas, F. A. P. Figueiredo; 
+project administration, A. S. Careli, E. C. Vilas Boas, F. A. P. Figueiredo; 
+funding acquisition, E. C. Vilas Boas, F. A. P. Figueiredo. All authors have read and agreed to the published version of the manuscript.}
+
+\funding{This work was partially funded by CNPq (Grant Nos. 403612/2020-9, 311470/2021-1, 403827/2021-3, and 306199 /2025-4), by FAPEMIG (Grant Nos. PPE-00124-23, RED-00194-23, APQ-04523-23, APQ-05305-23, and APQ-03162-24), by the Brasil 6G project (01245.020548/2021-07), supported by RNP and MCTI, and by the project XGM-AFCCT-2024-9-1-1 supported by xGMobile – EMBRAPII-Inatel Competence Center on 5G and 6G Networks, with financial resources from the PPI IoT/Manufatura 4.0 from MCTI grant number 052/2023, signed with EMBRAPII, and by FINEP (nº 1060/2 contract 01.25.0883.00).}
+
+\informedconsent{Not applicable.}
+
+\dataavailability{DeforTrack is publicly available to the research community~\url{https://universe.roboflow.com/alvaro-z5qmu/floresta-wgiln}} 
+
+\conflictsofinterest{The authors declare no conflicts of interest.} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optional
+
+%% Only for journal Encyclopedia
+%\entrylink{The Link to this entry published on the encyclopedia platform.}
+
+\abbreviations{Abbreviations}{
+The following abbreviations are used in this manuscript:
+\\
+
+\noindent 
+\begin{tabular}{@{}ll}
+AI & Artificial Intelligence\\
+AAL & Ambient Assisted Living\\
+AIF & Average Inference Time\\
+API & Application Programming Interface\\
+ASL & American Sign Language\\
+CNN & Convolutional Neural Network\\
+CVRT & Computer Vision Response Time\\
+DC & Direct Current\\
+ECDF & Empirical Cumulative Distribution Function\\
+FrFT & Fractional Fourier Transform\\
+GECO & Gesture-Controlled Environment Controller\\
+H-bridge & Half Bridge\\
+IMU & Inertial Measurement Unit\\
+IoT & Internet of Things\\
+ITU-T & International Telecommunication Union - Telecommunication Standardization Sector\\
+LPWAN & Low-Power Wide-Area Network\\
+ML & Machine Learning\\
+MQTT & Message Queuing Telemetry Transport\\
+NLP & Natural Language Processing\\
+NLU & Natural Language Understanding\\
+PDF & Probability Density Function\\
+RNN & Recurrent Neural Network\\
+RVM & Relevance Vector Machine\\
+SDK & Software Development Kit\\
+SVM & Support Vector Machine\\
+UWB & Ultra-Wideband\\
+UI/UX & User Interface / User Experience\\
+Wi-Fi & Wireless Fidelity\\
+5G & Fifth Generation\\
+\end{tabular}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optional
+\appendixtitles{no} % Leave argument "no" if all appendix headings stay EMPTY (then no dot is printed after "Appendix A"). If the appendix sections contain a heading then change the argument to "yes".
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\isPreprints{}{% This command is only used for ``preprints''.
+\begin{adjustwidth}{-\extralength}{0cm}
+%} % If the paper is ``preprints'', please uncomment this parenthesis.
+%\printendnotes[custom] % Un-comment to print a list of endnotes
+
+
+\reftitle{References}
+\bibliography{refs.bib}
+
+\PublishersNote{}
+%\isPreprints{}{% This command is only used for ``preprints''.
+\end{adjustwidth}
+%} % If the paper is ``preprints'', please uncomment this parenthesis.
+\end{document}
+
+
+

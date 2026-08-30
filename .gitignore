@@ -1,0 +1,19 @@
+# Raw datasets, archives, model checkpoints, and local environments
+*.zip
+*.crdownload
+*.keras
+*.pt
+*.pth
+gpu_eval_env/
+hf_cache/
+pip_cache/
+tmp/
+
+# Local logs and generated LaTeX build files
+*.log
+*.aux
+*.bbl
+*.blg
+*.out
+*.toc
+*.synctex.gz
