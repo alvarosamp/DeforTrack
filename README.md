@@ -1,70 +1,75 @@
 # DeforTrack
 
-Reproducibility repository for the DeforTrack forest/non-forest segmentation
-article.
+Official repository for the DeforTrack binary forest/non-forest segmentation dataset and benchmark. It contains evaluation code, reproducible protocols, trained-model documentation, manuscript sources, and machine-readable results.
 
 ## Repository layout
 
-- `article/`: manuscript source and article-specific correction notes.
-- `code/`: evaluation and figure-generation scripts.
-- `notebooks/`: original training and metric-extraction notebooks.
-- `results/internal_test_892/`: standardized Mask R-CNN and U-Net evaluations
-  on the final 892-image test subset.
-- `results/cross_dataset/`: external evaluation summaries.
-- `results/response_to_review/`: reviewer and professor response material.
-- `figures/`: qualitative figures used by the manuscript, when available.
+- `article/`: final LaTeX manuscript and bibliography.
+- `code/`: internal-test evaluation, profiling, consolidation, external-test, and figure-generation scripts.
+- `data/`: dataset access, expected layout, and partition information.
+- `models/`: trained-checkpoint names, storage instructions, and expected layout.
+- `results/internal_test_892/`: per-model and per-image segmentation results on the common final test subset.
+- `results/computational_profile_892/`: standardized local-hardware profiles.
+- `results/consolidated/`: publication-ready tables generated from the source result files.
+- `results/cross_dataset/`: external evaluation outputs.
+- `results/environment_local.json`: measured hardware and software environment.
+- `results/standardized_protocol_892.json`: machine-readable final protocol.
+- `notebooks/`: historical experiment notebooks. Scripts in `code/` and files in `results/` are authoritative for reported values.
 
-## Dataset and models
+## Dataset partitions
 
-The raw dataset and trained weights are kept outside this Git repository because
-the local archives and model files are large. The paths used for the local
-experiments were:
+| Role in the manuscript | Images |
+|---|---:|
+| Training | 12,861 |
+| Validation | 895 |
+| Final test | 892 |
 
-- Dataset: `D:\Datasets\Alvaro\Floresta-3-20260714T215823Z-1-001\Floresta-3`
-- Models and auxiliary data: `D:\Datasets\Defortrack`
+Every internal result in the revised manuscript uses the same 892 held-out final-test images for all 10 YOLO checkpoints, all 6 Mask R-CNN checkpoints, and U-Net. The paper uses these semantic roles independently of directory names inherited from the original export.
 
-The final internal test evaluation used 892 images. The source export contains
-12,861 training images, 895 validation images, and 892 final test images. The
-paper refers to these roles consistently, independently of the directory names
-used by the export.
+## Segmentation protocol
 
-## Verified internal evaluations
+Pixel metrics are computed independently per image and macro-averaged over all 892 images: IoU, Dice/F1, precision, recall, pixel accuracy, Boundary IoU, and Boundary F1. Instance-mask mAP is reported for YOLO and Mask R-CNN. U-Net produces a semantic probability mask without instance confidence scores, so instance mAP is not applicable.
 
-All six supplied Mask R-CNN checkpoints were evaluated on the same 892-image
-test subset. The evaluation used Detectron2, a confidence threshold of 0.30,
-positive classes 0 and 1 merged into a binary forest mask, and COCO-style mask
-mAP. Pixel metrics were computed from the union of predicted forest masks.
+For the supplied Mask R-CNN checkpoints, output class identifiers 0 and 1 are legacy synonyms for the same positive forest concept. Accepted masks are merged into one binary forest mask before pixel-level evaluation. This conversion is fixed in the evaluation script and protocol manifest.
 
-The supplied U-Net checkpoint was also evaluated on all 892 images. Its verified
-means are: IoU 49.97%, Dice/F1 61.80%, precision 70.11%, recall 68.14%,
-Boundary IoU 20.93%, Boundary F1 34.53%, and pixel accuracy 72.50%.
+## Computational protocol
 
-U-Net produces a semantic probability mask rather than scored object
-instances. Therefore, U-Net mAP is not reported in the revised instance-mAP
-columns unless a separate, explicitly defined semantic AP protocol is added.
+Every checkpoint is profiled on the same local machine with batch size 1. Before measurement, all 892 files are read once to warm the operating-system cache, and each decoded image is immediately released. This prevents disk-cache order effects without inflating process RAM. Each model then completes one unmeasured full test-set warm-up pass followed by three measured passes, totaling 2,676 synchronized measured inferences.
+
+Latency covers warm-cache image decoding, model-specific preprocessing, GPU inference, CUDA synchronization, and prediction return. CPU utilization is normalized by the 32 logical processors. RAM is process peak resident memory. GPU-board energy is integrated from NVML power samples and reported as joules per image.
+
+## Local environment
+
+The final profiles were run on Windows 11 Education with an Intel Core i9-13900HX (24 cores, 32 logical processors), 16 GB RAM, and an NVIDIA GeForce RTX 4060 Laptop GPU with 8 GB VRAM. Exact package, driver, CUDA, and library versions are recorded in `results/environment_local.json`.
+
+## Data and trained models
+
+The public dataset is available from the [DeforTrack Roboflow project](https://universe.roboflow.com/alvaro-z5qmu/floresta-wgiln). See `data/README.md` for the expected local layout and the partition roles used by the benchmark.
+
+Trained checkpoints are documented in `models/README.md`. Large model files are not committed through ordinary Git because several checkpoints exceed GitHub's file-size limit. They should be distributed through Git LFS or a versioned GitHub Release.
 
 ## Reproduction
 
-Run from the repository root with the project environment that contains
-Detectron2, PyTorch, Keras, OpenCV, and the required metric packages. Example:
+Run the standardized profile:
 
 ```powershell
-python evaluate_unet_defortrack.py `
-  --images "D:\Datasets\Alvaro\Floresta-3-20260714T215823Z-1-001\Floresta-3\valid\images" `
-  --labels "D:\Datasets\Alvaro\Floresta-3-20260714T215823Z-1-001\Floresta-3\valid\labels" `
-  --model "D:\Datasets\Defortrack\unet_instance_segmentation_best.keras" `
-  --out-dir results/internal_test_892/unet
+.\code\run_all_profiles.ps1
 ```
 
-The supplied dataset directory is used as the final 892-image test subset for
-the manuscript, as documented above. Do not add raw archives, virtual
-environments, caches, or checkpoints to Git unless a separate storage policy is
-defined.
+Consolidate validated source results:
 
-## Current limitations recorded for the paper
+```powershell
+python .\code\consolidate_internal_results.py `
+  --yolo-summary .\results\internal_test_892\yolo_test_summary.csv `
+  --mask-summary .\results\internal_test_892\maskrcnn_test_summary.csv `
+  --mask-map .\results\internal_test_892\maskrcnn_map_892.json `
+  --unet-summary .\results\internal_test_892\unet_892_summary.csv `
+  --profile .\results\computational_profile_892\standardized_profile_892_v2.csv `
+  --out-dir .\results\consolidated
+```
 
-The exported dataset does not preserve complete image-level source, geographic,
-biome, campaign, and acquisition-date metadata. Consequently, the paper does
-not claim strict source-aware, geographic, temporal, or biome-wise validation.
-External tests are described as cross-dataset evaluations only when their target
-semantics are compatible with binary forest/non-forest segmentation.
+Use the environment described in `requirements-evaluation.txt` and `results/environment_local.json`. Paths can be overridden through each script's command-line arguments.
+
+## Interpretation limits
+
+The exported dataset does not preserve complete image-level source, geographic, biome, campaign, and acquisition-date metadata. The manuscript therefore does not claim strict source-aware, geographic, temporal, or biome-specific validation. External tests are reported as cross-dataset domain transfer only when their labels are compatible with binary forest/non-forest segmentation.

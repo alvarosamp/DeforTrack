@@ -5,6 +5,7 @@
 \documentclass[journal,article,submit,pdftex,moreauthors]{Definitions/mdpi} 
 
 \usepackage{url}
+\usepackage{xcolor}
 \usepackage[ruled,vlined]{algorithm2e}
 \SetKwComment{Comment}{/* }{ */}
 
@@ -144,7 +145,7 @@ $^{2}$ \quad Wireless and Artificial Intelligence Laboratory (WAI Lab.), Departm
 %\conference{} % An extended version of a conference paper
 
 % Abstract (Do not insert blank lines, i.e. \\) 
-\abstract{Reliable forest monitoring increasingly depends on deep learning models trained on high-quality annotated datasets, yet publicly available resources remain limited for high-resolution forest/non-forest semantic segmentation. This paper presents DeforTrack, a multi-source, large-scale, manually annotated RGB dataset developed specifically for deforestation monitoring applications. DeforTrack comprises 6,094 original images acquired from UAV surveys, satellite imagery, and public environmental repositories, and expands to 14,648 images after data augmentation. The dataset combines cross-platform imagery, fine-grained polygon-based pixel-level annotations, and diverse environmental conditions, while providing a quantitative characterization of image sources, annotation quality, and forest-cover distribution. Beyond dataset construction, DeforTrack establishes a task-oriented benchmark for evaluating both segmentation accuracy and deployment-oriented performance. We evaluate U-Net, Mask R-CNN, YOLOv8, and YOLOv11 using segmentation metrics (IoU and mAP) together with inference latency, memory footprint, and energy consumption. The results show that YOLOv8s achieves the highest overall segmentation accuracy, whereas YOLOv8n and YOLOv11n provide the best trade-off between accuracy and computational efficiency, indicating their potential for near-real-time monitoring and future embedded deployment. By publicly releasing DeforTrack~\url{https://universe.roboflow.com/alvaro-z5qmu/floresta-wgiln}, this work provides a reproducible benchmark that supports the development, evaluation, and deployment of robust deep learning solutions for forest segmentation and operational deforestation monitoring.}
+\abstract{\textcolor{red}{Reliable forest monitoring increasingly depends on deep learning models trained on high-quality annotated datasets, yet publicly available resources remain limited for high-resolution forest/non-forest semantic segmentation. This paper presents DeforTrack, a multi-source, large-scale, manually annotated RGB dataset developed specifically for deforestation monitoring applications. DeforTrack comprises 6,094 original images acquired from UAV surveys, satellite imagery, and public environmental repositories, and expands to 14,648 images after data augmentation. The dataset combines cross-platform imagery, fine-grained polygon-based pixel-level annotations, and diverse environmental conditions, while providing a quantitative characterization of image sources, annotation quality, and forest-cover distribution. Beyond dataset construction, DeforTrack establishes a task-oriented benchmark for evaluating segmentation accuracy and computational performance. We evaluate U-Net, Mask R-CNN, YOLOv8, and YOLOv11 on the same held-out set of 892 images using region-, boundary-, and pixel-level segmentation metrics together with inference latency, throughput, memory usage, CPU utilization, and GPU energy per image. The results identify the models that provide the most favorable accuracy--efficiency trade-offs on the tested local GPU workstation. These measurements characterize comparative performance on that platform; embedded-device deployment and validation remain future work. By publicly releasing DeforTrack~\url{https://universe.roboflow.com/alvaro-z5qmu/floresta-wgiln}, this work provides a reproducible benchmark for developing and evaluating forest-segmentation methods.}}
 % Keywords
 \keyword{Remote sensing, deforestation monitoring, semantic segmentation, forest mapping, UAV imagery.} 
 
@@ -294,8 +295,7 @@ The mean pairwise IoU across the three annotator pairs was $74.55 \pm 19.44~\%$,
 \subsection{Data Augmentation and Availability}
 \label{sec:data_augmentation}
 
-We applied data augmentation techniques to the annotated training images, resulting in a final exported dataset with $14,648$ images, including original and augmented samples. The Roboflow augmentation configuration was set to generate three outputs per training example and included geometric transformations and photometric variations. Specifically, the applied
-transformations were horizontal and vertical flipping, random cropping with $0~\%$ minimum zoom and $20~\%$ maximum zoom, affine shearing of up to $\pm 13^{\circ}$ in both horizontal and vertical directions, brightness adjustment between $-22~\%$ and $+22~\%$, Gaussian blur of up to $3.7$ pixels, and noise injection affecting up to $1.56~\%$ of pixels. These augmentations emulate real-world image variability caused by seasonal changes, illumination differences, acquisition conditions, and sensor artifacts, enhancing the robustness of models trained on the dataset. The Roboflow platform performed the data split before the data augmentation stage, reducing the risk that augmented versions of the same original file were replicated across different subsets. DeforTrack is partitioned into $12,861$ training images ($88~\%$), $895$ validation images ($6~\%$), and $892$ final test images ($6~\%$). The final test subset was held out from training and was used to report the segmentation results in Table~\ref{tab:segmentation_metrics}. These ratios correspond to the default Roboflow configuration and were maintained because they provide a large training subset while preserving independent validation and testing partitions. 
+\textcolor{red}{We applied data augmentation techniques only to the annotated training partition, resulting in a final exported dataset with $14,648$ images, including original and augmented samples. The Roboflow output count was configured as three exported samples in total per training example, including the original sample; it did not mean three augmented copies in addition to the original. The augmentation pipeline included horizontal and vertical flipping, random cropping with $0~\%$ minimum zoom and $20~\%$ maximum zoom, affine shearing of up to $\pm 13^{\circ}$ in both horizontal and vertical directions, brightness adjustment between $-22~\%$ and $+22~\%$, Gaussian blur of up to $3.7$ pixels, and noise injection affecting up to $1.56~\%$ of pixels. These transformations emulate variability associated with illumination, acquisition conditions, and sensor noise. Roboflow performed the data split before augmentation, reducing the risk that augmented derivatives of one original image were assigned to different subsets. DeforTrack contains $12,861$ training images ($88~\%$), $895$ validation images ($6~\%$), and $892$ held-out final test images ($6~\%$). The validation partition was used for model selection, whereas every result reported in Tables~\ref{tab:segmentation_metrics} and~\ref{tab:computational_metrics} was recomputed on the same 892-image final test partition.}
 
 Although the split was performed before data augmentation, reducing the risk of direct augmentation leakage, this image-level partitioning does not fully guarantee spatial or temporal independence among the subsets. To further inspect potential overlap, we performed a filename-based analysis across the training, validation, and test partitions. This inspection identified $586$ normalized image names appearing across more than one subset. Since the normalization procedure removes augmentation-specific suffixes and export identifiers, these cases should be interpreted as potential, rather than definitive, split overlap. Nevertheless, this result indicates that complete independence among subsets cannot be guaranteed using filename inspection alone.
 Therefore, although the current protocol reduces direct augmentation leakage, it does not fully ensure spatial or temporal independence. In remote sensing datasets, images acquired from nearby regions, similar acquisition campaigns, or close acquisition dates may share visual and spatial patterns. If such correlated samples are distributed across training, validation, and testing subsets, model performance may be overestimated.
@@ -342,8 +342,10 @@ We conducted a comprehensive evaluation of state-of-the-art semantic segmentatio
 
 \subsection{Deep-learning models and training setup}
 
-The evaluation encompassed multiple deep learning architectures selected based on their relevance to environmental monitoring tasks and suitability for embedded deployment. The tested models include U-Net, Mask R-CNN (Region-based Convolutional Neural Network) (via Detectron2), and two versions of the YOLO (You Only Look Once) family (YOLOv8 and the recently proposed YOLOv11), with the notebooks publicly available\footnote{\url{https://github.com/alvarosamp/DeforTrack}}. 
-For YOLO-based models, we considered five variants per version: nano, small, medium, large, and extra-large, capturing a range of trade-offs between computational load and accuracy. Similarly, multiple Mask R-CNN variants were evaluated, differing in backbone depth (ResNet-50 vs. ResNet-101) and head configuration (C4, DC5, and FPN). The U-Net model was included as a semantic-segmentation baseline due to its prevalence in geospatial segmentation tasks and its interpretable architecture. The supplied checkpoints were trained using Python 3 and an NVIDIA T4 GPU in Google Colab. The standardized re-evaluations reported in this revision were executed locally with an NVIDIA GeForce RTX 4060 Laptop GPU with 8 GB of VRAM; therefore, computational measurements are hardware-specific and should not be interpreted as universal deployment values.
+\textcolor{red}{The evaluation encompassed multiple deep learning architectures selected for their relevance to environmental monitoring and their distinct accuracy--complexity profiles. The tested models include U-Net, Mask R-CNN (Region-based Convolutional Neural Network) via Detectron2, and two versions of the YOLO (You Only Look Once) family (YOLOv8 and YOLOv11), with the evaluation code publicly available\footnote{\url{https://github.com/alvarosamp/DeforTrack}}.}
+\textcolor{red}{For YOLO-based models, we considered five variants per version: nano, small, medium, large, and extra-large, capturing a range of trade-offs between computational load and accuracy. Similarly, multiple Mask R-CNN variants were evaluated, differing in backbone depth (ResNet-50 vs. ResNet-101) and head configuration (C4, DC5, and FPN). The U-Net model was included as a semantic-segmentation baseline due to its prevalence in geospatial segmentation tasks and its interpretable architecture. All final evaluations and computational profiles reported in this work were executed on the same local workstation running 64-bit Windows 11 Education, with an Intel Core i9-13900HX processor (24 physical cores and 32 logical processors), 16 GB of system RAM, and an NVIDIA GeForce RTX 4060 Laptop GPU with 8 GB of VRAM (driver 610.62), using Python 3.11.9, PyTorch 2.8.0 with CUDA 12.9, Ultralytics 8.4.96, Detectron2 0.6, Keras 3.15.0, and OpenCV 5.0.0. Thus, latency, throughput, resource-use, and energy results are comparative measurements for this hardware and should not be interpreted as measurements from an embedded platform.}
+
+\textcolor{red}{During final-test inference, YOLO and Mask R-CNN processed $640\times640$ inputs with confidence thresholds of 0.25 and 0.30, respectively. The Mask R-CNN export metadata contains the synonymous foreground labels ``Forest'' and ``Floresta''; predictions from these two labels were mapped to one binary forest class before region- and boundary-metric computation and before binary COCO-style mask AP evaluation. U-Net processed RGB inputs resized to $256\times256$ and binarized its probability map at 0.50. The corresponding reference polygons were rasterized at each model's evaluation resolution, and predictions were restored to the reference dimensions whenever necessary.}
 
 \subsection{Pixel-wise Mask Fusion for Forest Area Estimation}
 \label{subsec:algorithm}
@@ -367,14 +369,14 @@ final mask is given by
 M_{ij}^f = M_{ij}^1 \lor M_{ij}^2 \lor \cdots \lor M_{ij}^k.
 \end{equation}
 
-The union operation was adopted because each predicted instance mask represents
+\textcolor{red}{The union operation was adopted because each predicted instance mask represents
 a candidate forest region. Therefore, a pixel is classified as forest if it is
 included in at least one predicted forest mask. This strategy avoids discarding
 valid forest pixels when multiple masks partially overlap or when a forest
 region is split into more than one predicted instance. In contrast, an
 intersection-based rule would be overly restrictive, since only pixels shared by
 all masks would be retained. A weighted average was not adopted because it would
-require calibrated mask confidence values and an additional thresholding step.
+require calibrated and mutually comparable pixel-level confidence values, as well as an additional threshold selected on validation data. The Boolean OR therefore implements the geometrically correct union of same-class forest instances without introducing an unvalidated fusion parameter.}
 
 The resulting final mask $M_f$ is then used to compute the percentage of forest
 cover $A_f$ in the image, given by:
@@ -398,21 +400,22 @@ Model performance was quantitatively assessed using both accuracy-oriented and r
     \text{IoU} = \frac{\sum_{i=1}^{m} \sum_{j=1}^{n} (M_{p_{ij}} \land M_{t_{ij}})}{\sum_{i=1}^{m} \sum_{j=1}^{n} (M_{p_{ij}} \lor M_{t_{ij}})},
     \]
     where $\land$ and $\lor$ represent the Boolean AND and OR operations, respectively. The mask used to calculate the IoU is the $M^f$ defined in (1).
+    \item \textcolor{red}{\textbf{Dice/F1:} Measures region overlap as $2TP/(2TP+FP+FN)$, where $TP$, $FP$, and $FN$ denote forest-pixel true positives, false positives, and false negatives.}
+    \item \textcolor{red}{\textbf{Precision, Recall, and Pixel Accuracy:} Precision is $TP/(TP+FP)$, recall is $TP/(TP+FN)$, and pixel accuracy is $(TP+TN)/(TP+TN+FP+FN)$, with $TN$ denoting correctly classified non-forest pixels.}
+    \item \textcolor{red}{\textbf{Boundary IoU and Boundary F1:} Boundaries were extracted from the binary prediction and reference masks by morphological erosion with a three-pixel thickness. Boundary IoU measures the intersection over union of the resulting boundary bands. Boundary F1 is the harmonic mean of boundary precision and recall, allowing a three-pixel spatial tolerance through morphological dilation.}
     \item \textbf{Mean Average Precision (mAP):} Evaluates the overall detection and localization performance by averaging the precision across multiple IoU thresholds.
     \item \textbf{Inference Time and FPS:} Represent the average time (in seconds) required to segment a single image and the effective throughput in frames per second, respectively.
-    \item \textbf{Computational Resource Metrics:} Include peak RAM usage, CPU utilization, and estimated energy consumption during inference. These metrics support the assessment of model deployability on real-time and embedded systems.
+    \item \textcolor{red}{\textbf{Computational Resource Metrics:} Include peak process RAM, normalized process CPU utilization, and GPU energy per image during inference. These measurements provide a controlled comparison on the specified workstation and do not represent embedded-device performance.}
     %They allow for assessing the deployability of models on real-time and embedded systems.
 \end{itemize}
 
-The evaluations were performed on the same final test subset of 892 images to ensure consistency and fairness across model comparisons. 
-For mAP, we report mAP@50 and mAP@50:95, where the latter corresponds to IoU thresholds ranging from 0.50 to 0.95 in steps of 0.05. 
-%Regarding the mAP, we set an IoU threshold of 0.5 and a second metric with it varying between 0.5 and 0.95.
-RAM usage, CPU utilization, inference time, FPS, and energy consumption were measured using the same profiling procedure for all evaluated models. CPU and
-RAM were monitored with \texttt{psutil}, while GPU power consumption was sampled
-with NVML and converted to energy by multiplying the average power by the
-inference time.
+\textcolor{red}{The evaluations were performed on the same held-out final test subset of 892 images for every YOLO, Mask R-CNN, and U-Net variant. For instance-based architectures, mAP@50 and mAP@50--95 were computed from individual predicted instances, with the latter averaging IoU thresholds from 0.50 to 0.95 in steps of 0.05. Because the U-Net checkpoint produces one semantic binary mask without instance confidence scores, instance-level mAP is not applicable and is reported as ``--'' rather than being inferred from pixel-level metrics.}
 
-To provide uncertainty estimates and improve repeatability analysis, we computed confidence intervals for the main image-level metrics. For each metric, the mean value was computed over the validation images, and the $95~\%$ confidence interval was estimated as:
+\textcolor{red}{For the pixel-level metrics, all predicted forest instances from one image were merged by the union in Equation~(1), and the resulting binary semantic mask was compared with the rasterized reference mask. IoU, Dice/F1, precision, recall, Boundary IoU, Boundary F1, and pixel accuracy were first computed independently for each image and then macro-averaged over the 892 test images. This preserves equal image weighting and avoids allowing images with more forest pixels to dominate the aggregate.}
+%Regarding the mAP, we set an IoU threshold of 0.5 and a second metric with it varying between 0.5 and 0.95.
+\textcolor{red}{Computational profiling used batch size 1, one complete unmeasured warm-up pass over the 892-image final test set to stabilize model execution and GPU clocks, and three subsequent complete measured repetitions, totaling 2,676 measured inferences per checkpoint. Before the warm-up and measurement stages, the complete test set was read once to warm the operating-system file cache, and each decoded image was immediately released; this prevented disk-cache order effects without retaining the decoded dataset in process RAM. Reported latency is the mean end-to-end time per image for image decoding, model-specific preprocessing, GPU inference, explicit GPU synchronization, and prediction return; FPS is its reciprocal. Peak resident set size (RAM) and process CPU use were monitored with \texttt{psutil}. CPU utilization was divided by the 32 logical processors and is consequently reported on a normalized $0$--$100~\%$ system scale. GPU board power was sampled through the NVIDIA Management Library (NVML) during the measured loop. GPU energy was obtained by trapezoidal integration of power over elapsed time and divided by 2,676, so Table~\ref{tab:computational_metrics} reports joules per image rather than total energy, batch energy, or whole-system energy.}
+
+\textcolor{red}{To provide uncertainty estimates and improve repeatability analysis, we computed confidence intervals for the main image-level metrics. For each metric, the mean value was computed over the 892 final test images, and the $95~\%$ confidence interval was estimated as:}
 \begin{equation}
 CI_{95\%} = \bar{x} \pm 1.96 \cdot \frac{s}{\sqrt{n}},
 \end{equation}
@@ -420,10 +423,9 @@ where $\bar{x}$ is the sample mean, $s$ is the standard deviation across test im
 
 \section{Results and Discussion}
 
-This section presents a comprehensive performance analysis of the evaluated models, which were trained on the DeforTrack dataset. Tables~\ref{tab:segmentation_metrics} and~\ref{tab:computational_metrics} summarize the metrics across all model variants. Among the YOLOv8 series, the YOLOv8s variant achieved the highest segmentation accuracy, with an IoU of $88.98~\%$, an mAP of $91.34~\%$, Dice/F1 of $93.62~\%$, and Pixel Accuracy of  $95.95~\%$. This result indicates that YOLOv8s provided a strong balance between segmentation quality and computational efficiency. In contrast, YOLOv8x presented a lower IoU of $70.93~\%$, despite its larger model size of $274.25$~MB. This behavior suggests that increasing model complexity did not necessarily improve the segmentation performance for the evaluated dataset. The YOLOv8n variant achieved the highest throughput among the YOLOv8 models, with $47.71$ FPS and an inference time of $21.40$~ms, making it suitable for latency-sensitive or resource-constrained applications.
+\textcolor{red}{This section presents the standardized performance analysis of all trained checkpoints. Tables~\ref{tab:segmentation_metrics} and~\ref{tab:computational_metrics} report results obtained on the same 892-image held-out final test set. YOLOv8s achieved the highest region-level segmentation scores overall, with $89.03~\%$ IoU, $93.73~\%$ Dice/F1, and $96.02~\%$ pixel accuracy, as well as the highest recall ($95.18~\%$). YOLOv8l obtained the highest mAP@50 ($92.79~\%$). By contrast, YOLOv8x reached only $71.57~\%$ IoU despite being the largest YOLOv8 variant, indicating that greater checkpoint size did not translate into better binary forest-mask overlap for this dataset.}
 
-The YOLOv11 variants followed a similar accuracy--efficiency pattern. YOLOv11m obtained the highest IoU within the YOLOv11 family, reaching $88.36~\%$, whereas YOLOv11x achieved the best boundary-oriented performance, with Boundary IoU of $49.14~\%$ and Boundary F1 of $71.39~\%$. YOLOv11n was the smallest model, with $5.75$ MB, and achieved $43.58$ FPS with an inference time of
-$23.30$ ms. Overall, YOLOv11n provides a compact profile for near-real-time monitoring and potential future embedded deployment, while YOLOv8s showed the strongest segmentation accuracy.
+\textcolor{red}{Within YOLOv11, YOLOv11m obtained the highest IoU ($88.78~\%$), while YOLOv11x achieved the strongest boundary performance, with $48.04~\%$ Boundary IoU and $70.22~\%$ Boundary F1. YOLOv11l obtained the highest mAP@50--95 of all evaluated checkpoints ($74.19~\%$). These rankings differ by metric because region overlap, instance detection across thresholds, and boundary localization emphasize different error modes; consequently, no single score is used to claim universal superiority.}
 
 Figure~\ref{f3}(a--b) displays two images of the same region captured at two different dates. The YOLOv11n model processed these images, and the
 resulting segmentation masks were integrated using the proposed pixel-based
@@ -445,19 +447,20 @@ quantifying vegetation-cover variation over time.
 \textbf{Variant} & \textbf{Images} & \textbf{IoU [\%]} & \textbf{mAP@50} & \textbf{mAP@50--95} & \textbf{Dice/F1 [\%]} & \textbf{Boundary IoU [\%]} & \textbf{Boundary F1 [\%]} & \textbf{Pixel Accuracy [\%]} & \textbf{Precision [\%]} & \textbf{Recall [\%]} \\
 \hline
 
+\color{red}
 \multicolumn{11}{|c|}{\textbf{YOLOv8 Performance}} \\ \hline
-YOLOv8x & 892 & 70.93 & \textbf{93.00} & 83.00 & 77.34 & 39.78 & 59.85 & 81.71 & 84.84 & 76.02 \\ \hline
-YOLOv8l & 892 & 87.72 & \textbf{93.00} & 81.00 & 92.72 & 45.70 & 67.45 & 94.95 & 92.92 & 93.44 \\ \hline
-YOLOv8m & 892 & 82.95 & 85.00 & 63.00 & 89.68 & 33.47 & 52.92 & 93.20 & 90.14 & 90.56 \\ \hline
-YOLOv8s & 892 & \textbf{88.98} & 91.34 & 74.60 & \textbf{93.62} & 46.00 & 67.69 & \textbf{95.95} & 93.25 & 94.67 \\ \hline
-YOLOv8n & 892 & 86.37 & 92.00 & 76.00 & 91.99 & 39.38 & 60.25 & 94.61 & 91.75 & 93.10 \\ \hline
+YOLOv8x & 892 & 71.57 & 88.83 & 64.10 & 77.75 & 39.37 & 59.10 & 82.19 & 84.47 & 77.01 \\ \hline
+YOLOv8l & 892 & 88.02 & \textbf{92.79} & 72.56 & 92.97 & 45.02 & 66.74 & 95.23 & 92.54 & 94.14 \\ \hline
+YOLOv8m & 892 & 83.82 & 84.89 & 55.82 & 90.32 & 34.97 & 54.65 & 93.83 & 89.90 & 91.80 \\ \hline
+YOLOv8s & 892 & \textbf{89.03} & 92.02 & 71.12 & \textbf{93.73} & 45.10 & 66.58 & \textbf{96.02} & 92.88 & \textbf{95.18} \\ \hline
+YOLOv8n & 892 & 86.33 & 91.70 & 68.35 & 91.86 & 40.95 & 62.15 & 94.58 & 91.30 & 93.28 \\ \hline
 
 \multicolumn{11}{|c|}{\textbf{YOLOv11 Performance}} \\ \hline
-YOLOv11x & 892 & 88.12 & \textbf{93.00} & \textbf{83.40} & 92.86 & \textbf{49.14} & \textbf{71.39} & 94.75 & \textbf{93.72} & 93.28 \\ \hline
-YOLOv11l & 892 & 87.74 & 92.60 & 82.60 & 92.47 & 48.84 & 71.07 & 94.54 & 93.27 & 92.98 \\ \hline
-YOLOv11m & 892 & 88.36 & 92.30 & 81.00 & 93.05 & 48.01 & 70.17 & 95.12 & 93.48 & 93.71 \\ \hline
-YOLOv11s & 892 & 87.52 & \textbf{93.00} & 80.00 & 92.49 & 45.48 & 67.41 & 94.76 & 92.91 & 93.29 \\ \hline
-YOLOv11n & 892 & 86.76 & 92.00 & 76.80 & 92.19 & 40.27 & 61.49 & 94.78 & 91.99 & 93.27 \\ \hline
+YOLOv11x & 892 & 88.60 & 92.66 & 74.18 & 93.20 & \textbf{48.04} & \textbf{70.22} & 95.15 & \textbf{93.40} & 94.11 \\ \hline
+YOLOv11l & 892 & 88.30 & 92.09 & \textbf{74.19} & 92.88 & 47.53 & 69.72 & 95.03 & 92.87 & 93.98 \\ \hline
+YOLOv11m & 892 & 88.78 & 92.28 & 73.06 & 93.36 & 47.96 & 70.02 & 95.49 & 93.12 & 94.52 \\ \hline
+YOLOv11s & 892 & 87.88 & 92.46 & 72.03 & 92.77 & 45.36 & 67.18 & 95.05 & 92.62 & 94.00 \\ \hline
+YOLOv11n & 892 & 87.19 & 91.57 & 67.91 & 92.51 & 41.06 & 62.25 & 95.10 & 91.69 & 94.05 \\ \hline
 
 \multicolumn{11}{|c|}{\textbf{Mask R-CNN Performance}} \\ \hline
 ResNet-101 FPN 3x & 892 & 77.92 & 68.84 & 41.11 & 85.88 & 25.58 & 42.02 & 90.16 & 83.45 & 91.89 \\ \hline
@@ -473,46 +476,43 @@ U-Net & 892 & 49.97 & -- & -- & 61.80 & 20.93 & 34.53 & 72.50 & 70.11 & 68.14 \\
 }
 \end{table*}
 
-The resource profile was measured independently of the accuracy benchmark. The
-Images column reports the number of samples used during each profiling run; the
-Mask R-CNN profiling run used 100 images, whereas the YOLO and U-Net profiling
-runs used 892 images. Therefore, this column must not be interpreted as the
-sample size of the segmentation evaluation in Table~\ref{tab:segmentation_metrics}.
+\textcolor{red}{The per-image uncertainty analysis supports the same ordering while showing the variability within the test set. The $95~\%$ confidence-interval half-width for IoU was $0.74$ percentage points for YOLOv8s, $1.27$ percentage points for Mask R-CNN ResNet-101 FPN 3x, and $1.79$ percentage points for U-Net. Complete per-image values, standard deviations, and confidence intervals for every checkpoint are provided with the public evaluation outputs to avoid further widening Table~\ref{tab:segmentation_metrics}.}
 
 \begin{table*}[t] \small
+\color{red}
 \centering
-\caption{Computational performance metrics of YOLO, Mask R-CNN, and U-Net models trained on the proposed DeforTrack dataset.}
+\caption{Standardized computational performance on the same 892-image final test set. Inference time is reported as mean $\pm$ standard deviation across three complete measured repetitions.}
 \label{tab:computational_metrics}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
-\textbf{Variant} & \textbf{Images} & \textbf{Size [MB]} & \textbf{RAM [MB]} & \textbf{Inference Time [s]} & \textbf{FPS} & \textbf{CPU [\%]} & \textbf{Energy [J]} \\
+\textbf{Variant} & \textbf{Images} & \textbf{Size [MB]} & \textbf{Peak process RAM [MB]} & \textbf{Inference [s/image]} & \textbf{FPS} & \textbf{Normalized CPU [\%]} & \textbf{GPU energy [J/image]} \\
 \hline
 
 \multicolumn{8}{|c|}{\textbf{YOLOv8 Performance}} \\ \hline
-YOLOv8x & 892 & 274.25 & 3662.31 & 0.0784 & 12.91 & 61.05 & 65.02 \\ \hline
-YOLOv8l & 892 & 175.77 & 3548.23 & 0.0549 & 18.42 & 53.34 & 68.22 \\ \hline
-YOLOv8m & 892 & 104.35 & 3501.73 & 0.0534 & 18.89 & 52.64 & 36.69 \\ \hline
-YOLOv8s & 892 & 22.78 & 3498.41 & 0.0324 & 31.07 & 42.31 & 22.59 \\ \hline
-YOLOv8n & 892 & 12.79 & 3492.80 & \textbf{0.0214} & \textbf{47.71} & 33.07 & \textbf{12.63} \\ \hline
+YOLOv8x & 892 & 274.25 & 1527.98 & $0.0493 \pm 0.0004$ & 20.28 & 3.34 & 3.808 \\ \hline
+YOLOv8l & 892 & 175.77 & 1499.66 & $0.0325 \pm 0.0002$ & 30.73 & 3.16 & 2.439 \\ \hline
+YOLOv8m & 892 & 104.35 & 1483.15 & $0.0223 \pm 0.0002$ & 44.88 & 3.23 & 1.438 \\ \hline
+YOLOv8s & 892 & 22.78 & 1383.85 & $0.0131 \pm 0.0001$ & 76.20 & 3.14 & 0.675 \\ \hline
+YOLOv8n & 892 & 12.81 & 1357.66 & $\mathbf{0.0120 \pm 0.0001}$ & \textbf{83.39} & 3.14 & \textbf{0.263} \\ \hline
 
 \multicolumn{8}{|c|}{\textbf{YOLOv11 Performance}} \\ \hline
-YOLOv11x & 892 & 119.01 & 3490.70 & 0.0803 & 12.62 & 61.28 & 88.07 \\ \hline
-YOLOv11l & 892 & 53.28 & 3478.59 & 0.0549 & 18.90 & 52.56 & 49.21 \\ \hline
-YOLOv11m & 892 & 43.09 & 3486.46 & 0.0535 & 18.90 & 52.28 & 38.25 \\ \hline
-YOLOv11s & 892 & 19.59 & 3480.84 & 0.0317 & 31.85 & 41.77 & 22.73 \\ \hline
-YOLOv11n & 892 & \textbf{5.75} & 3483.31 & 0.0233 & 43.58 & 34.56 & 17.90 \\ \hline
+YOLOv11x & 892 & 119.01 & 1531.60 & $0.0476 \pm 0.0003$ & 21.03 & 3.27 & 3.722 \\ \hline
+YOLOv11l & 892 & 53.28 & 1437.52 & $0.0290 \pm 0.0009$ & 34.49 & 3.18 & 1.839 \\ \hline
+YOLOv11m & 892 & 43.09 & 1433.00 & $0.0226 \pm 0.0003$ & 44.30 & 3.21 & 1.471 \\ \hline
+YOLOv11s & 892 & 19.59 & 1395.61 & $0.0164 \pm 0.0002$ & 61.07 & \textbf{3.10} & 0.719 \\ \hline
+YOLOv11n & 892 & \textbf{5.75} & 1337.91 & $0.0156 \pm 0.0004$ & 64.00 & 3.15 & 0.279 \\ \hline
 
 \multicolumn{8}{|c|}{\textbf{Mask R-CNN Performance}} \\ \hline
-ResNet-101 FPN 3x & 100 & 479.84 & 2375.50 & 0.1288 & 7.78 & 119.41 & 80.26 \\ \hline
-ResNet-101 C4 3x & 100 & 412.46 & 2417.17 & 0.4460 & 2.47 & 109.87 & 435.25 \\ \hline
-ResNet-101 DC5 3x & 100 & 1456.46 & 2378.06 & 0.2337 & 4.30 & 114.82 & 172.08 \\ \hline
-ResNet-50 C4 3x & 100 & 267.47 & 2395.23 & 0.3388 & 3.52 & 112.18 & 338.61 \\ \hline
-ResNet-50 C4 1x & 100 & 267.47 & 2387.25 & 0.3320 & 3.56 & 112.95 & 322.07 \\ \hline
-ResNet-50 DC5 1x & 100 & 1311.47 & 2398.46 & 0.1957 & 5.17 & 116.30 & 146.41 \\ \hline
+ResNet-101 FPN 3x & 892 & 479.84 & 1949.74 & $0.0483 \pm 0.0009$ & 20.72 & 3.21 & 2.833 \\ \hline
+ResNet-101 C4 3x & 892 & 412.46 & 1872.13 & $0.0389 \pm 0.0009$ & 25.73 & 3.18 & 2.325 \\ \hline
+ResNet-101 DC5 3x & 892 & 1456.46 & 3462.20 & $0.0509 \pm 0.0004$ & 19.64 & 3.17 & 3.386 \\ \hline
+ResNet-50 C4 3x & 892 & 267.47 & 1767.68 & $0.0310 \pm 0.0002$ & 32.25 & 3.20 & 1.796 \\ \hline
+ResNet-50 C4 1x & 892 & 267.47 & 1708.98 & $0.0317 \pm 0.0003$ & 31.52 & 3.23 & 1.811 \\ \hline
+ResNet-50 DC5 1x & 892 & 1311.47 & 3337.60 & $0.0425 \pm 0.0006$ & 23.51 & 3.19 & 2.753 \\ \hline
 
 \multicolumn{8}{|c|}{\textbf{U-Net Performance}} \\ \hline
-U-Net & 892 & 21.63 & \textbf{0.60} & 0.0985 & 10.77 & \textbf{17.71} & 166.56 \\ \hline
+U-Net & 892 & 21.63 & \textbf{985.39} & $0.0154 \pm 0.0002$ & 64.77 & 3.37 & 0.909 \\ \hline
 
 \end{tabular}
 }
@@ -525,33 +525,13 @@ U-Net & 892 & 21.63 & \textbf{0.60} & 0.0985 & 10.77 & \textbf{17.71} & 166.56 \
     \label{f3}
 \end{figure}
 
-The Mask R-CNN variants achieved competitive segmentation results, especially
-the ResNet-101 FPN 3x configuration, which obtained the highest IoU among the
-Mask R-CNN models, reaching $77.92~\%$, with a Dice/F1-score of $85.88~\%$ and
-Pixel Accuracy of $90.16~\%$. However, these models showed significantly higher
-computational requirements compared with the YOLO-based architectures. For
-instance, the ResNet-101 C4 3x configuration required an inference time of
-$445.96$~ms and reached only $2.47$ FPS. Although Mask R-CNN models can still be
-useful for offline or batch-processing scenarios, their computational cost
-limits their practicality for real-time monitoring systems.
+\textcolor{red}{The standardized results identify different leaders depending on the evaluation criterion. YOLOv8s achieved the highest region-level IoU ($89.03~\%$), Dice/F1 ($93.73~\%$), and pixel accuracy ($96.02~\%$), while maintaining $0.0131 \pm 0.0001$~s/image, 76.20 FPS, and 0.675 GPU J/image. YOLOv11x produced the strongest boundary metrics (Boundary IoU $48.04~\%$ and Boundary F1 $70.22~\%$), but required $0.0476 \pm 0.0003$~s/image and 3.722 GPU J/image. These results show that selecting a model only by region overlap can obscure differences in contour quality and computational cost.}
 
-The U-Net model presented the lowest segmentation performance among the
-evaluated architectures, with an IoU of $49.97~\%$, Dice/F1-score of
-$61.80~\%$, Boundary IoU of $20.93~\%$, and Pixel Accuracy of $72.50~\%$.
-Although U-Net has a compact model size of $21.63$~MB and reached approximately $29.25$ FPS in the standardized 892-image evaluation,
-its lower segmentation accuracy indicates limited suitability for precise
-deforestation mapping in the proposed dataset. Nevertheless, its simple
-architecture and reduced model size may still be useful as a lightweight
-baseline for comparison.
+\textcolor{red}{Among the lightweight variants, YOLOv8n was the fastest and least energy-intensive checkpoint, reaching $0.0120 \pm 0.0001$~s/image, 83.39 FPS, and 0.263 GPU J/image. YOLOv11n had the smallest checkpoint (5.75 MB), but was slower at $0.0156 \pm 0.0004$~s/image and 64.00 FPS. Thus, checkpoint size alone did not determine workstation latency. YOLOv8s retained substantially higher segmentation accuracy than both nano variants while remaining close to their throughput, making it the strongest accuracy--efficiency compromise in this experiment.}
 
-Overall, the results demonstrate that the DeforTrack dataset enables a detailed
-evaluation of both segmentation accuracy and deployment feasibility. The
-YOLO-based architectures achieved the best trade-off between accuracy and
-efficiency. In particular, YOLOv8s showed the strongest overall segmentation
-performance, while YOLOv8n and YOLOv11n offered the most attractive
-computational profiles for real-time and embedded applications. Therefore,
-lightweight YOLO variants are promising candidates for UAV-based and
-edge-oriented forest monitoring systems.
+\textcolor{red}{Mask R-CNN remained competitive in region segmentation but incurred higher resource use. ResNet-101 FPN 3x was the best Mask R-CNN variant by IoU ($77.92~\%$), with $0.0483 \pm 0.0009$~s/image, 20.72 FPS, 1949.74 MB peak process RAM, and 2.833 GPU J/image. ResNet-50 C4 3x was the fastest Mask R-CNN variant at $0.0310 \pm 0.0002$~s/image and 32.25 FPS, but its IoU was lower at $75.92~\%$. U-Net had the lowest peak process RAM (985.39 MB) and reached 64.77 FPS, yet its IoU ($49.97~\%$) and Boundary IoU ($20.93~\%$) were the lowest in the internal benchmark. It is therefore retained as a compact semantic-segmentation baseline rather than the preferred model for precise forest-boundary mapping.}
+
+\textcolor{red}{All computational values characterize the specified RTX 4060 Laptop GPU workstation and the reported software stack. They establish a controlled comparison among architectures on this platform, but they do not demonstrate embedded-device latency, energy use, or real-time operation. The lightweight YOLO variants are candidates for subsequent UAV and edge-device validation, which must be performed on the intended target hardware.}
 
 \subsection{External Cross-Dataset Evaluation}
 \label{sec:cross_dataset}
@@ -590,9 +570,11 @@ Amazon/Atlantic Forest~\cite{bragagnolo2021amazon} &
 }
 \end{table}
 
-To further assess external generalization, we evaluated the trained models on two external forest segmentation datasets with semantic compatibility to DeforTrack. The Forest Aerial Images dataset~\cite{quadeer2024augmentedforest} was selected because its visual appearance is closer to DeforTrack, with RGB-like scenes containing visible forest cover, vegetation texture, exposed soil, and forest boundaries. The Amazon/Atlantic Forest dataset~\cite{bragagnolo2021amazon} was also evaluated because it provides forest/non-forest masks in a Brazilian/Amazonian context, although it introduces a stronger sensor-domain shift due to its Sentinel-2 imagery. Figure~\ref{f4} shows representative examples from the two external datasets.
+\textcolor{red}{To assess cross-dataset transfer without adapting the trained weights, we evaluated the final checkpoints on two external datasets used exclusively for testing. Forest Aerial Images~\cite{quadeer2024augmentedforest} contributed all 5,108 available paired RGB images and binary forest masks; this local benchmark did not provide a separate test partition, so the complete paired set was used as one external evaluation set and was never used for DeforTrack training or model selection. Its native $256\times256$ RGB images match the U-Net input size. For YOLO and Mask R-CNN, predictions were mapped to the native mask dimensions before metric calculation; for U-Net, images and masks were evaluated at $256\times256$.}
 
-The external evaluation shows that the models retain partial generalization outside the internal DeforTrack split, as summarized in Table~\ref{t6}. The best external result was obtained on Forest Aerial Images, where U-Net reached $60.58~\%$ IoU and $70.36~\%$ Dice/F1. This dataset is visually closer to DeforTrack because both contain RGB-like scenes where vegetation structure, forest boundaries, and non-forest regions are directly visible. On Amazon/Atlantic Forest, YOLOv11n achieved $47.96~\%$ IoU and $58.59~\%$ Dice/F1. Although this dataset is geographically relevant due to its Brazilian/Amazonian context, its Sentinel-2 imagery introduces a stronger sensor-domain shift. Therefore, Forest Aerial Images was considered the most visually comparable external benchmark, while Amazon/Atlantic Forest was used as an additional test of geographic and sensor-domain generalization.
+\textcolor{red}{The Amazon/Atlantic Forest benchmark~\cite{bragagnolo2021amazon} contributed the 599 samples for which image--mask pairs were locally available. These samples were also used only for external testing, independently of the source dataset's original train/validation labels. The source images are $512\times512$ four-band Sentinel-2 Level-2A patches containing red, green, blue, and near-infrared bands. Because all DeforTrack models were trained on three-channel RGB input, only the red, green, and blue bands were retained and the near-infrared band was discarded. This is therefore both a dataset-domain and a sensor-domain transfer experiment, rather than a like-for-like RGB aerial comparison. The external labels were converted to the same binary convention used by DeforTrack (forest $=1$, non-forest $=0$). YOLO predictions were produced from internally resized $640\times640$ inputs and restored to the native $512\times512$ mask size for scoring, whereas the U-Net inputs and masks were resized to $256\times256$.}
+
+\textcolor{red}{Table~\ref{t6} shows that external performance depends strongly on the visual and sensor characteristics of each dataset. U-Net obtained $60.58~\%$ IoU and $70.36~\%$ Dice/F1 on Forest Aerial Images, exceeding its DeforTrack IoU. This difference should not be interpreted as superior generalization: Forest Aerial Images has the same native resolution as the U-Net input and contains comparatively broad, visually homogeneous forest regions, whereas downsampling DeforTrack from $640\times640$ to $256\times256$ can suppress narrow and fragmented boundaries. Different class distributions and scene difficulty also prevent direct ranking across datasets. On the more dissimilar Sentinel-2 benchmark, YOLOv11n achieved $47.96~\%$ IoU and $58.59~\%$ Dice/F1, while the stronger domain shift reduced the performance of the remaining models. These results demonstrate partial transfer to visually compatible scenes but do not establish geographic, biome-specific, or sensor-invariant generalization. Figure~\ref{f4} shows representative samples from both external benchmarks.}
 
 \begin{figure}[!ht]
     \centering
@@ -615,24 +597,25 @@ To complement the quantitative evaluation, qualitative examples were selected to
 
 Additional qualitative examples are presented in Figure~\ref{f6}, following the same visual structure, showing the input image, the predicted forest mask, and the prediction overlay. They further illustrate model behavior under additional visual conditions, including high forest-cover regions, continuous canopy, forest boundaries, heterogeneous vegetation, and fragmented canopy patterns. Since complete image-level biome metadata is not available for all samples in the final exported dataset, these examples should be interpreted as visually distinct forest and land-cover scenarios rather than confirmed biome-specific samples.
 
+\textcolor{red}{Across the visually simpler dense-canopy examples, the predicted masks remain largely continuous because color and texture are comparatively homogeneous. At vegetation--field transitions, the model generally follows the dominant canopy edge, but the decision becomes less stable where low vegetation, cultivated rows, exposed soil, or cast shadows interrupt that edge. Fragmented-canopy scenes are more demanding: small disconnected crowns may be omitted as false negatives, whereas dark non-forest patches or textured agricultural vegetation may be incorporated as false positives. The qualitative examples therefore support the aggregate ranking but also show why boundary-oriented scores remain substantially lower than region IoU and Dice/F1. They should be read as a scenario-level error analysis, not as evidence that performance is uniform across locations or biomes.}
+
 \subsection{Limitations and Generalization Considerations}
 \label{sec:limitations}
 
-Although the quantitative and qualitative results indicate that YOLO-based models achieved the best trade-off between segmentation accuracy and computational efficiency, some limitations must be considered. Segmentation errors are more likely to occur under shadows, strong illumination variation, low contrast, sparse vegetation, dry vegetation, and mixed land-cover patterns. These conditions can alter the apparent color and texture of vegetation, reducing the boundary definition between forest and non-forest regions. The most difficult cases occur near transition regions between forest and non-forest areas, where boundaries are visually ambiguous. Fragmented landscapes, exposed soil, agricultural areas, roads, shadows, and low vegetation density may present visual patterns similar to forest canopy or partially preserved vegetation. These conditions can lead to false positives, when non-forest regions are predicted as forest, or false negatives, when sparse, low, or degraded forest areas are not detected. This limitation becomes relevant for biome-specific generalization, since some forest types may present lower canopy height, lower vegetation density, or less homogeneous green texture than the examples most represented in the training set.
+\textcolor{red}{Although the quantitative and qualitative results indicate that YOLO-based models achieved the best trade-off between segmentation accuracy and computational efficiency on the final test set, several limitations constrain their interpretation. Segmentation errors are more likely under shadows, strong illumination variation, low contrast, sparse or dry vegetation, and mixed land-cover patterns. The most difficult cases occur near visually ambiguous forest/non-forest transitions. Fragmented landscapes, exposed soil, agricultural fields, roads, shadows, and low vegetation density can resemble forest canopy or partially preserved vegetation, producing false positives; conversely, sparse, low, or degraded forest can be omitted, producing false negatives. These failure modes show that aggregate metrics alone do not guarantee reliable behavior across all vegetation structures.}
 
-Another limitation concerns the geographic and biome-level characterization of the final exported dataset. Although DeforTrack was designed to support Brazilian deforestation monitoring and includes a predominance of Brazilian forest scenarios, the dataset was assembled from multiple private and public sources, including environmental image repositories from different regions. Since the final version does not preserve complete image-level metadata about geographic origin, acquisition source, or biome, it is not possible to reliably assign every sample to a specific Brazilian biome. Therefore, the qualitative examples presented in this work should be interpreted as visually distinct forest and land-cover scenarios rather than as confirmed biome-specific samples.
+\textcolor{red}{The most consequential dataset limitation is the absence of complete image-level geographic metadata in the final export. DeforTrack was designed for Brazilian deforestation monitoring and contains a predominance of Brazilian forest scenarios, but it also combines private and public sources from different regions. Because source, coordinates, acquisition date, and biome were not consistently preserved, every sample cannot be assigned reliably to a Brazilian biome, and an independently stratified spatial evaluation cannot be constructed retrospectively. Consequently, the qualitative panels represent distinct visual forest and land-cover scenarios, not confirmed examples of specific Brazilian biomes; the current results must not be used to claim biome-specific performance.}
 
-Regarding generalization, the current split does not fully demonstrate geographic or temporal generalization. Although the split was performed before data augmentation, reducing direct leakage from identical augmented samples, a strict geographic, temporal, or source-aware split was not applied. Therefore, spatially close, visually similar, or temporally related samples may still share patterns across training, validation, and test subsets. This limitation may lead to optimistic performance estimates in some scenarios. 
+\textcolor{red}{The current image-level split also does not demonstrate geographic or temporal independence. Splitting before augmentation reduces direct leakage from augmented derivatives, but no source-aware, region-wise, biome-aware, flight-wise, or date-wise grouping was available. Spatially close, visually similar, or temporally related samples may therefore share patterns across training, validation, and test partitions, potentially causing optimistic performance estimates. The 892-image test results are internally standardized across architectures, but they should be interpreted as performance under this partitioning protocol rather than as evidence of transfer to unseen locations or acquisition periods.}
 
-Future work will include more systematic failure-case analysis and source-aware, region-wise, biome-aware, and temporal validation protocols. In such protocols, images should be grouped by acquisition source, geographic region, biome, flight campaign, or acquisition date before partitioning. This would provide a stricter evaluation of model robustness and its ability to generalize to unseen regions,
-biomes, and acquisition conditions.
+\textcolor{red}{Future releases should preserve, whenever licensing and privacy permit, image-level provenance fields for source, geographic region or coordinates, Brazilian biome, sensor, flight or acquisition campaign, and acquisition date. Samples can then be grouped by those fields before partitioning to support source-aware, region-wise, biome-aware, and temporal holdout protocols. Such metadata and protocols are required before making robust claims about unseen regions, biomes, sensors, or land-cover change over time.}
 
 
 \section{Conclusions}\label{sec:conclusions}
 
 This paper introduced DeforTrack, a large-scale, high-resolution, manually annotated dataset designed to advance deep learning-based forest segmentation and deforestation monitoring. The dataset comprises 14,648 images after augmentation, derived from 6,094 original images acquired from UAV surveys, satellite imagery, and public environmental repositories. Beyond presenting the dataset itself, this work provides a comprehensive characterization of its acquisition sources, annotation protocol, and forest-cover distribution, demonstrating substantial variability in vegetation density and environmental conditions suitable for robust model development and evaluation.
 
-Extensive benchmarking of U-Net, Mask R-CNN, YOLOv8, and YOLOv11 showed that modern YOLO-based architectures achieve the best balance between segmentation accuracy and computational efficiency, making them particularly suitable for real-time and embedded remote sensing applications. In addition, the proposed evaluation framework extends beyond conventional segmentation metrics by incorporating deployment-oriented measurements, including inference latency, memory footprint, and energy consumption, providing a more comprehensive assessment of practical model suitability.
+\textcolor{red}{Standardized benchmarking of U-Net, Mask R-CNN, YOLOv8, and YOLOv11 on the same 892-image final test set showed that YOLO-based architectures provide the strongest accuracy--efficiency balance on the evaluated RTX 4060 Laptop GPU workstation. The framework complements segmentation metrics with platform-specific latency, throughput, memory, CPU, and GPU-energy measurements. These results support model selection for subsequent deployment studies, but do not by themselves demonstrate real-time operation or efficiency on an embedded device.}
 
 % Although future work requires adopting source-aware, geographically stratified, biome-aware, and temporally independent validation protocols, the current dataset already provides a valuable benchmark for developing and comparing semantic segmentation methods for forest monitoring. 
 
@@ -705,37 +688,27 @@ The following abbreviations are used in this manuscript:
 \\
 
 \noindent 
+\textcolor{red}{%
 \begin{tabular}{@{}ll}
-AI & Artificial Intelligence\\
-AAL & Ambient Assisted Living\\
-AIF & Average Inference Time\\
-API & Application Programming Interface\\
-ASL & American Sign Language\\
+C4 & Fourth-stage convolutional backbone configuration\\
+CI & Confidence Interval\\
 CNN & Convolutional Neural Network\\
-CVRT & Computer Vision Response Time\\
-DC & Direct Current\\
-ECDF & Empirical Cumulative Distribution Function\\
-FrFT & Fractional Fourier Transform\\
-GECO & Gesture-Controlled Environment Controller\\
-H-bridge & Half Bridge\\
-IMU & Inertial Measurement Unit\\
-IoT & Internet of Things\\
-ITU-T & International Telecommunication Union - Telecommunication Standardization Sector\\
-LPWAN & Low-Power Wide-Area Network\\
-ML & Machine Learning\\
-MQTT & Message Queuing Telemetry Transport\\
-NLP & Natural Language Processing\\
-NLU & Natural Language Understanding\\
-PDF & Probability Density Function\\
-RNN & Recurrent Neural Network\\
-RVM & Relevance Vector Machine\\
-SDK & Software Development Kit\\
-SVM & Support Vector Machine\\
-UWB & Ultra-Wideband\\
-UI/UX & User Interface / User Experience\\
-Wi-Fi & Wireless Fidelity\\
-5G & Fifth Generation\\
-\end{tabular}
+CPU & Central Processing Unit\\
+DC5 & Dilated fifth-stage convolutional backbone configuration\\
+FPN & Feature Pyramid Network\\
+FPS & Frames per Second\\
+GEE & Google Earth Engine\\
+GPU & Graphics Processing Unit\\
+IoU & Intersection over Union\\
+mAP & mean Average Precision\\
+NVML & NVIDIA Management Library\\
+RAM & Random Access Memory\\
+R-CNN & Region-based Convolutional Neural Network\\
+RGB & Red, Green, and Blue\\
+UAV & Unmanned Aerial Vehicle\\
+YOLO & You Only Look Once\\
+\end{tabular}%
+}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

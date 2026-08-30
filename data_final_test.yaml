@@ -1,0 +1,6 @@
+path: D:/Datasets/Alvaro/Floresta-3-20260714T215823Z-1-001/Floresta-3
+train: train/images
+val: valid/images
+test: valid/images
+names:
+  0: Floresta

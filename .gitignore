@@ -5,9 +5,13 @@
 *.pt
 *.pth
 gpu_eval_env/
+.venv/
+venv/
 hf_cache/
 pip_cache/
 tmp/
+__pycache__/
+*.py[cod]
 
 # Local logs and generated LaTeX build files
 *.log

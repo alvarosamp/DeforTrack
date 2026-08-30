@@ -1,0 +1,28 @@
+{
+  "captured_on": "2026-08-29",
+  "operating_system": "Windows 11 Education 64-bit",
+  "os_version": "10.0.26200",
+  "cpu": {
+    "model": "Intel Core i9-13900HX",
+    "physical_cores": 24,
+    "logical_processors": 32
+  },
+  "system_ram_gb": 16,
+  "gpu": {
+    "model": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "vram_mib": 8188,
+    "driver": "610.62"
+  },
+  "software": {
+    "python": "3.11.9",
+    "torch": "2.8.0+cu129",
+    "cuda_runtime": "12.9",
+    "ultralytics": "8.4.96",
+    "detectron2": "0.6",
+    "keras": "3.15.0",
+    "opencv_python": "5.0.0.93",
+    "numpy": "2.4.4",
+    "psutil": "7.2.2",
+    "nvidia_ml_py": "13.610.43"
+  }
+}

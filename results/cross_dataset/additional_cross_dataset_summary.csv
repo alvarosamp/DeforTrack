@@ -1,0 +1,51 @@
+dataset,model_family,model,n,iou_percent,dice_percent,precision_percent,recall_percent,pixel_accuracy_percent,note
+Forest Aerial Images,YOLO,YOLOv8n,5108,38.71,45.65,54.49,45.32,62.85,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,YOLO,YOLOv8s,5108,47.33,54.19,61.29,55.43,69.92,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,YOLO,YOLOv8m,5108,43.12,51.00,61.44,50.17,66.40,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,YOLO,YOLOv8l,5108,37.03,44.20,55.12,43.32,61.51,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,YOLO,YOLOv8x,5108,20.23,27.01,46.52,24.18,48.49,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,YOLO,YOLOv11n,5108,42.53,49.91,58.04,49.55,65.72,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,YOLO,YOLOv11s,5108,38.34,45.38,54.93,44.64,62.71,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,YOLO,YOLOv11m,5108,39.12,46.07,54.73,45.47,63.25,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,YOLO,YOLOv11l,5108,31.34,37.63,47.51,36.72,57.30,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,YOLO,YOLOv11x,5108,35.04,41.83,51.76,41.07,59.88,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,U-Net,U-Net,5108,60.58,70.36,71.49,79.27,74.88,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,Detectron2,mask_rcnn_R_101_C4_3x,5108,52.60,59.69,66.09,61.87,72.42,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,Detectron2,mask_rcnn_R_101_DC5_3x,5108,60.13,68.05,71.66,72.74,76.37,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,Detectron2,mask_rcnn_R_101_FPN_3x,5108,53.61,61.10,67.98,62.07,73.60,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,Detectron2,mask_rcnn_R_50_C4_1x,5108,50.36,58.01,67.70,58.63,70.94,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,Detectron2,mask_rcnn_R_50_C4_3x,5108,47.88,55.62,66.60,55.46,69.49,"forest/non-forest segmentation, external dataset previously evaluated"
+Forest Aerial Images,Detectron2,mask_rcnn_R_50_DC5_1x,5108,50.78,58.66,67.30,59.20,71.17,"forest/non-forest segmentation, external dataset previously evaluated"
+Amazon/Atlantic Forest,YOLO,YOLOv8n,599,3.55,4.32,6.35,5.19,48.09,"forest/non-forest segmentation, closest external validation set"
+Amazon/Atlantic Forest,YOLO,YOLOv8s,599,25.79,33.51,27.95,62.65,35.07,"forest/non-forest segmentation, closest external validation set"
+Amazon/Atlantic Forest,YOLO,YOLOv8m,599,1.97,2.45,7.81,2.07,48.33,"forest/non-forest segmentation, closest external validation set"
+Amazon/Atlantic Forest,YOLO,YOLOv8l,599,7.52,10.68,11.43,22.47,38.25,"forest/non-forest segmentation, closest external validation set"
+Amazon/Atlantic Forest,YOLO,YOLOv8x,599,0.34,0.49,7.42,0.18,47.33,"forest/non-forest segmentation, closest external validation set"
+Amazon/Atlantic Forest,YOLO,YOLOv11n,599,47.96,58.59,48.94,92.25,49.43,"forest/non-forest segmentation, closest external validation set"
+Amazon/Atlantic Forest,YOLO,YOLOv11s,599,3.44,4.29,3.78,5.62,47.30,"forest/non-forest segmentation, closest external validation set"
+Amazon/Atlantic Forest,YOLO,YOLOv11m,599,0.17,0.17,0.00,0.00,47.25,"forest/non-forest segmentation, closest external validation set"
+Amazon/Atlantic Forest,YOLO,YOLOv11l,599,0.17,0.17,0.01,0.00,47.25,"forest/non-forest segmentation, closest external validation set"
+Amazon/Atlantic Forest,YOLO,YOLOv11x,599,0.18,0.18,0.97,0.01,47.26,"forest/non-forest segmentation, closest external validation set"
+Amazon/Atlantic Forest,U-Net,U-Net,599,1.33,2.30,49.89,1.16,47.82,"forest/non-forest segmentation, closest external validation set"
+Dead Tree Kaggle,YOLO,YOLOv8n,444,2.42,4.44,2.20,92.11,22.40,standing dead tree segmentation; different target semantics
+Dead Tree Kaggle,YOLO,YOLOv8s,444,2.44,4.48,2.22,94.30,19.62,standing dead tree segmentation; different target semantics
+Dead Tree Kaggle,YOLO,YOLOv8m,444,2.23,3.87,1.79,70.24,41.95,standing dead tree segmentation; different target semantics
+Dead Tree Kaggle,YOLO,YOLOv8l,444,2.66,4.69,2.21,91.68,23.19,standing dead tree segmentation; different target semantics
+Dead Tree Kaggle,YOLO,YOLOv8x,444,2.23,3.24,1.13,34.49,75.24,standing dead tree segmentation; different target semantics
+Dead Tree Kaggle,YOLO,YOLOv11n,444,2.33,4.28,2.11,89.56,24.24,standing dead tree segmentation; different target semantics
+Dead Tree Kaggle,YOLO,YOLOv11s,444,2.60,4.57,2.15,90.38,23.93,standing dead tree segmentation; different target semantics
+Dead Tree Kaggle,YOLO,YOLOv11m,444,2.40,4.41,2.18,93.04,21.16,standing dead tree segmentation; different target semantics
+Dead Tree Kaggle,YOLO,YOLOv11l,444,2.40,4.39,2.17,91.38,23.27,standing dead tree segmentation; different target semantics
+Dead Tree Kaggle,YOLO,YOLOv11x,444,2.62,4.61,2.17,91.11,23.71,standing dead tree segmentation; different target semantics
+Dead Tree Kaggle,U-Net,U-Net,444,0.86,1.24,0.43,13.36,77.49,standing dead tree segmentation; different target semantics
+Forest-Change,YOLO,YOLOv8n,334,0.38,0.64,0.85,2.97,92.97,deforestation change masks from post-change images; different protocol
+Forest-Change,YOLO,YOLOv8s,334,3.48,6.32,3.74,55.37,42.22,deforestation change masks from post-change images; different protocol
+Forest-Change,YOLO,YOLOv8m,334,2.24,3.86,6.14,6.67,90.68,deforestation change masks from post-change images; different protocol
+Forest-Change,YOLO,YOLOv8l,334,0.08,0.15,0.35,0.16,95.03,deforestation change masks from post-change images; different protocol
+Forest-Change,YOLO,YOLOv8x,334,0.30,0.49,1.27,0.55,95.03,deforestation change masks from post-change images; different protocol
+Forest-Change,YOLO,YOLOv11n,334,0.32,0.59,0.33,7.56,88.44,deforestation change masks from post-change images; different protocol
+Forest-Change,YOLO,YOLOv11s,334,0.21,0.36,0.31,1.43,94.31,deforestation change masks from post-change images; different protocol
+Forest-Change,YOLO,YOLOv11m,334,0.11,0.18,0.17,0.23,95.19,deforestation change masks from post-change images; different protocol
+Forest-Change,YOLO,YOLOv11l,334,0.33,0.53,0.55,0.71,95.11,deforestation change masks from post-change images; different protocol
+Forest-Change,YOLO,YOLOv11x,334,0.24,0.38,0.44,0.60,94.96,deforestation change masks from post-change images; different protocol
+Forest-Change,U-Net,U-Net,334,4.54,8.19,6.17,34.20,62.90,deforestation change masks from post-change images; different protocol

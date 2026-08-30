@@ -1,0 +1,44 @@
+{
+  "dataset_role": "held-out final test",
+  "images": 892,
+  "image_source_directory": "valid/images in the local Roboflow export",
+  "manuscript_split_counts": {
+    "training": 12861,
+    "validation": 895,
+    "final_test": 892
+  },
+  "segmentation": {
+    "aggregation": "per-image metrics followed by macro average",
+    "boundary_thickness_pixels": 3,
+    "boundary_tolerance_pixels": 3,
+    "yolo": {
+      "input_size": 640,
+      "confidence_threshold": 0.25,
+      "map": "instance mask mAP at 0.50 and averaged from 0.50 to 0.95"
+    },
+    "mask_rcnn": {
+      "input_size": 640,
+      "confidence_threshold": 0.30,
+      "binary_positive_output_classes": [0, 1],
+      "map": "binary COCO-style instance mask mAP"
+    },
+    "unet": {
+      "input_size": 256,
+      "probability_threshold": 0.50,
+      "map": "not applicable because the checkpoint has no instances or confidence scores"
+    }
+  },
+  "computational_profile": {
+    "batch_size": 1,
+    "warmup_images": 892,
+    "warmup_passes": 1,
+    "repetitions": 3,
+    "measured_inferences_per_model": 2676,
+    "gpu_synchronization_after_each_image": true,
+    "image_loading": "all 892 files read once before measurement to warm the OS cache; decoded images immediately released",
+    "latency_scope": "warm-cache image decoding, model preprocessing, inference, synchronization, and prediction return",
+    "cpu_scale": "process utilization divided by 32 logical processors; 0-100 percent",
+    "ram": "peak process resident set size in MB",
+    "energy": "NVML GPU-board power integrated over time and divided by 2676 measured inferences; J/image"
+  }
+}
