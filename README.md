@@ -12,6 +12,8 @@ Official repository for the DeforTrack binary forest/non-forest segmentation dat
 - `results/computational_profile_892/`: standardized local-hardware profiles.
 - `results/consolidated/`: publication-ready tables generated from the source result files.
 - `results/cross_dataset/`: external evaluation outputs.
+- `results/fusion_comparison/`: OR, AND, and confidence-weighted mask-fusion ablation results.
+- `results/metadata_audit.json`: complete EXIF, GPS, acquisition-date, and export-sidecar audit.
 - `results/environment_local.json`: measured hardware and software environment.
 - `results/standardized_protocol_892.json`: machine-readable final protocol.
 - `notebooks/`: historical experiment notebooks. Scripts in `code/` and files in `results/` are authoritative for reported values.
@@ -31,6 +33,8 @@ Every internal result in the revised manuscript uses the same 892 held-out final
 Pixel metrics are computed independently per image and macro-averaged over all 892 images: IoU, Dice/F1, precision, recall, pixel accuracy, Boundary IoU, and Boundary F1. Instance-mask mAP is reported for YOLO and Mask R-CNN. U-Net produces a semantic probability mask without instance confidence scores, so instance mAP is not applicable.
 
 For the supplied Mask R-CNN checkpoints, output class identifiers 0 and 1 are legacy synonyms for the same positive forest concept. Accepted masks are merged into one binary forest mask before pixel-level evaluation. This conversion is fixed in the evaluation script and protocol manifest.
+
+The fusion rule was additionally tested with Mask R-CNN ResNet-101 FPN 3x. The weighted-mean threshold was selected on the 895-image validation partition and frozen before the 892-image final-test evaluation. Reproduce the ablation with `code/compare_mask_fusion.py`; machine-readable summary and per-image values are stored in `results/fusion_comparison/`.
 
 ## Computational protocol
 
@@ -70,6 +74,12 @@ python .\code\consolidate_internal_results.py `
 
 Use the environment described in `requirements-evaluation.txt` and `results/environment_local.json`. Paths can be overridden through each script's command-line arguments.
 
+Audit the exported dataset metadata with:
+
+```powershell
+python .\code\audit_dataset_metadata.py
+```
+
 ## Interpretation limits
 
-The exported dataset does not preserve complete image-level source, geographic, biome, campaign, and acquisition-date metadata. The manuscript therefore does not claim strict source-aware, geographic, temporal, or biome-specific validation. External tests are reported as cross-dataset domain transfer only when their labels are compatible with binary forest/non-forest segmentation.
+The audit of all 14,648 exported JPEG images found no EXIF records, GPS coordinates, acquisition timestamps, or authoritative source/biome sidecars. The manuscript therefore does not claim strict source-aware, geographic, temporal, or biome-specific validation. External tests are reported as cross-dataset domain transfer only when their labels are compatible with binary forest/non-forest segmentation.

@@ -1,0 +1,60 @@
+{
+  "root": "D:\\Datasets\\Alvaro\\Floresta-3-20260714T215823Z-1-001\\Floresta-3",
+  "splits": {
+    "train": {
+      "images": 12861,
+      "extensions": {
+        ".jpg": 12861
+      },
+      "with_any_exif": 0,
+      "with_gps": 0,
+      "with_capture_date": 0,
+      "read_errors": 0,
+      "other_export_files": {
+        "labels": 12861
+      },
+      "exif_examples": []
+    },
+    "valid": {
+      "images": 892,
+      "extensions": {
+        ".jpg": 892
+      },
+      "with_any_exif": 0,
+      "with_gps": 0,
+      "with_capture_date": 0,
+      "read_errors": 0,
+      "other_export_files": {
+        "labels": 892,
+        "labels.cache": 0
+      },
+      "exif_examples": []
+    },
+    "test": {
+      "images": 895,
+      "extensions": {
+        ".jpg": 895
+      },
+      "with_any_exif": 0,
+      "with_gps": 0,
+      "with_capture_date": 0,
+      "read_errors": 0,
+      "other_export_files": {
+        "labels": 895
+      },
+      "exif_examples": []
+    }
+  },
+  "method": "EXIF and export-structure audit; visual appearance was not used to infer provenance.",
+  "filename_token_hits": {
+    "amazon": 0,
+    "atlantic": 0,
+    "cerrado": 0,
+    "caatinga": 0,
+    "pantanal": 0,
+    "pampa": 0,
+    "mata_atlantica": 0,
+    "amazonia": 0
+  },
+  "conclusion": "A geographic, temporal, or biome-aware split is unsupported when GPS, capture dates, and authoritative biome/source sidecars are absent. Filename tokens alone are not authoritative metadata."
+}
