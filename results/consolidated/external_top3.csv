@@ -1,0 +1,7 @@
+dataset,rank,model,family,n,iou_percent,dice_percent,precision_percent,recall_percent,pixel_accuracy_percent
+Forest Aerial Images,1,U-Net,U-Net,5108,60.58,70.36,71.49,79.27,74.88
+Forest Aerial Images,2,mask_rcnn_R_101_DC5_3x,Detectron2,5108,60.13,68.05,71.66,72.74,76.37
+Forest Aerial Images,3,mask_rcnn_R_101_FPN_3x,Detectron2,5108,53.61,61.10,67.98,62.07,73.60
+Amazon/Atlantic Forest,1,YOLOv11n,YOLO,599,47.96,58.59,48.94,92.25,49.43
+Amazon/Atlantic Forest,2,YOLOv8s,YOLO,599,25.79,33.51,27.95,62.65,35.07
+Amazon/Atlantic Forest,3,YOLOv8l,YOLO,599,7.52,10.68,11.43,22.47,38.25

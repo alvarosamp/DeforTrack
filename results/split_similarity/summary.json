@@ -1,0 +1,98 @@
+{
+  "extractor": "torchvision ResNet-18 ImageNet-1K V1, 512-D penultimate features",
+  "metric": "cosine similarity",
+  "device": "cpu",
+  "splits": {
+    "train": 12861,
+    "validation": 895,
+    "test": 892
+  },
+  "exact_binary_duplicates": {
+    "validation-train": {
+      "shared_sha256": 0,
+      "left_images": 0,
+      "right_images": 0
+    },
+    "test-train": {
+      "shared_sha256": 0,
+      "left_images": 0,
+      "right_images": 0
+    },
+    "validation-test": {
+      "shared_sha256": 0,
+      "left_images": 0,
+      "right_images": 0
+    }
+  },
+  "comparisons": [
+    {
+      "comparison": "validation-train",
+      "candidate_pairs": 11510595,
+      "queries": 895,
+      "references": 12861,
+      "nearest_mean": 0.9554886419679866,
+      "nearest_std": 0.02393514440380594,
+      "nearest_p95": 0.9815024614334106,
+      "nearest_p99": 0.9881648445129394,
+      "nearest_max": 0.9914839863777161,
+      "query_images_with_nearest_at_or_above": {
+        "0.9": 868,
+        "0.95": 635,
+        "0.98": 59,
+        "0.99": 4
+      },
+      "pair_counts_at_or_above": {
+        "0.9": 98681,
+        "0.95": 9695,
+        "0.98": 111,
+        "0.99": 4
+      }
+    },
+    {
+      "comparison": "test-train",
+      "candidate_pairs": 11472012,
+      "queries": 892,
+      "references": 12861,
+      "nearest_mean": 0.9493969078823056,
+      "nearest_std": 0.027144601650356787,
+      "nearest_p95": 0.9800352215766907,
+      "nearest_p99": 0.9874708425998687,
+      "nearest_max": 0.9931225180625916,
+      "query_images_with_nearest_at_or_above": {
+        "0.9": 851,
+        "0.95": 527,
+        "0.98": 45,
+        "0.99": 5
+      },
+      "pair_counts_at_or_above": {
+        "0.9": 49858,
+        "0.95": 4137,
+        "0.98": 85,
+        "0.99": 5
+      }
+    },
+    {
+      "comparison": "validation-test",
+      "candidate_pairs": 798340,
+      "queries": 895,
+      "references": 892,
+      "nearest_mean": 0.9090946322712818,
+      "nearest_std": 0.05077186332465488,
+      "nearest_p95": 0.970160722732544,
+      "nearest_p99": 0.9763884890079498,
+      "nearest_max": 0.983252227306366,
+      "query_images_with_nearest_at_or_above": {
+        "0.9": 583,
+        "0.95": 223,
+        "0.98": 3,
+        "0.99": 0
+      },
+      "pair_counts_at_or_above": {
+        "0.9": 7315,
+        "0.95": 626,
+        "0.98": 5,
+        "0.99": 0
+      }
+    }
+  ]
+}

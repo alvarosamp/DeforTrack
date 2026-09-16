@@ -1,6 +1,7 @@
 # Versions used for the standardized local evaluation on 2026-08-29.
 # Install the CUDA-compatible PyTorch build for the target machine separately.
 torch==2.8.0
+torchvision==0.23.0
 ultralytics==8.4.96
 keras==3.15.0
 opencv-python==5.0.0.93
@@ -8,6 +9,7 @@ numpy==2.4.4
 psutil==7.2.2
 nvidia-ml-py==13.610.43
 pycocotools>=2.0.10
+Pillow>=10.0
 
 # Detectron2 0.6 was installed from its official source repository because it
 # is not distributed as a regular Windows wheel on PyPI.
