@@ -15,6 +15,7 @@ Official repository for the DeforTrack binary forest/non-forest segmentation dat
 - `results/consolidated/external_top3.csv`: ranked Top-3 models for each external benchmark.
 - `results/cross_dataset/`: external evaluation outputs.
 - `results/split_similarity/`: cross-split ResNet-18 embeddings, cosine-neighbor tables, summary statistics, and visual audit sheet.
+- `results/similarity_filtered_test/`: sensitivity analysis after excluding final-test images with train--test cosine similarity of at least 0.98.
 - `results/fusion_comparison/`: OR, AND, and confidence-weighted mask-fusion ablation results.
 - `results/metadata_audit.json`: complete EXIF, GPS, acquisition-date, and export-sidecar audit.
 - `results/environment_local.json`: measured hardware and software environment.
@@ -36,6 +37,14 @@ Every internal result in the revised manuscript uses the same 892 held-out final
 The 14,648 images were embedded with the normalized 512-dimensional penultimate representation of an ImageNet-pretrained ResNet-18. Cosine similarity was evaluated exhaustively across training, validation, and test partitions. SHA-256 comparison found no byte-identical cross-split files, but the perceptual audit identified highly similar repeated scenes, overlapping crops, and adjacent frames. In particular, 59 validation images and 45 final-test images had a training neighbor with cosine similarity at or above 0.98. These findings are reported as a limitation rather than treated as proof of geographic or temporal independence.
 
 Reproduce the audit with `code/analyze_split_cosine_similarity.py`. Generate the visual review sheet with `code/make_split_similarity_contact_sheet.py`.
+
+Recompute the similarity-filtered sensitivity analysis with:
+
+```powershell
+python .\code\analyze_similarity_filtered_metrics.py
+```
+
+At the 0.98 threshold, 45 of the 892 final-test images are excluded and 847 are retained. This diagnostic does not replace a source-, region-, or time-aware test partition.
 
 ## Segmentation protocol
 
