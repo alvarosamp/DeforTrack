@@ -83,6 +83,7 @@ def main() -> None:
     parser.add_argument("--out-dir", required=True)
     parser.add_argument("--threshold", type=float, default=0.5)
     parser.add_argument("--batch-size", type=int, default=8)
+    parser.add_argument("--size", type=int, help="Input size; defaults to the model input shape.")
     args = parser.parse_args()
 
     image_paths = sorted(path for path in Path(args.images).iterdir() if path.suffix.lower() in {".jpg", ".jpeg", ".png"})
@@ -90,6 +91,7 @@ def main() -> None:
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     model = keras.saving.load_model(args.model, compile=False)
+    size = args.size or int(model.input_shape[1])
     rows = []
     started = time.perf_counter()
 
@@ -97,9 +99,9 @@ def main() -> None:
         paths = image_paths[start : start + args.batch_size]
         inputs, targets = [], []
         for path in paths:
-            image = Image.open(path).convert("RGB").resize((256, 256))
+            image = Image.open(path).convert("RGB").resize((size, size))
             inputs.append(np.asarray(image, dtype=np.float32) / 255.0)
-            targets.append(yolo_mask(label_dir / f"{path.stem}.txt", 256, 256))
+            targets.append(yolo_mask(label_dir / f"{path.stem}.txt", size, size))
         t0 = time.perf_counter()
         predictions = model.predict(np.stack(inputs), verbose=0)
         per_image_time = (time.perf_counter() - t0) / len(paths)

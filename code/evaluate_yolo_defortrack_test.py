@@ -137,7 +137,17 @@ def main() -> None:
                 if start + len(paths) == len(images) or (start + len(paths)) % 100 < args.batch_size:
                     print(f"{model_name}: {start + len(paths)}/{len(images)}", flush=True)
 
-            val = model.val(data=args.data_yaml, split="val", imgsz=args.imgsz, batch=args.batch_size, device=args.device, verbose=False, plots=False, save_json=False)
+            val = model.val(
+                data=args.data_yaml,
+                split="val",
+                imgsz=args.imgsz,
+                batch=args.batch_size,
+                device=args.device,
+                workers=0,
+                verbose=False,
+                plots=False,
+                save_json=False,
+            )
             summary = {"model": model_name, "n": len(rows), "elapsed_s": time.perf_counter() - started, "map_50": float(val.seg.map50), "map_50_95": float(val.seg.map)}
             for key in fields[2:]:
                 values = np.asarray([row[key] for row in rows], dtype=float)

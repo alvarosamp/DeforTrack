@@ -1,0 +1,10 @@
+{
+  "original_test_images": 892,
+  "removed_unique_test_images": 47,
+  "retained_original_test_images": 845,
+  "replacement_images": 47,
+  "replacement_source_masks": 47,
+  "final_test_images": 892,
+  "mask_to_yolo_iou_mean": 0.9965448006243282,
+  "mask_to_yolo_iou_min": 0.9871415289994994
+}

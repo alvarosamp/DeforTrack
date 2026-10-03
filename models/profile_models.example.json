@@ -1,0 +1,19 @@
+[
+  {"family": "yolo", "name": "YOLOv8n", "path": "C:/path/to/YOLOv8n.pt"},
+  {"family": "yolo", "name": "YOLOv8s", "path": "C:/path/to/YOLOv8s.pt"},
+  {"family": "yolo", "name": "YOLOv8m", "path": "C:/path/to/YOLOv8m.pt"},
+  {"family": "yolo", "name": "YOLOv8l", "path": "C:/path/to/YOLOv8l.pt"},
+  {"family": "yolo", "name": "YOLOv8x", "path": "C:/path/to/YOLOv8x.pt"},
+  {"family": "yolo", "name": "YOLOv11n", "path": "C:/path/to/YOLOv11n.pt"},
+  {"family": "yolo", "name": "YOLOv11s", "path": "C:/path/to/YOLOv11s.pt"},
+  {"family": "yolo", "name": "YOLOv11m", "path": "C:/path/to/YOLOv11m.pt"},
+  {"family": "yolo", "name": "YOLOv11l", "path": "C:/path/to/YOLOv11l.pt"},
+  {"family": "yolo", "name": "YOLOv11x", "path": "C:/path/to/YOLOv11x.pt"},
+  {"family": "detectron", "name": "mask_rcnn_R_101_C4_3x", "path": "C:/path/to/mask_rcnn_R_101_C4_3x.pth"},
+  {"family": "detectron", "name": "mask_rcnn_R_101_DC5_3x", "path": "C:/path/to/mask_rcnn_R_101_DC5_3x.pth"},
+  {"family": "detectron", "name": "mask_rcnn_R_101_FPN_3x", "path": "C:/path/to/mask_rcnn_R_101_FPN_3x.pth"},
+  {"family": "detectron", "name": "mask_rcnn_R_50_C4_1x", "path": "C:/path/to/mask_rcnn_R_50_C4_1x.pth"},
+  {"family": "detectron", "name": "mask_rcnn_R_50_C4_3x", "path": "C:/path/to/mask_rcnn_R_50_C4_3x.pth"},
+  {"family": "detectron", "name": "mask_rcnn_R_50_DC5_1x", "path": "C:/path/to/mask_rcnn_R_50_DC5_1x.pth"},
+  {"family": "unet", "name": "U-Net", "path": "C:/path/to/unet_instance_segmentation_best.keras"}
+]

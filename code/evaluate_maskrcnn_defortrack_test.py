@@ -18,6 +18,9 @@ import torch
 from detectron2 import model_zoo
 from detectron2.config import get_cfg
 from detectron2.engine import DefaultPredictor
+from pycocotools import mask as mask_utils
+from pycocotools.coco import COCO
+from pycocotools.cocoeval import COCOeval
 
 
 ARCH_TO_CONFIG = {
@@ -48,6 +51,43 @@ def yolo_mask(label_path: Path, height: int, width: int) -> np.ndarray:
         points[:, 1] = np.clip(np.rint(points[:, 1] * (height - 1)), 0, height - 1)
         cv2.fillPoly(mask, [points.astype(np.int32)], 1)
     return mask.astype(bool)
+
+
+def yolo_instances(label_path: Path, height: int, width: int) -> list[np.ndarray]:
+    instances = []
+    if not label_path.exists():
+        return instances
+    for line in label_path.read_text(encoding="utf-8").splitlines():
+        values = line.split()
+        if len(values) < 7:
+            continue
+        coordinates = np.asarray(values[1:], dtype=np.float32)
+        if coordinates.size % 2:
+            continue
+        points = coordinates.reshape(-1, 2)
+        points[:, 0] = np.clip(np.rint(points[:, 0] * (width - 1)), 0, width - 1)
+        points[:, 1] = np.clip(np.rint(points[:, 1] * (height - 1)), 0, height - 1)
+        mask = np.zeros((height, width), dtype=np.uint8)
+        cv2.fillPoly(mask, [points.astype(np.int32)], 1)
+        if mask.any():
+            instances.append(mask.astype(bool))
+    return instances
+
+
+def rle_for(mask: np.ndarray) -> dict:
+    rle = mask_utils.encode(np.asfortranarray(mask.astype(np.uint8)))
+    rle["counts"] = rle["counts"].decode("ascii")
+    return rle
+
+
+def bbox_for(mask: np.ndarray) -> list[float]:
+    ys, xs = np.where(mask)
+    return [
+        float(xs.min()),
+        float(ys.min()),
+        float(xs.max() - xs.min() + 1),
+        float(ys.max() - ys.min() + 1),
+    ]
 
 
 def boundary(mask: np.ndarray, thickness: int) -> np.ndarray:
@@ -124,6 +164,34 @@ def prediction_mask(outputs: dict, shape: tuple[int, int]) -> np.ndarray:
     return merged
 
 
+def coco_predictions(outputs: dict, image_id: int, shape: tuple[int, int]) -> list[dict]:
+    instances = outputs["instances"].to("cpu")
+    if not len(instances) or not instances.has("pred_masks"):
+        return []
+    rows = []
+    classes = instances.pred_classes.numpy()
+    for mask, score, category in zip(
+        instances.pred_masks.numpy(), instances.scores.numpy(), classes
+    ):
+        if category not in (0, 1) or not mask.any():
+            continue
+        if mask.shape != shape:
+            mask = cv2.resize(
+                mask.astype(np.uint8),
+                (shape[1], shape[0]),
+                interpolation=cv2.INTER_NEAREST,
+            ).astype(bool)
+        rows.append(
+            {
+                "image_id": image_id,
+                "category_id": 1,
+                "segmentation": rle_for(mask),
+                "score": float(score),
+            }
+        )
+    return rows
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--images", required=True)
@@ -153,6 +221,42 @@ def main() -> None:
             raise ValueError(f"Model not found in models.json: {args.model}")
         models = {args.model: models[args.model]}
 
+    coco_ground_truth = {
+        "images": [],
+        "annotations": [],
+        "categories": [{"id": 1, "name": "forest"}],
+    }
+    annotation_id = 1
+    for image_id, image_path in enumerate(image_paths, start=1):
+        image = cv2.imread(str(image_path))
+        height, width = image.shape[:2]
+        coco_ground_truth["images"].append(
+            {
+                "id": image_id,
+                "width": width,
+                "height": height,
+                "file_name": image_path.name,
+            }
+        )
+        for instance in yolo_instances(
+            labels_dir / f"{image_path.stem}.txt", height, width
+        ):
+            coco_ground_truth["annotations"].append(
+                {
+                    "id": annotation_id,
+                    "image_id": image_id,
+                    "category_id": 1,
+                    "segmentation": rle_for(instance),
+                    "area": float(instance.sum()),
+                    "bbox": bbox_for(instance),
+                    "iscrowd": 0,
+                }
+            )
+            annotation_id += 1
+    ground_truth_path = out_dir / "maskrcnn_coco_ground_truth.json"
+    ground_truth_path.write_text(json.dumps(coco_ground_truth), encoding="utf-8")
+    coco_gt = COCO(str(ground_truth_path))
+
     completed = set()
     if args.resume and summary_path.exists():
         completed = {row["model"] for row in csv.DictReader(summary_path.open(encoding="utf-8"))}
@@ -170,22 +274,42 @@ def main() -> None:
             predictor = build_predictor(model_name, weights, args.device, args.score_thresh, args.image_size)
             started = time.perf_counter()
             rows = []
+            predictions = []
             for index, image_path in enumerate(image_paths, start=1):
                 image = cv2.imread(str(image_path))
                 if image is None:
                     continue
                 gt = yolo_mask(labels_dir / f"{image_path.stem}.txt", image.shape[0], image.shape[1])
                 t0 = time.perf_counter()
-                pred = prediction_mask(predictor(image), gt.shape)
+                outputs = predictor(image)
+                elapsed = time.perf_counter() - t0
+                pred = prediction_mask(outputs, gt.shape)
+                predictions.extend(coco_predictions(outputs, index, gt.shape))
                 item = segmentation_metrics(pred, gt, args.boundary_thickness)
-                item.update(model=model_name, image=image_path.name, inference_time_s=time.perf_counter() - t0)
+                item.update(model=model_name, image=image_path.name, inference_time_s=elapsed)
                 writer.writerow(item)
                 per_file.flush()
                 rows.append(item)
                 if index % 50 == 0:
                     print(f"{model_name}: {index}/{len(image_paths)}", flush=True)
 
-            summary = {"model": model_name, "n": len(rows), "elapsed_s": time.perf_counter() - started}
+            prediction_path = out_dir / f"{model_name}_coco_predictions.json"
+            prediction_path.write_text(json.dumps(predictions), encoding="utf-8")
+            coco_dt = coco_gt.loadRes(str(prediction_path))
+            evaluator = COCOeval(coco_gt, coco_dt, "segm")
+            evaluator.params.imgIds = list(range(1, len(image_paths) + 1))
+            evaluator.params.catIds = [1]
+            evaluator.evaluate()
+            evaluator.accumulate()
+            evaluator.summarize()
+            summary = {
+                "model": model_name,
+                "n": len(rows),
+                "elapsed_s": time.perf_counter() - started,
+                "map_50": float(evaluator.stats[1]),
+                "map_50_95": float(evaluator.stats[0]),
+                "predicted_instances": len(predictions),
+            }
             for key in ["iou", "dice_f1", "precision", "recall", "boundary_iou", "boundary_f1", "pixel_accuracy", "inference_time_s"]:
                 values = np.array([row[key] for row in rows], dtype=float)
                 summary[f"{key}_mean"] = values.mean()

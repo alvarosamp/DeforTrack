@@ -14,4 +14,4 @@ GitHub Release, preserving the filenames expected by the evaluation scripts.
 
 Do not commit local virtual environments, framework caches, or duplicate model
 exports. The exact model sizes used by the article are recorded in
-`results/consolidated/computational_metrics_892.csv`.
+`results/replacement_test_892/consolidated/computational_metrics_892.csv`.

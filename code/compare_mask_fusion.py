@@ -1,8 +1,9 @@
 """Compare OR, AND and score-weighted mean fusion on Mask R-CNN outputs."""
-import argparse, csv, json
+import argparse, csv, json, sys
 from pathlib import Path
 import cv2
 import numpy as np
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from evaluate_maskrcnn_defortrack_test import build_predictor, segmentation_metrics, yolo_mask
 
 GRID = np.arange(0.05, 1.0, 0.05)

@@ -302,25 +302,26 @@ The mean pairwise IoU across the three annotator pairs was $74.55 \pm 19.44~\%$,
 
 \textcolor{red}{We applied data augmentation techniques only to the annotated training partition, resulting in a final exported dataset with $14,648$ images, including original and augmented samples. The Roboflow output count was configured as three exported samples in total per training example: one original sample and two augmented derivatives. The 12,861 exported training images therefore represent 4,287 source training images. Together with 895 validation and 892 held-out test images, the released partitions represent 6,074 source images in total. The augmentation pipeline included horizontal and vertical flipping, random cropping with $0~\%$ minimum zoom and $20~\%$ maximum zoom, affine shearing of up to $\pm 13^{\circ}$ in both horizontal and vertical directions, brightness adjustment between $-22~\%$ and $+22~\%$, Gaussian blur of up to $3.7$ pixels, and noise injection affecting up to $1.56~\%$ of pixels. These transformations emulate variability associated with illumination, acquisition conditions, and sensor noise. Roboflow performed the data split before augmentation, reducing the risk that augmented derivatives of one original image were assigned to different subsets. As a result, DeforTrack contains $12,861$ training images ($88~\%$), $895$ validation images ($6~\%$), and $892$ held-out final test images ($6~\%$). The validation partition was used for model selection, whereas every result reported in Tables~\ref{tab:segmentation_metrics} and~\ref{tab:computational_metrics} was recomputed on the same 892-image final test partition.}
 
-\textcolor{red}{Although the split was performed before data augmentation, image-level partitioning alone does not guarantee visual, spatial, or temporal independence. We therefore complemented the filename inspection with an exhaustive cross-split visual-similarity audit inspired by the dataset-analysis workflow supported by fastdup~\cite{fastdup2026}. Each of the 14,648 images was represented by the normalized 512-dimensional penultimate-layer embedding of an ImageNet-pretrained ResNet-18~\cite{he2016deep}, and cosine similarity was computed for every train--validation, train--test, and validation--test pair. Validation and test images were used as queries against the training partition. We additionally compared SHA-256 hashes to distinguish byte-identical files from perceptually similar images.}
+\textcolor{red}{Although the split was performed before data augmentation, image-level partitioning alone does not guarantee visual, spatial, or temporal independence. We therefore performed an exhaustive cross-split visual-similarity audit inspired by the dataset-analysis workflow supported by fastdup~\cite{fastdup2026}. Each image was represented by the normalized 512-dimensional penultimate-layer embedding of an ImageNet-pretrained ResNet-18~\cite{he2016deep}, and cosine similarity was computed between the test partition and both the training and validation partitions. SHA-256 hashes were additionally compared to distinguish byte-identical files from perceptually similar images. The initial audit found 90 cross-split pairs with cosine similarity greater than or equal to 0.98, involving 47 unique test images. Manual inspection confirmed that all 47 test images depicted the same scene, a strongly overlapping crop, a rotation, or an adjacent frame relative to at least one training or validation image. These 47 images were therefore removed from the test partition.}
+
+\textcolor{red}{To preserve a fixed test size, each removed image was replaced by a newly selected image--mask pair from a held-out candidate pool. Candidate source identifiers already represented in any released split were excluded, and every candidate was required to have cosine similarity below 0.98 to all 14,648 exported training, validation, and original test images. Replacements were selected by matching the forest-cover ratio of each removed image and were also constrained to have pairwise cosine similarity below 0.98. Conversion of replacement raster masks to YOLO polygons achieved a mean mask-to-polygon round-trip IoU of $99.65~\%$ (minimum $98.71~\%$). The resulting similarity-safe final test partition contains 845 retained images and 47 replacements, for a total of 892 images. No model was retrained; all 17 checkpoints were reevaluated on this recomposed test partition.}
 
 \begin{table}[ht]
 \color{red}
 \centering
-\caption{Cross-split visual-similarity audit. Counts at 0.98 and 0.99 indicate query images whose nearest cross-split neighbor reached at least the specified cosine similarity.}
+\caption{Post-recomposition audit of the 892-image similarity-safe final test partition.}
 \label{tab:split_similarity}
 \resizebox{\linewidth}{!}{%
 \begin{tabular}{|l|c|c|c|c|c|c|}
 \hline
-\textbf{Query $\rightarrow$ reference} & \textbf{Queries} & \textbf{Mean nearest} & \textbf{P99 nearest} & \textbf{Maximum} & \textbf{$\geq 0.98$} & \textbf{$\geq 0.99$} \\ \hline
-Validation $\rightarrow$ training & 895 & 0.9555 & 0.9882 & 0.9915 & 59 & 4 \\ \hline
-Test $\rightarrow$ training & 892 & 0.9494 & 0.9875 & 0.9931 & 45 & 5 \\ \hline
-Validation $\rightarrow$ test & 895 & 0.9091 & 0.9764 & 0.9833 & 3 & 0 \\ \hline
+\textbf{Query $\rightarrow$ reference} & \textbf{Queries} & \textbf{Mean nearest} & \textbf{P99 nearest} & \textbf{Maximum} & \textbf{$\geq 0.98$} & \textbf{SHA-256 duplicates} \\ \hline
+Final test $\rightarrow$ training & 892 & 0.9407 & 0.9783 & 0.9799 & 0 & 0 \\ \hline
+Final test $\rightarrow$ validation & 892 & 0.8979 & 0.9753 & 0.9784 & 0 & 0 \\ \hline
 \end{tabular}%
 }
 \end{table}
 
-\textcolor{red}{No byte-identical cross-split image was found by SHA-256. Nevertheless, 59 validation images ($6.59~\%$) and 45 test images ($5.04~\%$) had a training neighbor with cosine similarity of at least 0.98; four and five images, respectively, reached at least 0.99. Manual inspection of the highest-scoring pairs confirmed repeated scenes, strongly overlapping crops, or adjacent video frames across partitions. The earlier filename normalization also identified 586 names potentially associated with more than one subset, but the embedding analysis provides stronger visual evidence than filenames alone. These findings show that the split prevents exact binary duplication but does not eliminate scene-level visual overlap. Consequently, the reported test performance may be optimistic relative to a strictly source-, campaign-, region-, or time-separated evaluation. The complete nearest-neighbor table, top cross-split pairs, embeddings, summary statistics, and visual contact sheet are publicly provided under \texttt{results/split\_similarity/}.}
+\textcolor{red}{The final audit found neither byte-identical files nor cosine similarity values greater than or equal to 0.98 between the recomposed test partition and either training or validation. The maximum observed similarities were 0.9799 against training and 0.9784 against validation. The visual-review table, contact sheets, removal and replacement manifest, candidate audit, final nearest-neighbor table, and all summary statistics are publicly provided under \texttt{results/replacement\_test\_892/}. This correction addresses scene-level visual overlap at the prespecified 0.98 embedding threshold. It does not by itself demonstrate geographic or temporal independence, because authoritative image-level location and acquisition-date metadata are unavailable.}
 
 \subsection{Dataset Diversity Statistics}
 
@@ -409,20 +410,20 @@ intersection-based rule would be overly restrictive, since only pixels shared by
 all masks would be retained. A weighted average was not adopted because it would
 require calibrated and mutually comparable pixel-level confidence values, as well as an additional threshold selected on validation data. The Boolean OR therefore implements the geometrically correct union of same-class forest instances without introducing an unvalidated fusion parameter.}
 
-\textcolor{red}{We empirically compared these alternatives using the Mask R-CNN ResNet-101 FPN 3x model, whose instance outputs make all three fusion rules applicable. Candidate instances were first filtered with the same confidence threshold of 0.30 used in the main evaluation. For weighted fusion, each binary instance mask was weighted by its confidence score and normalized by the sum of scores. Its binarization threshold was selected exclusively on the 895-image validation partition from values between 0.05 and 0.95 in increments of 0.05; the selected threshold of 0.05 was then frozen and applied to the 892-image final test partition. Table~\ref{tab:fusion_ablation} reports macro-averaged test results. OR achieved $77.92~\%$ IoU and $85.88~\%$ Dice/F1, whereas AND achieved only $13.78~\%$ IoU and $14.77~\%$ Dice/F1 because the intersection retains only pixels shared by every predicted instance, which is unsuitable when separate masks represent spatially disjoint forest regions. The calibrated weighted mean also achieved $77.92~\%$ IoU and $85.88~\%$ Dice/F1. It differed from OR in only 9 of the 892 test images, with a mean IoU difference of $0.0032$ percentage points. This negligible difference indicates that weighting the already thresholded instance masks did not provide a practically meaningful improvement. Because weighted fusion introduced an additional validation-dependent threshold while OR directly preserved every accepted forest instance, OR was retained as the final fusion rule. This conclusion is restricted to the evaluated Mask R-CNN variant and protocol and should not be interpreted as universal superiority of OR over all possible fusion methods.}
+\textcolor{red}{We empirically compared these alternatives using the Mask R-CNN ResNet-101 FPN 3x model, whose instance outputs make all three fusion rules applicable. Candidate instances were first filtered with the same confidence threshold of 0.30 used in the main evaluation. For weighted fusion, each binary instance mask was weighted by its confidence score and normalized by the sum of scores. Its binarization threshold was selected exclusively on the 895-image validation partition from values between 0.05 and 0.95 in increments of 0.05; the selected threshold of 0.05 was then frozen and applied to the similarity-safe 892-image final test partition. Table~\ref{tab:fusion_ablation} reports macro-averaged test results. OR achieved $76.53~\%$ IoU and $84.73~\%$ Dice/F1, whereas AND achieved only $13.44~\%$ IoU and $14.54~\%$ Dice/F1 because the intersection retains only pixels shared by every predicted instance, which is unsuitable when separate masks represent spatially disjoint forest regions. The calibrated weighted mean also achieved $76.53~\%$ IoU and $84.74~\%$ Dice/F1. It differed from OR in only 8 of the 892 test images, and its aggregate mean IoU exceeded OR by only $0.0035$ percentage points. This negligible difference indicates that weighting the already thresholded instance masks did not provide a practically meaningful improvement. Because weighted fusion introduced an additional validation-dependent threshold while OR directly preserved every accepted forest instance, OR was retained as the final fusion rule. This conclusion is restricted to the evaluated Mask R-CNN variant and protocol and should not be interpreted as universal superiority of OR over all possible fusion methods.}
 
 \begin{table}[t]
 \color{red}
 \centering
-\caption{Ablation of instance-mask fusion rules on the 892-image final test partition using Mask R-CNN ResNet-101 FPN 3x. OR and weighted-mean values coincide at two-decimal precision; their per-image predictions differed in 9 cases, with a mean IoU difference of 0.0032 percentage points.}
+\caption{Ablation of instance-mask fusion rules on the similarity-safe 892-image final test partition using Mask R-CNN ResNet-101 FPN 3x. OR and weighted-mean IoU values coincide at two-decimal precision; their per-image predictions differed in 8 cases, and their aggregate mean IoU differed by 0.0035 percentage points.}
 \label{tab:fusion_ablation}
 \resizebox{\linewidth}{!}{%
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
 \textbf{Fusion} & \textbf{IoU [\%]} & \textbf{Dice/F1 [\%]} & \textbf{Precision [\%]} & \textbf{Recall [\%]} & \textbf{Pixel Acc. [\%]} \\ \hline
-OR & 77.92 & 85.88 & 83.45 & 91.89 & 90.16 \\ \hline
-AND & 13.78 & 14.77 & 18.98 & 14.34 & 63.91 \\ \hline
-Weighted mean & \textbf{77.92} & \textbf{85.88} & \textbf{83.45} & 91.89 & \textbf{90.16} \\ \hline
+OR & 76.53 & 84.73 & 82.25 & \textbf{91.16} & 89.27 \\ \hline
+AND & 13.44 & 14.54 & 18.50 & 14.35 & 63.43 \\ \hline
+Weighted mean & \textbf{76.53} & \textbf{84.74} & \textbf{82.25} & 91.16 & \textbf{89.28} \\ \hline
 \end{tabular}%
 }
 \end{table}
@@ -462,7 +463,7 @@ where $\bar{x}$ is the sample mean, $s$ is the standard deviation across test im
 \section{Results and Discussion}
 \label{sec:results}
 
-\textcolor{red}{This section presents the standardized performance analysis of all trained checkpoints. Tables~\ref{tab:segmentation_metrics} and~\ref{tab:computational_metrics} report results obtained on the same 892-image held-out final test set. YOLOv8s achieved the highest region-level segmentation scores overall, with $89.03~\%$ IoU, $93.73~\%$ Dice/F1, and $96.02~\%$ pixel accuracy, as well as the highest recall ($95.18~\%$). YOLOv8l obtained the highest mAP@50 ($92.79~\%$). YOLOv8x reached only $71.57~\%$ IoU despite being the largest YOLOv8 variant. This isolated checkpoint result shows that greater parameter count did not guarantee better mask overlap in the present run, but it should not be interpreted as an architectural limitation without controlled repeated training, seed analysis, and checkpoint diagnostics. Within YOLOv11, the medium variant obtained the highest IoU ($88.78~\%$), while YOLOv11x achieved the strongest boundary performance, with $48.04~\%$ Boundary IoU and $70.22~\%$ Boundary F1. YOLOv11l obtained the highest mAP@50--95 of all evaluated checkpoints ($74.19~\%$). These rankings differ by metric because region overlap, instance detection across thresholds, and boundary localization emphasize different error modes; consequently, no single score is used to claim universal superiority.}
+\textcolor{red}{This section presents the standardized performance analysis of all trained checkpoints. Table~\ref{tab:segmentation_metrics} reports results recomputed without retraining on the similarity-safe 892-image final test partition. YOLOv8s achieved the highest region-level segmentation scores overall, with $86.60~\%$ IoU, $91.42~\%$ Dice/F1, $94.66~\%$ pixel accuracy, and $93.01~\%$ recall. YOLOv8l obtained the highest mAP@50 within YOLOv8 ($91.01~\%$). YOLOv8x reached only $69.02~\%$ IoU despite being the largest YOLOv8 variant. This isolated checkpoint result shows that greater parameter count did not guarantee better mask overlap in the present run, but it should not be interpreted as an architectural limitation without controlled repeated training, seed analysis, and checkpoint diagnostics. Within YOLOv11, the medium variant obtained the highest IoU ($86.17~\%$), while YOLOv11x achieved the strongest boundary performance, with $45.27~\%$ Boundary IoU and $66.40~\%$ Boundary F1, as well as the highest mAP@50--95 of all evaluated checkpoints ($72.42~\%$). These rankings differ by metric because region overlap, instance detection across thresholds, and boundary localization emphasize different error modes; consequently, no single score is used to claim universal superiority.}
 
 For instance, Figure~\ref{f3}(a--b) displays two images of the same region captured at two different dates. The YOLOv11n model processed these images, and the
 resulting segmentation masks were integrated using the proposed pixel-based
@@ -486,29 +487,29 @@ quantifying vegetation-cover variation over time.
 \hline
 
 \multicolumn{11}{|c|}{\textbf{YOLOv8 Performance}} \\ \hline
-YOLOv8x & 892 & 71.57 & 88.83 & 64.10 & 77.75 & 39.37 & 59.10 & 82.19 & 84.47 & 77.01 \\ \hline
-YOLOv8l & 892 & 88.02 & \textbf{92.79} & 72.56 & 92.97 & 45.02 & 66.74 & 95.23 & 92.54 & 94.14 \\ \hline
-YOLOv8m & 892 & 83.82 & 84.89 & 55.82 & 90.32 & 34.97 & 54.65 & 93.83 & 89.90 & 91.80 \\ \hline
-YOLOv8s & 892 & \textbf{89.03} & 92.02 & 71.12 & \textbf{93.73} & 45.10 & 66.58 & \textbf{96.02} & 92.88 & \textbf{95.18} \\ \hline
-YOLOv8n & 892 & 86.33 & 91.70 & 68.35 & 91.86 & 40.95 & 62.15 & 94.58 & 91.30 & 93.28 \\ \hline
+YOLOv8x & 892 & 69.02 & 86.87 & 62.28 & 75.27 & 37.02 & 55.83 & 80.97 & 82.40 & 74.37 \\ \hline
+YOLOv8l & 892 & 84.95 & \textbf{91.01} & \textbf{70.62} & 90.06 & 42.34 & \textbf{62.98} & 93.53 & 90.11 & 91.21 \\ \hline
+YOLOv8m & 892 & 81.06 & 82.69 & 53.66 & 87.67 & 32.74 & 51.36 & 92.42 & 87.57 & 89.12 \\ \hline
+YOLOv8s & 892 & \textbf{86.60} & 90.49 & 69.28 & \textbf{91.42} & \textbf{42.53} & 62.97 & \textbf{94.66} & \textbf{91.00} & \textbf{93.01} \\ \hline
+YOLOv8n & 892 & 83.58 & 90.11 & 66.41 & 89.18 & 38.53 & 58.65 & 93.15 & 89.00 & 90.55 \\ \hline
 
 \multicolumn{11}{|c|}{\textbf{YOLOv11 Performance}} \\ \hline
-YOLOv11x & 892 & 88.60 & 92.66 & 74.18 & 93.20 & \textbf{48.04} & \textbf{70.22} & 95.15 & \textbf{93.40} & 94.11 \\ \hline
-YOLOv11l & 892 & 88.30 & 92.09 & \textbf{74.19} & 92.88 & 47.53 & 69.72 & 95.03 & 92.87 & 93.98 \\ \hline
-YOLOv11m & 892 & 88.78 & 92.28 & 73.06 & 93.36 & 47.96 & 70.02 & 95.49 & 93.12 & 94.52 \\ \hline
-YOLOv11s & 892 & 87.88 & 92.46 & 72.03 & 92.77 & 45.36 & 67.18 & 95.05 & 92.62 & 94.00 \\ \hline
-YOLOv11n & 892 & 87.19 & 91.57 & 67.91 & 92.51 & 41.06 & 62.25 & 95.10 & 91.69 & 94.05 \\ \hline
+YOLOv11x & 892 & 85.83 & \textbf{91.15} & \textbf{72.42} & 90.52 & \textbf{45.27} & \textbf{66.40} & 93.72 & \textbf{91.10} & 91.36 \\ \hline
+YOLOv11l & 892 & 85.23 & 90.54 & 72.21 & 89.89 & 44.81 & 65.91 & 93.39 & 90.39 & 90.88 \\ \hline
+YOLOv11m & 892 & \textbf{86.17} & 90.44 & 71.30 & \textbf{90.83} & 45.14 & 66.15 & \textbf{94.09} & 90.69 & \textbf{92.01} \\ \hline
+YOLOv11s & 892 & 85.38 & 90.88 & 70.23 & 90.31 & 42.74 & 63.50 & 93.76 & 90.20 & 91.59 \\ \hline
+YOLOv11n & 892 & 84.60 & 89.88 & 66.05 & 90.01 & 38.65 & 58.75 & 93.73 & 89.42 & 91.59 \\ \hline
 
 \multicolumn{11}{|c|}{\textbf{Mask R-CNN Performance}} \\ \hline
-ResNet-101 FPN 3x & 892 & 77.92 & 68.84 & 41.11 & 85.88 & 25.58 & 42.02 & 90.16 & 83.45 & 91.89 \\ \hline
-ResNet-101 C4 3x & 892 & 77.48 & 61.33 & 39.15 & 85.59 & 23.88 & 39.46 & 90.24 & 85.24 & 89.18 \\ \hline
-ResNet-101 DC5 3x & 892 & 73.05 & 56.22 & 31.80 & 81.44 & 23.09 & 38.46 & 85.96 & 80.47 & 89.36 \\ \hline
-ResNet-50 C4 3x & 892 & 75.92 & 56.58 & 34.31 & 84.82 & 22.90 & 38.02 & 89.74 & 84.44 & 88.26 \\ \hline
-ResNet-50 C4 1x & 892 & 75.59 & 56.03 & 33.88 & 84.37 & 21.54 & 36.12 & 89.29 & 83.24 & 89.13 \\ \hline
-ResNet-50 DC5 1x & 892 & 77.66 & 59.02 & 35.09 & 85.91 & 25.07 & 41.36 & 90.51 & 85.35 & 89.38 \\ \hline
+ResNet-101 FPN 3x & 892 & \textbf{76.53} & \textbf{66.82} & \textbf{39.19} & \textbf{84.73} & \textbf{24.18} & \textbf{39.87} & 89.27 & 82.25 & \textbf{91.16} \\ \hline
+ResNet-101 C4 3x & 892 & 76.18 & 59.93 & 37.94 & 84.48 & 22.58 & 37.46 & 89.40 & 83.95 & 88.56 \\ \hline
+ResNet-101 DC5 3x & 892 & 72.09 & 54.33 & 30.50 & 80.63 & 21.86 & 36.55 & 85.17 & 79.25 & 89.21 \\ \hline
+ResNet-50 C4 3x & 892 & 74.31 & 55.05 & 33.24 & 83.32 & 21.62 & 35.99 & 88.72 & 83.11 & 87.15 \\ \hline
+ResNet-50 C4 1x & 892 & 73.97 & 55.26 & 32.96 & 82.87 & 20.36 & 34.25 & 88.25 & 81.77 & 88.02 \\ \hline
+ResNet-50 DC5 1x & 892 & 76.09 & 57.19 & 33.60 & 84.51 & 23.73 & 39.22 & \textbf{89.51} & \textbf{83.98} & 88.27 \\ \hline
 
 \multicolumn{11}{|c|}{\textbf{U-Net Performance}} \\ \hline
-U-Net & 892 & 49.97 & -- & -- & 61.80 & 20.93 & 34.53 & 72.50 & 70.11 & 68.14 \\ \hline
+U-Net & 892 & 49.96 & -- & -- & 61.73 & 20.24 & 33.49 & 72.37 & 69.53 & 68.67 \\ \hline
 \end{tabular}%
 }
 \end{table*}
@@ -525,29 +526,29 @@ U-Net & 892 & 49.97 & -- & -- & 61.80 & 20.93 & 34.53 & 72.50 & 70.11 & 68.14 \\
 \hline
 
 \multicolumn{8}{|c|}{\textbf{YOLOv8 Performance}} \\ \hline
-YOLOv8x & 892 & 274.25 & 1527.98 & $0.0493 \pm 0.0004$ & 20.28 & 3.34 & 3.808 \\ \hline
-YOLOv8l & 892 & 175.77 & 1499.66 & $0.0325 \pm 0.0002$ & 30.73 & 3.16 & 2.439 \\ \hline
-YOLOv8m & 892 & 104.35 & 1483.15 & $0.0223 \pm 0.0002$ & 44.88 & 3.23 & 1.438 \\ \hline
-YOLOv8s & 892 & 22.78 & 1383.85 & $0.0131 \pm 0.0001$ & 76.20 & 3.14 & 0.675 \\ \hline
-YOLOv8n & 892 & 12.81 & 1357.66 & $\mathbf{0.0120 \pm 0.0001}$ & \textbf{83.39} & 3.14 & \textbf{0.263} \\ \hline
+YOLOv8x & 892 & 274.25 & 1547.71 & $0.0469 \pm 0.0005$ & 21.32 & 3.21 & 3.794 \\ \hline
+YOLOv8l & 892 & 175.77 & 1500.71 & $0.0307 \pm 0.0001$ & 32.60 & 3.14 & 2.193 \\ \hline
+YOLOv8m & 892 & 104.35 & 1483.28 & $0.0211 \pm 0.0003$ & 47.37 & 3.17 & 1.387 \\ \hline
+YOLOv8s & 892 & 22.78 & 1388.98 & $0.0112 \pm 0.0001$ & 89.05 & 3.23 & 0.624 \\ \hline
+YOLOv8n & 892 & 12.81 & 1345.85 & $\mathbf{0.0094 \pm 0.0004}$ & \textbf{106.21} & 3.14 & 0.315 \\ \hline
 
 \multicolumn{8}{|c|}{\textbf{YOLOv11 Performance}} \\ \hline
-YOLOv11x & 892 & 119.01 & 1531.60 & $0.0476 \pm 0.0003$ & 21.03 & 3.27 & 3.722 \\ \hline
-YOLOv11l & 892 & 53.28 & 1437.52 & $0.0290 \pm 0.0009$ & 34.49 & 3.18 & 1.839 \\ \hline
-YOLOv11m & 892 & 43.09 & 1433.00 & $0.0226 \pm 0.0003$ & 44.30 & 3.21 & 1.471 \\ \hline
-YOLOv11s & 892 & 19.59 & 1395.61 & $0.0164 \pm 0.0002$ & 61.07 & \textbf{3.10} & 0.719 \\ \hline
-YOLOv11n & 892 & \textbf{5.75} & 1337.91 & $0.0156 \pm 0.0004$ & 64.00 & 3.15 & 0.279 \\ \hline
+YOLOv11x & 892 & 119.01 & 1602.87 & $0.0453 \pm 0.0005$ & 22.09 & 3.23 & 3.637 \\ \hline
+YOLOv11l & 892 & 53.28 & 1443.93 & $0.0257 \pm 0.0002$ & 38.88 & 3.22 & 1.756 \\ \hline
+YOLOv11m & 892 & 43.09 & 1434.12 & $0.0214 \pm 0.0005$ & 46.77 & 3.22 & 1.439 \\ \hline
+YOLOv11s & 892 & 19.59 & 1387.05 & $0.0139 \pm 0.0000$ & 71.96 & 3.22 & 0.680 \\ \hline
+YOLOv11n & 892 & \textbf{5.75} & 1344.07 & $0.0135 \pm 0.0004$ & 74.23 & 3.24 & \textbf{0.268} \\ \hline
 
 \multicolumn{8}{|c|}{\textbf{Mask R-CNN Performance}} \\ \hline
-ResNet-101 FPN 3x & 892 & 479.84 & 1949.74 & $0.0483 \pm 0.0009$ & 20.72 & 3.21 & 2.833 \\ \hline
-ResNet-101 C4 3x & 892 & 412.46 & 1872.13 & $0.0389 \pm 0.0009$ & 25.73 & 3.18 & 2.325 \\ \hline
-ResNet-101 DC5 3x & 892 & 1456.46 & 3462.20 & $0.0509 \pm 0.0004$ & 19.64 & 3.17 & 3.386 \\ \hline
-ResNet-50 C4 3x & 892 & 267.47 & 1767.68 & $0.0310 \pm 0.0002$ & 32.25 & 3.20 & 1.796 \\ \hline
-ResNet-50 C4 1x & 892 & 267.47 & 1708.98 & $0.0317 \pm 0.0003$ & 31.52 & 3.23 & 1.811 \\ \hline
-ResNet-50 DC5 1x & 892 & 1311.47 & 3337.60 & $0.0425 \pm 0.0006$ & 23.51 & 3.19 & 2.753 \\ \hline
+ResNet-101 FPN 3x & 892 & 479.84 & 1916.79 & $0.0453 \pm 0.0012$ & 22.07 & 3.17 & 2.742 \\ \hline
+ResNet-101 C4 3x & 892 & 412.46 & 1872.51 & $0.0363 \pm 0.0001$ & 27.54 & 3.21 & 2.249 \\ \hline
+ResNet-101 DC5 3x & 892 & 1456.46 & 3497.12 & $0.0480 \pm 0.0012$ & 20.82 & 3.25 & 3.252 \\ \hline
+ResNet-50 C4 3x & 892 & 267.47 & 1771.86 & $0.0304 \pm 0.0009$ & 32.85 & 3.21 & 1.769 \\ \hline
+ResNet-50 C4 1x & 892 & 267.47 & 1730.04 & $0.0299 \pm 0.0015$ & 33.46 & 3.21 & 1.757 \\ \hline
+ResNet-50 DC5 1x & 892 & 1311.47 & 3352.67 & $0.0462 \pm 0.0075$ & 21.66 & \textbf{2.89} & 2.822 \\ \hline
 
 \multicolumn{8}{|c|}{\textbf{U-Net Performance}} \\ \hline
-U-Net & 892 & 21.63 & \textbf{985.39} & $0.0154 \pm 0.0002$ & 64.77 & 3.37 & 0.909 \\ \hline
+U-Net & 892 & 21.63 & \textbf{988.76} & $0.0156 \pm 0.0003$ & 64.09 & 3.23 & 0.916 \\ \hline
 
 \end{tabular}
 }
@@ -560,32 +561,15 @@ U-Net & 892 & 21.63 & \textbf{985.39} & $0.0154 \pm 0.0002$ & 64.77 & 3.37 & 0.9
     \label{f3}
 \end{figure}
 
-\textcolor{red}{The per-image uncertainty analysis supports the same ordering while showing the variability within the test set. The $95~\%$ confidence-interval half-width for IoU was $0.74$ percentage points for YOLOv8s, $1.27$ percentage points for Mask R-CNN ResNet-101 FPN 3x, and $1.79$ percentage points for U-Net. Complete per-image values are publicly available in the model-specific files under \texttt{results/internal\_test\_892/}. A structured supplementary table covering all 17 checkpoints and seven pixel-level metrics is provided as \texttt{results/consolidated/internal\_uncertainty\_all\_models.csv}; each row reports the number of test images, mean, standard deviation, 95\% confidence-interval half-width, and lower and upper confidence limits. These public machine-readable files provide the complete uncertainty results without further widening Table~\ref{tab:segmentation_metrics}.}
+\textcolor{red}{The per-image uncertainty analysis supports the same ordering while showing the variability within the similarity-safe test set. The $95~\%$ confidence-interval half-width for IoU was $1.13$ percentage points for YOLOv8s, $1.34$ percentage points for Mask R-CNN ResNet-101 FPN 3x, and $1.80$ percentage points for U-Net. Complete per-image values are publicly available under \texttt{results/replacement\_test\_892/model\_metrics/}. A structured machine-readable table covering all 17 checkpoints and seven pixel-level metrics is provided as \texttt{results/replacement\_test\_892/consolidated/segmentation\_metrics\_892.csv}; each row reports the number of test images, mean, standard deviation, and 95\% confidence-interval half-width. These files provide the complete uncertainty results without further widening Table~\ref{tab:segmentation_metrics}.}
 
-\textcolor{red}{We additionally performed a sensitivity analysis for the visual overlap identified in Table~\ref{tab:split_similarity}. The 45 final-test images whose nearest training neighbor had cosine similarity greater than or equal to 0.98 were excluded, and all seven per-image segmentation metrics were recomputed on the remaining 847 images without retraining or changing any model threshold. Table~\ref{tab:similarity_filtered} reports representative checkpoints. YOLOv8s changed from $89.029~\%$ to $89.027~\%$ IoU, and the largest absolute IoU change among all 17 checkpoints was 0.441 percentage points. Thus, the high-similarity subset does not explain the principal internal ranking under this threshold. This diagnostic exclusion nevertheless does not create a geographically or temporally independent test set, because source-level provenance is unavailable and visually related samples may remain below the selected similarity threshold. Complete results and the excluded-image manifest are provided under \texttt{results/similarity\_filtered\_test/}.}
+\textcolor{red}{All 47 unique test images participating in any manually confirmed train--test or validation--test pair with cosine similarity greater than or equal to 0.98 were replaced, preserving $n=892$. Table~\ref{tab:segmentation_metrics} is the single primary result table for this similarity-safe test partition; no model was retrained and no inference threshold was changed.}
 
-\begin{table}[t]
-\color{red}
-\centering
-\caption{Sensitivity analysis after excluding 45 final-test images with a train--test cosine similarity of at least 0.98. Complete results for all 17 checkpoints are provided in the repository.}
-\label{tab:similarity_filtered}
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{|l|c|c|c|c|c|}
-\hline
-\textbf{Model} & \textbf{$n$} & \textbf{Full IoU [\%]} & \textbf{Filtered IoU [\%]} & \textbf{$\Delta$ IoU [pp]} & \textbf{Filtered Dice/F1 [\%]} \\ \hline
-YOLOv8s & 847 & 89.029 & 89.027 & -0.002 & 93.733 \\ \hline
-YOLOv11m & 847 & 88.779 & 89.163 & +0.384 & 93.717 \\ \hline
-Mask R-CNN R-101 FPN 3x & 847 & 77.920 & 77.549 & -0.370 & 85.631 \\ \hline
-U-Net & 847 & 49.969 & 49.643 & -0.326 & 61.458 \\ \hline
-\end{tabular}%
-}
-\end{table}
+\textcolor{red}{The inter-annotator mean IoU of $74.55~\%$ in Table~\ref{tab:interannotator} should not be interpreted as a human-performance ceiling directly comparable with the $86.60~\%$ YOLOv8s test IoU. Inter-annotator agreement was measured on a separate 248-image validation subset and quantifies disagreement between independently drawn masks, whereas model performance was measured on the similarity-safe 892-image final test set against its released reference masks. A controlled human--model comparison would require predictions and multiple independent annotations for the same images and reference construction. Recomposition of the final test partition addresses visual overlap at the 0.98 threshold, while the absence of source-, location-, and time-aware grouping remains a separate limitation.}
 
-\textcolor{red}{The inter-annotator mean IoU of $74.55~\%$ in Table~\ref{tab:interannotator} should not be interpreted as a human-performance ceiling directly comparable with the $89.03~\%$ YOLOv8s test IoU. Inter-annotator agreement was measured on a separate 248-image validation subset and quantifies disagreement between independently drawn masks, whereas model performance was measured on the 892-image final test set against its released reference masks. A controlled human--model comparison would require predictions and multiple independent annotations for the same images and reference construction. The similarity-filtered analysis above addresses one potential source of optimism, while the absence of source-, location-, and time-aware grouping remains a separate limitation.}
+\textcolor{red}{The standardized results identify different leaders depending on the evaluation criterion. YOLOv8s achieved the highest region-level IoU ($86.60~\%$), Dice/F1 ($91.42~\%$), and pixel accuracy ($94.66~\%$). YOLOv11x produced the strongest boundary metrics (Boundary IoU $45.27~\%$ and Boundary F1 $66.40~\%$). The computational results remain platform-specific measurements of the evaluated checkpoints and show that selecting a model only by region overlap can obscure differences in contour quality and computational cost.}
 
-\textcolor{red}{The standardized results identify different leaders depending on the evaluation criterion. YOLOv8s achieved the highest region-level IoU ($89.03~\%$), Dice/F1 ($93.73~\%$), and pixel accuracy ($96.02~\%$), while maintaining $0.0131 \pm 0.0001$~s/image, 76.20 FPS, and 0.675 GPU J/image. YOLOv11x produced the strongest boundary metrics (Boundary IoU $48.04~\%$ and Boundary F1 $70.22~\%$), but required $0.0476 \pm 0.0003$~s/image and 3.722 GPU J/image. These results show that selecting a model only by region overlap can obscure differences in contour quality and computational cost.}
-
-\textcolor{red}{Among the lightweight variants, YOLOv8n was the fastest and least energy-intensive checkpoint, reaching $0.0120 \pm 0.0001$~s/image, 83.39 FPS, and 0.263 GPU J/image. YOLOv11n had the smallest checkpoint (5.75 MB), but was slower at $0.0156 \pm 0.0004$~s/image and 64.00 FPS. Thus, checkpoint size alone did not determine workstation latency. YOLOv8s retained substantially higher segmentation accuracy than both nano variants while remaining close to their throughput, making it the strongest accuracy--efficiency compromise in this experiment. Mask R-CNN remained competitive in region segmentation but incurred higher resource use. ResNet-101 FPN 3x was the best Mask R-CNN variant by IoU ($77.92~\%$), with $0.0483 \pm 0.0009$~s/image, 20.72 FPS, 1949.74 MB peak process RAM, and 2.833 GPU J/image. ResNet-50 C4 3x was the fastest Mask R-CNN variant at $0.0310 \pm 0.0002$~s/image and 32.25 FPS, but its IoU was lower at $75.92~\%$. U-Net had the lowest peak process RAM (985.39 MB) and reached 64.77 FPS; its IoU ($49.97~\%$) and Boundary IoU ($20.93~\%$) were the lowest in the internal benchmark. However, U-Net was trained and evaluated at $256\times256$, whereas YOLO and Mask R-CNN used $640\times640$ inputs. Its result is therefore retained as a compact, resolution-distinct semantic baseline and should not be interpreted as a resolution-controlled architectural ranking.}
+\textcolor{red}{Among the lightweight variants, YOLOv8n was the fastest checkpoint in the recomputed profile, reaching $0.0094 \pm 0.0004$~s/image and 106.21 FPS. YOLOv11n had the smallest checkpoint (5.75 MB) and the lowest measured GPU energy (0.268 J/image), while reaching $0.0135 \pm 0.0004$~s/image and 74.23 FPS. Thus, checkpoint size alone did not determine workstation latency. YOLOv8s retained higher segmentation accuracy than both nano variants while reaching 89.05 FPS, making it the strongest accuracy--efficiency compromise in this experiment. Mask R-CNN remained competitive in region segmentation but incurred higher resource use. ResNet-101 FPN 3x was the best Mask R-CNN variant by IoU ($76.53~\%$), while ResNet-50 C4 3x reached $74.31~\%$. U-Net had the lowest peak process RAM (988.76 MB) and reached 64.09 FPS; its IoU ($49.96~\%$) and Boundary IoU ($20.24~\%$) were the lowest in the internal benchmark. However, U-Net was trained and evaluated at $256\times256$, whereas YOLO and Mask R-CNN used $640\times640$ inputs. Its result is therefore retained as a compact, resolution-distinct semantic baseline and should not be interpreted as a resolution-controlled architectural ranking.}
 
 \textcolor{red}{All computational values characterize the specified RTX 4060 Laptop GPU workstation and the reported software stack. They establish a controlled comparison among architectures on this platform, but they do not demonstrate embedded-device latency, energy use, or real-time operation. The lightweight YOLO variants are candidates for subsequent UAV and edge-device validation, which must be performed on the intended target hardware.}
 
@@ -678,7 +662,7 @@ Additional qualitative examples are presented in Figure~\ref{f6}, following the 
 
 \textcolor{red}{The same export limitation affects item-level source and licensing traceability for the 5,344 images collected from public repositories. The Roboflow release metadata records a dataset-level CC BY 4.0 configuration, but the local export does not contain an authoritative per-image mapping to each upstream repository and license. Accordingly, dataset-level release metadata should not be interpreted as reconstructing or superseding upstream rights. A provenance manifest linking each public image to its source URL, original identifier, and reuse terms is required for a future fully traceable release; files whose upstream redistribution rights cannot be verified should be distributed only as identifiers, annotations, or acquisition scripts, as permitted by their original terms.}
 
-\textcolor{red}{The current image-level split also does not demonstrate geographic or temporal independence. Splitting before augmentation reduces direct leakage from augmented derivatives, but no source-aware, region-wise, biome-aware, flight-wise, or date-wise grouping was available. Spatially close, visually similar, or temporally related samples may therefore share patterns across training, validation, and test partitions, potentially causing optimistic performance estimates. The 892-image test results are internally standardized across architectures, but they should be interpreted as performance under this partitioning protocol rather than as evidence of transfer to unseen locations or acquisition periods.}
+\textcolor{red}{The similarity-safe test recomposition removes all manually confirmed test pairs at or above the prespecified 0.98 cosine threshold and yields no remaining test--training or test--validation pair at or above that threshold. However, this image-based audit does not demonstrate geographic or temporal independence. No authoritative source-aware, region-wise, biome-aware, flight-wise, or date-wise grouping was available, and related samples may remain below the embedding threshold. The 892-image test results are internally standardized across architectures, but they should be interpreted as performance under this corrected visual-similarity protocol rather than as evidence of transfer to unseen locations or acquisition periods.}
 
 \textcolor{red}{Future releases should preserve, whenever licensing and privacy permit, image-level provenance fields for source, geographic region or coordinates, Brazilian biome, sensor, flight or acquisition campaign, and acquisition date. Samples can then be grouped by those fields before partitioning to support source-aware, region-wise, biome-aware, and temporal holdout protocols. Such metadata and protocols are required before making robust claims about unseen regions, biomes, sensors, or land-cover change over time.}
 

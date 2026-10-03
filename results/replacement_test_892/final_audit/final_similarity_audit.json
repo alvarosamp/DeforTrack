@@ -1,0 +1,33 @@
+{
+  "extractor": "torchvision ResNet-18 ImageNet-1K V1, 512-D penultimate features",
+  "metric": "cosine similarity",
+  "final_test_images": 892,
+  "unique_test_images_at_or_above_threshold": 0,
+  "exact_binary_duplicates_to_train_or_validation": 0,
+  "comparisons": [
+    {
+      "comparison": "final-test-train",
+      "test_images": 892,
+      "reference_images": 12861,
+      "threshold": 0.98,
+      "pairs_at_or_above_threshold": 0,
+      "test_images_with_nearest_at_or_above_threshold": 0,
+      "nearest_mean": 0.9407417676641268,
+      "nearest_p95": 0.9746521234512329,
+      "nearest_p99": 0.9782813501358032,
+      "nearest_max": 0.9798950552940369
+    },
+    {
+      "comparison": "final-test-validation",
+      "test_images": 892,
+      "reference_images": 895,
+      "threshold": 0.98,
+      "pairs_at_or_above_threshold": 0,
+      "test_images_with_nearest_at_or_above_threshold": 0,
+      "nearest_mean": 0.8979115456743625,
+      "nearest_p95": 0.9658315122127533,
+      "nearest_p99": 0.9753427588939667,
+      "nearest_max": 0.9783899784088135
+    }
+  ]
+}
