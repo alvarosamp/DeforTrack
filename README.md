@@ -14,7 +14,7 @@ DeforTrack is a multi-source RGB dataset for binary forest / non-forest segmenta
 | Train | 12,861 | 12,861 |
 | Validation | 895 | 833 |
 | Test | 892 | 892 (845 kept + 47 replaced) |
-| Cross-split pairs with similarity ≥ 0.98 | 90 (test) + 111 (validation) | 0 |
+| Cross-split pairs with similarity ≥ 0.98 | See audit stages below | 0 |
 | Checkpoint selection | 895 validation images | 833 validation images |
 
 V2 keeps the same training samples and augmentation. Only the validation and test splits changed, and all 17 models were retrained and reevaluated on the V2 split.
@@ -28,9 +28,9 @@ V2 keeps the same training samples and augmentation. Only the validation and tes
 | Test | 892 |
 | **Total** | **14,586** |
 
-Augmentation was applied to the training split only (original image plus two transformed copies), so the 12,861 training samples come from 4,287 source images. Forest regions were drawn by hand as polygons; the forest mask is the union of the polygons in each image.
+Augmentation was applied to training only, with three outputs per source image. The 12,861 training samples come from 4,287 source images. Reference forest masks are the union of the polygons in each image. The 47 replacement test images use masks inherited from Forest Aerial Images.
 
-Before the final split was fixed, every image was compared across splits with ResNet-18 embeddings (cosine similarity, threshold 0.98) and SHA-256:
+Before the final split was fixed, images were compared across splits using ResNet-18 embeddings (cosine similarity, threshold 0.98) and SHA-256. The initial audit, before the test replacements, flagged 90 pairs involving test images and 111 validation–training pairs. After the test replacements, a separate audit found no pairs involving the test split at that threshold and flagged 115 validation–training pairs involving 62 distinct validation images. The two validation–training counts come from separate runs on unchanged partitions.
 
 - 47 test images that were too close to training or validation images were replaced with pairs from Forest Aerial Images, keeping the test set at 892 images;
 - 62 validation images flagged against training were removed without replacement (895 → 833).
@@ -94,7 +94,8 @@ Download the dataset from Roboflow in YOLOv8 format and the weights from the rel
 
 ```bash
 python benchmark.py verify-data test /path/to/defortrack
-sha256sum -c models/SHA256SUMS   # run inside the folder with the downloaded weights
+cd /path/to/downloaded-weights
+sha256sum -c /path/to/DeforTrack/models/SHA256SUMS
 ```
 
 Evaluate a checkpoint:
