@@ -1,9 +1,23 @@
-# DeforTrack
+# DeforTrack V2
+
+> **Current version: V2.** Everything at the root of this repository refers to V2. The first version (V1) is kept in [`v1/`](v1/).
 
 DeforTrack is a multi-source RGB dataset for binary forest / non-forest segmentation. This repository has the split manifests, the trained checkpoints and the code used to evaluate 17 models from the YOLOv8, YOLOv11, Mask R-CNN and U-Net families.
 
 **Dataset:** [DeforTrack on Roboflow (version 3)](https://universe.roboflow.com/eu-sr6tp/defortrack-oqdcu/dataset/3)
 **Weights:** [release v2.0](https://github.com/alvarosamp/DeforTrack/releases/tag/v2.0)
+
+## V2 vs. V1
+
+| | V1 | V2 |
+| --- | ---: | ---: |
+| Train | 12,861 | 12,861 |
+| Validation | 895 | 833 |
+| Test | 892 | 892 (845 kept + 47 replaced) |
+| Cross-split pairs with similarity ≥ 0.98 | 90 (test) + 111 (validation) | 0 |
+| Checkpoint selection | 895 validation images | 833 validation images |
+
+V2 keeps the same training samples and augmentation. Only the validation and test splits changed, and all 17 models were retrained and reevaluated on the V2 split.
 
 ## Dataset
 
@@ -61,7 +75,7 @@ annotation/    agreement between the three annotators (248 images)
 training/      Colab training pipeline and helpers
 results/       consolidated metrics for the 17 checkpoints
 benchmark.py   data verification and evaluation
-legacy/        first benchmark round (895 validation images)
+v1/            DeforTrack V1 (first version, 895 validation images)
 ```
 
 Each checkpoint folder has `training/` (settings and log), `internal/` (test scores), `external/` (Forest Aerial Images and Amazon/Atlantic Forest scores) and `profile/` (latency, memory, energy).

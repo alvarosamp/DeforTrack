@@ -1,6 +1,8 @@
-# DeforTrack - earlier protocol
+# DeforTrack V1
 
-Material from the first benchmark round, with 895 validation images. It is kept for reference; the current results are in the [main README](../README.md). Paths below are relative to this folder.
+> First version of the dataset and benchmark, with 895 validation images. It is kept for reference. The current version is **V2**, described in the [main README](../README.md).
+
+Paths below are relative to this folder.
 
 Official repository for the DeforTrack binary forest/non-forest segmentation dataset and benchmark. It contains reproducible evaluation code, trained-model documentation, manuscript sources, and machine-readable results.
 
