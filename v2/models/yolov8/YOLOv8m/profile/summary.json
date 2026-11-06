@@ -1,0 +1,32 @@
+{
+  "model": "YOLOv8m",
+  "weights_sha256": "6d98fbf7d8c46a623a948704c9aa6245e1a0c91671ab737a4a301458d18f2797",
+  "warmup": 892,
+  "measured": 2676,
+  "batch": 1,
+  "trials": [
+    0.024666058295954547,
+    0.025135084865475124,
+    0.026778094058300003
+  ],
+  "latency_seconds": 0.02552641240657656,
+  "latency_trial_std": 0.00110906568726785,
+  "fps": 39.175109454173146,
+  "checkpoint_size_mib": 52.30257797241211,
+  "logical_cpus": 32,
+  "hardware": "Local RTX4060 workstation, not Colab",
+  "power_thermal_conditions_fixed": false,
+  "ram_peak_mb": 1418.46875,
+  "cpu_mean_percent_total": 3.2312072673136303,
+  "gpu_power_mean_w": 67.35929466254963,
+  "energy_total_j": 4626.079917166699,
+  "energy_j_per_image": 1.7287294159815765,
+  "resource_samples": 2267,
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "torch": "2.8.0+cu129",
+  "cuda": "12.9",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "original_training_torch": "2.11.0+cu130",
+  "training_started": false
+}

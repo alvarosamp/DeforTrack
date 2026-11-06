@@ -1,0 +1,22 @@
+{
+  "model": "mask_rcnn_R_50_DC5_1x",
+  "best_sha256": "dae5044806eb3b82155fcc81f0afa162115de61e4eb32ef4c2117d14f9953c9b",
+  "final_training_gpu": "Tesla T4",
+  "torch": "2.11.0+cu130",
+  "selection_split": "valid",
+  "selection_images": 833,
+  "test_used_for_selection": false,
+  "partition_manifest_sha256": "e14eecf7e8c253dfb1182fc31a916587148f0f3bd66ee21337d5c1b05a090b3c",
+  "state": {
+    "step": 128620,
+    "best_ap": 67.24780814137108,
+    "bad_validations": 5,
+    "best_step": 96465
+  },
+  "parameters": {
+    "max_iterations": 720000,
+    "lr": 0.0025,
+    "evaluation_period": 6431,
+    "patience_validations": 5
+  }
+}

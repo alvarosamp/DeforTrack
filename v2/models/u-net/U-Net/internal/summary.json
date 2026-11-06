@@ -1,0 +1,41 @@
+{
+  "model": "U-Net",
+  "weights_sha256": "7c762b68b05b893d625d2673378e98799ab81ad7e22c87b4d3a6481b8c984bb9",
+  "region": [
+    {
+      "model": "U-Net",
+      "dataset": "test",
+      "n": 892,
+      "iou_mean": 0.7666795081125425,
+      "iou_std": 0.19294184325176703,
+      "iou_ci95_halfwidth": 0.012661934639235534,
+      "dice_f1_mean": 0.8504970692654843,
+      "dice_f1_std": 0.16351045356849786,
+      "dice_f1_ci95_halfwidth": 0.010730480444381862,
+      "precision_mean": 0.8411445907007686,
+      "precision_std": 0.16999470765340463,
+      "precision_ci95_halfwidth": 0.011156013859132908,
+      "recall_mean": 0.8826082866568323,
+      "recall_std": 0.1528442022924754,
+      "recall_ci95_halfwidth": 0.010030500729113842,
+      "boundary_iou_mean": 0.23986458627389173,
+      "boundary_iou_std": 0.1203821824924047,
+      "boundary_iou_ci95_halfwidth": 0.007900159450940629,
+      "boundary_f1_mean": 0.39667537040979595,
+      "boundary_f1_std": 0.17606150653032224,
+      "boundary_f1_ci95_halfwidth": 0.011554151502861543,
+      "pixel_accuracy_mean": 0.9072500870364587,
+      "pixel_accuracy_std": 0.09935624370566123,
+      "pixel_accuracy_ci95_halfwidth": 0.006520318467982284
+    }
+  ],
+  "common_ap": null,
+  "evaluation_only": true,
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "torch": "2.8.0+cu129",
+  "cuda": "12.9",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "original_training_torch": "2.11.0+cu130",
+  "training_started": false
+}

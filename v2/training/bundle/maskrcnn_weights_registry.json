@@ -1,0 +1,56 @@
+{
+  "mask_rcnn_R_101_C4_3x": {
+    "sha256": "b41cf346f786f781263b7e7193d196d439a4922fbf0d2bb7c8689a06dbd5e89b",
+    "source_url": "https://dl.fbaipublicfiles.com/detectron2/COCO-InstanceSegmentation/mask_rcnn_R_101_C4_3x/138363239/model_final_a2914c.pkl",
+    "config": "COCO-InstanceSegmentation/mask_rcnn_R_101_C4_3x.yaml",
+    "bytes": 220308676,
+    "initialization_type": "official COCO pretrained",
+    "local_model_zoo_sha256": "e3b7e2b950678ae8d55af375eed5331fed606a6ece656778b39968796ba585ec",
+    "published_digest_verified": false
+  },
+  "mask_rcnn_R_101_DC5_3x": {
+    "sha256": "d604283570eaf175bf30db1333683daa8531a086754fe74007a3ce0a2f17f535",
+    "source_url": "https://dl.fbaipublicfiles.com/detectron2/COCO-InstanceSegmentation/mask_rcnn_R_101_DC5_3x/138363294/model_final_0464b7.pkl",
+    "config": "COCO-InstanceSegmentation/mask_rcnn_R_101_DC5_3x.yaml",
+    "bytes": 766085989,
+    "initialization_type": "official COCO pretrained",
+    "local_model_zoo_sha256": "e3b7e2b950678ae8d55af375eed5331fed606a6ece656778b39968796ba585ec",
+    "published_digest_verified": false
+  },
+  "mask_rcnn_R_101_FPN_3x": {
+    "sha256": "7b0dfdb34b35f7f7d8f31bb2cd99f9cbb7068b106d89be460b92c149bd037226",
+    "source_url": "https://dl.fbaipublicfiles.com/detectron2/COCO-InstanceSegmentation/mask_rcnn_R_101_FPN_3x/138205316/model_final_a3ec72.pkl",
+    "config": "COCO-InstanceSegmentation/mask_rcnn_R_101_FPN_3x.yaml",
+    "bytes": 254055290,
+    "initialization_type": "official COCO pretrained",
+    "local_model_zoo_sha256": "e3b7e2b950678ae8d55af375eed5331fed606a6ece656778b39968796ba585ec",
+    "published_digest_verified": false
+  },
+  "mask_rcnn_R_50_C4_1x": {
+    "sha256": "ce4799e56d30f1c552888983e8c18ebd5dba6e55075b963d234401d627e8de1f",
+    "source_url": "https://dl.fbaipublicfiles.com/detectron2/COCO-InstanceSegmentation/mask_rcnn_R_50_C4_1x/137259246/model_final_9243eb.pkl",
+    "config": "COCO-InstanceSegmentation/mask_rcnn_R_50_C4_1x.yaml",
+    "bytes": 144099107,
+    "initialization_type": "official COCO pretrained",
+    "local_model_zoo_sha256": "e3b7e2b950678ae8d55af375eed5331fed606a6ece656778b39968796ba585ec",
+    "published_digest_verified": false
+  },
+  "mask_rcnn_R_50_C4_3x": {
+    "sha256": "d536a5aaeabee9544159abc0751f01831f3061f5c3c3c3436a0400ae18379039",
+    "source_url": "https://dl.fbaipublicfiles.com/detectron2/COCO-InstanceSegmentation/mask_rcnn_R_50_C4_3x/137849525/model_final_4ce675.pkl",
+    "config": "COCO-InstanceSegmentation/mask_rcnn_R_50_C4_3x.yaml",
+    "bytes": 144099107,
+    "initialization_type": "official COCO pretrained",
+    "local_model_zoo_sha256": "e3b7e2b950678ae8d55af375eed5331fed606a6ece656778b39968796ba585ec",
+    "published_digest_verified": false
+  },
+  "mask_rcnn_R_50_DC5_1x": {
+    "sha256": "2895cfc3002c3c7534b09b7f4455a688207b7dd1ac2d6d5848b7461f918f7ccc",
+    "source_url": "https://dl.fbaipublicfiles.com/detectron2/COCO-InstanceSegmentation/mask_rcnn_R_50_DC5_1x/137260150/model_final_4f86c3.pkl",
+    "config": "COCO-InstanceSegmentation/mask_rcnn_R_50_DC5_1x.yaml",
+    "bytes": 689876420,
+    "initialization_type": "official COCO pretrained",
+    "local_model_zoo_sha256": "e3b7e2b950678ae8d55af375eed5331fed606a6ece656778b39968796ba585ec",
+    "published_digest_verified": false
+  }
+}

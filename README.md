@@ -2,6 +2,19 @@
 
 Official repository for the DeforTrack binary forest/non-forest segmentation dataset and benchmark. It contains reproducible evaluation code, trained-model documentation, manuscript sources, and machine-readable results.
 
+## V2 benchmark
+
+The [current dataset release](https://universe.roboflow.com/eu-sr6tp/defortrack-oqdcu/dataset/3) contains 14,586 images: 12,861 for training, 833 for validation, and 892 for testing.
+
+- [V2 evaluation and data verification](v2/README.md)
+- [Checkpoints and SHA-256](v2/models/checkpoints.csv)
+- [Results by architecture](v2/models/)
+- [Image and annotation hashes](v2/data/partition_manifest.csv)
+- [Model weights (v2.0 release)](https://github.com/alvarosamp/DeforTrack/releases/tag/v2.0)
+- [Inter-annotator agreement](v2/annotation/)
+
+The sections below describe the earlier protocol with 895 validation images. The results in the current manuscript come from the V2 files.
+
 ## Repository layout
 
 - `article/`: LaTeX manuscript and bibliography.

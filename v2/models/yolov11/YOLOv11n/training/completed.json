@@ -1,0 +1,31 @@
+{
+  "model": "YOLOv11n",
+  "best_sha256": "3c246465f156898887f45dac6560857e86dbcd641ae2c8449ac3aad4f14d37ee",
+  "final_training_gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "torch": "2.8.0+cu129",
+  "selection_split": "valid",
+  "selection_images": 833,
+  "test_used_for_selection": false,
+  "partition_manifest_sha256": "e14eecf7e8c253dfb1182fc31a916587148f0f3bd66ee21337d5c1b05a090b3c",
+  "state": {
+    "epoch": 228,
+    "best_epoch": 223,
+    "best_fitness": 1.40263
+  },
+  "parameters": {
+    "epochs": 2000,
+    "patience": 5,
+    "imgsz": 640,
+    "batch": 2,
+    "nbs": 64,
+    "seed": 0,
+    "deterministic": true,
+    "amp": true,
+    "cache": false,
+    "device": 0,
+    "workers": 2,
+    "save": true,
+    "plots": false,
+    "exist_ok": true
+  }
+}

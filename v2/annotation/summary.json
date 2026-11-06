@@ -1,0 +1,268 @@
+{
+  "archives": {
+    "A1": {
+      "path": "Alvaro.v1i.yolov8.zip",
+      "sha256": "544070e937a432e152bc017a451bada3a3ef45884f03d26569ffb4dceddc5e9d"
+    },
+    "A2": {
+      "path": "DatasetValidation-Folder- DatasetValidacao.coco.zip",
+      "sha256": "9dd65d5585547bef295426d5a0af5be2b200c1e5b9c3e1a4d275a18500066b2a"
+    },
+    "A3": {
+      "path": "Floresta Alvaro 2.v1-florest-alvaro.coco-segmentation.zip",
+      "sha256": "505b532f1ca8ee3b9289718f403df1b3ea7801e54fc5c2a07fc30683fa728a7a"
+    }
+  },
+  "code_sha256": "059048ee7f7afd55be30b16bbdcfe68c5eda242b6389d671c53718187b4dd73c",
+  "annotators": {
+    "A1": "Alvaro archive",
+    "A2": "Greg archive",
+    "A3": "Luigi archive"
+  },
+  "common_source_names": 248,
+  "accepted_source_names": 248,
+  "unmatched_or_missing_source_names": {
+    "A1": [
+      "1-37-5"
+    ],
+    "A2": [],
+    "A3": [
+      "1-37-5"
+    ]
+  },
+  "geometry_rejected_source_names": [],
+  "protocol": {
+    "canvas": [
+      640,
+      640
+    ],
+    "rasterization": "normalized float32 polygons rounded at (size-1), clipped, union",
+    "source_matching": "strip Roboflow token and export extension suffixes; compare all same-name image triplets; minimum total 64x64 RGB MSE, lexical tie-break; no mask metrics used to select",
+    "maximum_pair_image_mse": 0.002,
+    "precision_reference": "lower-index annotator is reference",
+    "empty_region_score": "IoU/Dice=1 for two empty masks; undefined precision=1 only if reference empty, else 0",
+    "kappa_undefined": "expected agreement equal to 1: omit Kappa and report its defined n",
+    "final_table_row": "mean and sample SD across per-image averages of pair scores, not average of pair SDs",
+    "consensus": "two-of-three majority; related to constituent annotators, not independent ground truth"
+  },
+  "pairs": {
+    "A1-A2": {
+      "n_images": 248,
+      "iou": {
+        "n_defined": 248,
+        "mean": 0.7352853340980489,
+        "std": 0.19486443038675777,
+        "ci95_halfwidth": 0.024252851258799255
+      },
+      "dice": {
+        "n_defined": 248,
+        "mean": 0.8287893520359946,
+        "std": 0.1709064491393749,
+        "ci95_halfwidth": 0.021271037930935162
+      },
+      "precision": {
+        "n_defined": 248,
+        "mean": 0.8524026163958438,
+        "std": 0.18550164959834983,
+        "ci95_halfwidth": 0.023087558396580558
+      },
+      "kappa": {
+        "n_defined": 248,
+        "mean": 0.7316266931835648,
+        "std": 0.20034062526719604,
+        "ci95_halfwidth": 0.02493441915518684
+      }
+    },
+    "A1-A3": {
+      "n_images": 248,
+      "iou": {
+        "n_defined": 248,
+        "mean": 0.7644838664171426,
+        "std": 0.18320842622404873,
+        "ci95_halfwidth": 0.022802143530000034
+      },
+      "dice": {
+        "n_defined": 248,
+        "mean": 0.8514211670382789,
+        "std": 0.1485882411488547,
+        "ci95_halfwidth": 0.018493310986706687
+      },
+      "precision": {
+        "n_defined": 248,
+        "mean": 0.8533445667989784,
+        "std": 0.15636940803136762,
+        "ci95_halfwidth": 0.01946175598534973
+      },
+      "kappa": {
+        "n_defined": 248,
+        "mean": 0.7548922541669897,
+        "std": 0.197453840750154,
+        "ci95_halfwidth": 0.02457512959490605
+      }
+    },
+    "A2-A3": {
+      "n_images": 248,
+      "iou": {
+        "n_defined": 248,
+        "mean": 0.7658957462941058,
+        "std": 0.20946126749221236,
+        "ci95_halfwidth": 0.026069575421669204
+      },
+      "dice": {
+        "n_defined": 248,
+        "mean": 0.8459993214528094,
+        "std": 0.18517990530569572,
+        "ci95_halfwidth": 0.023047514061872474
+      },
+      "precision": {
+        "n_defined": 248,
+        "mean": 0.8480805262898135,
+        "std": 0.15822622216623564,
+        "ci95_halfwidth": 0.019692855303674837
+      },
+      "kappa": {
+        "n_defined": 248,
+        "mean": 0.7571560935799289,
+        "std": 0.2329257076139329,
+        "ci95_halfwidth": 0.02898996255960714
+      }
+    }
+  },
+  "per_image_pair_average": {
+    "n_images": 248,
+    "iou": {
+      "n_defined": 248,
+      "mean": 0.7552216489364324,
+      "std": 0.16777342320390431,
+      "ci95_halfwidth": 0.020881101133069506
+    },
+    "dice": {
+      "n_defined": 248,
+      "mean": 0.842069946842361,
+      "std": 0.1417719193652231,
+      "ci95_halfwidth": 0.01764495072915522
+    },
+    "precision": {
+      "n_defined": 248,
+      "mean": 0.8512759031615452,
+      "std": 0.13043519042942117,
+      "ci95_halfwidth": 0.01623398003483391
+    },
+    "kappa": {
+      "n_defined": 248,
+      "mean": 0.7478916803101612,
+      "std": 0.1781128583360694,
+      "ci95_halfwidth": 0.022167948516466796
+    }
+  },
+  "pooled_pair_image_descriptive": {
+    "n_images": 744,
+    "iou": {
+      "n_defined": 744,
+      "mean": 0.7552216489364325,
+      "std": 0.19638297461252022,
+      "ci95_halfwidth": 0.0141115083664565
+    },
+    "dice": {
+      "n_defined": 744,
+      "mean": 0.842069946842361,
+      "std": 0.16894609746222405,
+      "ci95_halfwidth": 0.01213997431560625
+    },
+    "precision": {
+      "n_defined": 744,
+      "mean": 0.8512759031615452,
+      "std": 0.16702069373763917,
+      "ci95_halfwidth": 0.012001620413889998
+    },
+    "kappa": {
+      "n_defined": 744,
+      "mean": 0.7478916803101611,
+      "std": 0.21088675294854342,
+      "ci95_halfwidth": 0.015153707618901132
+    }
+  },
+  "consensus": {
+    "A1": {
+      "n_images": 248,
+      "iou": {
+        "n_defined": 248,
+        "mean": 0.8536934846761417,
+        "std": 0.12713136602970895,
+        "ci95_halfwidth": 0.015822785638851127
+      },
+      "dice": {
+        "n_defined": 248,
+        "mean": 0.9150268676699246,
+        "std": 0.0898462877619806,
+        "ci95_halfwidth": 0.011182280157141854
+      },
+      "precision": {
+        "n_defined": 248,
+        "mean": 0.9257033446576582,
+        "std": 0.07184659386484395,
+        "ci95_halfwidth": 0.008942036014458964
+      },
+      "kappa": {
+        "n_defined": 248,
+        "mean": 0.8599974756789258,
+        "std": 0.11466134825189092,
+        "ci95_halfwidth": 0.014270765674203153
+      }
+    },
+    "A2": {
+      "n_images": 248,
+      "iou": {
+        "n_defined": 248,
+        "mean": 0.8597120159142746,
+        "std": 0.1720685738408672,
+        "ci95_halfwidth": 0.02141567611592116
+      },
+      "dice": {
+        "n_defined": 248,
+        "mean": 0.9109002958548681,
+        "std": 0.15165185586260305,
+        "ci95_halfwidth": 0.018874608855277867
+      },
+      "precision": {
+        "n_defined": 248,
+        "mean": 0.9349685590361961,
+        "std": 0.1524597936658578,
+        "ci95_halfwidth": 0.018975164894827045
+      },
+      "kappa": {
+        "n_defined": 248,
+        "mean": 0.8625315429618595,
+        "std": 0.18166638972841165,
+        "ci95_halfwidth": 0.022610221475830895
+      }
+    },
+    "A3": {
+      "n_images": 248,
+      "iou": {
+        "n_defined": 248,
+        "mean": 0.8917049109796286,
+        "std": 0.14690417039820544,
+        "ci95_halfwidth": 0.01828371133148112
+      },
+      "dice": {
+        "n_defined": 248,
+        "mean": 0.9338945539725582,
+        "std": 0.11630344140444157,
+        "ci95_halfwidth": 0.014475140792344828
+      },
+      "precision": {
+        "n_defined": 248,
+        "mean": 0.9335400087551733,
+        "std": 0.10328082359072213,
+        "ci95_halfwidth": 0.012854344158451863
+      },
+      "kappa": {
+        "n_defined": 248,
+        "mean": 0.8891807628937752,
+        "std": 0.16662655424314268,
+        "ci95_halfwidth": 0.020738361679473585
+      }
+    }
+  }
+}

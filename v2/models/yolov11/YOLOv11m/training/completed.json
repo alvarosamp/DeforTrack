@@ -1,0 +1,31 @@
+{
+  "model": "YOLOv11m",
+  "best_sha256": "bc9a0d8d6c2389a2a966d0054e5878f785f22a0a5dba68736a7751bb2533cec0",
+  "final_training_gpu": "Tesla T4",
+  "torch": "2.11.0+cu130",
+  "selection_split": "valid",
+  "selection_images": 833,
+  "test_used_for_selection": false,
+  "partition_manifest_sha256": "e14eecf7e8c253dfb1182fc31a916587148f0f3bd66ee21337d5c1b05a090b3c",
+  "state": {
+    "epoch": 71,
+    "best_epoch": 66,
+    "best_fitness": 1.5066
+  },
+  "parameters": {
+    "epochs": 2000,
+    "patience": 5,
+    "imgsz": 640,
+    "batch": 4,
+    "nbs": 64,
+    "seed": 0,
+    "deterministic": true,
+    "amp": true,
+    "cache": false,
+    "device": 0,
+    "workers": 2,
+    "save": true,
+    "plots": false,
+    "exist_ok": true
+  }
+}

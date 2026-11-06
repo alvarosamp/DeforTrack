@@ -1,0 +1,102 @@
+{
+  "YOLOv8n": {
+    "sha256": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+    "source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8n-seg.pt",
+    "initialization_type": "official COCO pretrained",
+    "release": "v8.4.0",
+    "github_asset_id": 340060887,
+    "bytes": 7071756,
+    "published_digest": "sha256:a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+    "published_digest_verified": true
+  },
+  "YOLOv8s": {
+    "sha256": "0bac0770b55e5eb5b76a61bc535673288dcec36c2bc0cd25ee0d584c632f3413",
+    "source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8s-seg.pt",
+    "initialization_type": "official COCO pretrained",
+    "release": "v8.4.0",
+    "github_asset_id": 340060665,
+    "bytes": 23914764,
+    "published_digest": "sha256:0bac0770b55e5eb5b76a61bc535673288dcec36c2bc0cd25ee0d584c632f3413",
+    "published_digest_verified": true
+  },
+  "YOLOv8m": {
+    "sha256": "51fa7e5ef385efa6d5b1d8e31b73399be6ed5d7ca71bda4bd4b2794bb445c4f4",
+    "source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8m-seg.pt",
+    "initialization_type": "official COCO pretrained",
+    "release": "v8.4.0",
+    "github_asset_id": 340060333,
+    "bytes": 54921020,
+    "published_digest": "sha256:51fa7e5ef385efa6d5b1d8e31b73399be6ed5d7ca71bda4bd4b2794bb445c4f4",
+    "published_digest_verified": true
+  },
+  "YOLOv8l": {
+    "sha256": "ca3ec94c445aeaf79c2b57982fb451060f18a7561e2c20b4d26bb9dc1fcabf93",
+    "source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8l-seg.pt",
+    "initialization_type": "official COCO pretrained",
+    "release": "v8.4.0",
+    "github_asset_id": 340059841,
+    "bytes": 92417004,
+    "published_digest": "sha256:ca3ec94c445aeaf79c2b57982fb451060f18a7561e2c20b4d26bb9dc1fcabf93",
+    "published_digest_verified": true
+  },
+  "YOLOv8x": {
+    "sha256": "c333d6a7aff884ec821050eacdab29871f3edd10d996cf48746a02f8e01f1b5d",
+    "source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8x-seg.pt",
+    "initialization_type": "official COCO pretrained",
+    "release": "v8.4.0",
+    "github_asset_id": 340572537,
+    "bytes": 144101612,
+    "published_digest": "sha256:c333d6a7aff884ec821050eacdab29871f3edd10d996cf48746a02f8e01f1b5d",
+    "published_digest_verified": true
+  },
+  "YOLOv11n": {
+    "sha256": "55ed65c56c91713d23e8402371c6c49a6fd84f257f7dce452e8d70e41dcbe152",
+    "source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-seg.pt",
+    "initialization_type": "official COCO pretrained",
+    "release": "v8.4.0",
+    "github_asset_id": 340060952,
+    "bytes": 6182636,
+    "published_digest": "sha256:55ed65c56c91713d23e8402371c6c49a6fd84f257f7dce452e8d70e41dcbe152",
+    "published_digest_verified": true
+  },
+  "YOLOv11s": {
+    "sha256": "1caa81c0195412efa411b632bcfb8c184939dddb6ae41f6a80c41b211ff257c3",
+    "source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11s-seg.pt",
+    "initialization_type": "official COCO pretrained",
+    "release": "v8.4.0",
+    "github_asset_id": 340060725,
+    "bytes": 20669228,
+    "published_digest": "sha256:1caa81c0195412efa411b632bcfb8c184939dddb6ae41f6a80c41b211ff257c3",
+    "published_digest_verified": true
+  },
+  "YOLOv11m": {
+    "sha256": "eb9a06f63e2206c35d68d839b08c362429ebecf933ad54c1ad68b2fd001c17cf",
+    "source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11m-seg.pt",
+    "initialization_type": "official COCO pretrained",
+    "release": "v8.4.0",
+    "github_asset_id": 340060476,
+    "bytes": 45400152,
+    "published_digest": "sha256:eb9a06f63e2206c35d68d839b08c362429ebecf933ad54c1ad68b2fd001c17cf",
+    "published_digest_verified": true
+  },
+  "YOLOv11l": {
+    "sha256": "cabe90049795dfc9a370b7934d6dec7f6b9e44a20e573b0ff81b7e205512c872",
+    "source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11l-seg.pt",
+    "initialization_type": "official COCO pretrained",
+    "release": "v8.4.0",
+    "github_asset_id": 340060319,
+    "bytes": 56096965,
+    "published_digest": "sha256:cabe90049795dfc9a370b7934d6dec7f6b9e44a20e573b0ff81b7e205512c872",
+    "published_digest_verified": true
+  },
+  "YOLOv11x": {
+    "sha256": "4e53a5f5fd3ee2ae3361c62169c6bb3ed4ae251dd0e57606e230955aa52d919c",
+    "source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11x-seg.pt",
+    "initialization_type": "official COCO pretrained",
+    "release": "v8.4.0",
+    "github_asset_id": 340059488,
+    "bytes": 125090821,
+    "published_digest": "sha256:4e53a5f5fd3ee2ae3361c62169c6bb3ed4ae251dd0e57606e230955aa52d919c",
+    "published_digest_verified": true
+  }
+}

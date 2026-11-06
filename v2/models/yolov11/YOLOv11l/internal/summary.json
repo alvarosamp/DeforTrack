@@ -1,0 +1,51 @@
+{
+  "model": "YOLOv11l",
+  "weights_sha256": "714889b3c789221a997a739f161cdde726741cd8670e598f65ea354adc67804a",
+  "region": [
+    {
+      "model": "YOLOv11l",
+      "dataset": "test",
+      "n": 892,
+      "iou_mean": 0.8638587619983505,
+      "iou_std": 0.1651653898908904,
+      "iou_ci95_halfwidth": 0.010839086722797518,
+      "dice_f1_mean": 0.9144343855582039,
+      "dice_f1_std": 0.14486734176937452,
+      "dice_f1_ci95_halfwidth": 0.009507014040754568,
+      "precision_mean": 0.9073681526985956,
+      "precision_std": 0.1487660246829969,
+      "precision_ci95_halfwidth": 0.00976286765653544,
+      "recall_mean": 0.9323483408278987,
+      "recall_std": 0.14124081768724528,
+      "recall_ci95_halfwidth": 0.009269021026270845,
+      "boundary_iou_mean": 0.38974035103255883,
+      "boundary_iou_std": 0.1648374783861703,
+      "boundary_iou_ci95_halfwidth": 0.01081756731585995,
+      "boundary_f1_mean": 0.595220864932434,
+      "boundary_f1_std": 0.21892605046181898,
+      "boundary_f1_ci95_halfwidth": 0.014367165229972194,
+      "pixel_accuracy_mean": 0.9445185229380402,
+      "pixel_accuracy_std": 0.09761511749910701,
+      "pixel_accuracy_ci95_halfwidth": 0.006406055922053964
+    }
+  ],
+  "common_ap": {
+    "AP": 0.6803407311928397,
+    "AP50": 0.8995698603654583,
+    "AP75": 0.7589619336122302,
+    "implementation": "ordinary pycocotools.COCOeval",
+    "maxDets": [
+      1,
+      10,
+      100
+    ]
+  },
+  "evaluation_only": true,
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "torch": "2.8.0+cu129",
+  "cuda": "12.9",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "original_training_torch": "2.11.0+cu130",
+  "training_started": false
+}

@@ -1,0 +1,31 @@
+{
+  "model": "YOLOv11s",
+  "best_sha256": "a54c52c6b1189a4ed1abff388973f14e3f5f78a7c226b7e2057d5cbf6ae3ce6f",
+  "final_training_gpu": "NVIDIA L4",
+  "torch": "2.11.0+cu130",
+  "selection_split": "valid",
+  "selection_images": 833,
+  "test_used_for_selection": false,
+  "partition_manifest_sha256": "e14eecf7e8c253dfb1182fc31a916587148f0f3bd66ee21337d5c1b05a090b3c",
+  "state": {
+    "epoch": 216,
+    "best_epoch": 211,
+    "best_fitness": 1.50488
+  },
+  "parameters": {
+    "epochs": 2000,
+    "patience": 5,
+    "imgsz": 640,
+    "batch": 4,
+    "nbs": 64,
+    "seed": 0,
+    "deterministic": true,
+    "amp": true,
+    "cache": false,
+    "device": 0,
+    "workers": 2,
+    "save": true,
+    "plots": false,
+    "exist_ok": true
+  }
+}

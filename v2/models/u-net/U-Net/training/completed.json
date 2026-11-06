@@ -1,0 +1,23 @@
+{
+  "model": "U-Net",
+  "best_sha256": "7c762b68b05b893d625d2673378e98799ab81ad7e22c87b4d3a6481b8c984bb9",
+  "final_training_gpu": "Tesla T4",
+  "torch": "2.11.0+cu130",
+  "selection_split": "valid",
+  "selection_images": 833,
+  "test_used_for_selection": false,
+  "partition_manifest_sha256": "e14eecf7e8c253dfb1182fc31a916587148f0f3bd66ee21337d5c1b05a090b3c",
+  "state": {
+    "epoch": 28,
+    "best_loss": 0.16754919290542603,
+    "bad_epochs": 5,
+    "best_epoch": 23
+  },
+  "parameters": {
+    "imgsz": 640,
+    "batch": 2,
+    "epochs": 2000,
+    "patience": 5,
+    "Adam_lr": 0.001
+  }
+}

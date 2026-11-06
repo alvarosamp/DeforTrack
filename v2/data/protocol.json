@@ -1,0 +1,44 @@
+{
+  "protocol_id": "defortrack_v2_derived_clean_validation_2026-10-11",
+  "counts": {
+    "train": 12861,
+    "valid": 833,
+    "test": 892
+  },
+  "manifest_sha256": "e14eecf7e8c253dfb1182fc31a916587148f0f3bd66ee21337d5c1b05a090b3c",
+  "comparisons": [
+    {
+      "comparison": "test-train",
+      "queries": 892,
+      "references": 12861,
+      "nearest_mean": 0.941272958712193,
+      "nearest_p99": 0.9781641960144043,
+      "nearest_max": 0.9798966646194458,
+      "pairs_at_or_above_threshold": 0,
+      "queries_at_or_above_threshold": 0,
+      "queries_with_nearest_within_0_001_of_threshold": 5
+    },
+    {
+      "comparison": "test-valid",
+      "queries": 892,
+      "references": 833,
+      "nearest_mean": 0.8964015197994463,
+      "nearest_p99": 0.9742896032333375,
+      "nearest_max": 0.9785473942756653,
+      "pairs_at_or_above_threshold": 0,
+      "queries_at_or_above_threshold": 0,
+      "queries_with_nearest_within_0_001_of_threshold": 0
+    },
+    {
+      "comparison": "valid-train",
+      "queries": 833,
+      "references": 12861,
+      "nearest_mean": 0.9537817269098573,
+      "nearest_p99": 0.9791864776611328,
+      "nearest_max": 0.9798927307128906,
+      "pairs_at_or_above_threshold": 0,
+      "queries_at_or_above_threshold": 0,
+      "queries_with_nearest_within_0_001_of_threshold": 10
+    }
+  ]
+}
