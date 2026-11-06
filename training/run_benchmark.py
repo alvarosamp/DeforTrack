@@ -16,6 +16,7 @@ os.environ.setdefault('KERAS_BACKEND', 'torch')
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 MANIFEST_HASH = 'e14eecf7e8c253dfb1182fc31a916587148f0f3bd66ee21337d5c1b05a090b3c'
 COUNTS = dict(train=12861, valid=833, test=892)
+TRAINING_SEED = 0
 
 
 def sha(path):
@@ -93,7 +94,7 @@ def restore(work, target):
 
 
 def prepare(args):
-    from fresh_training_guards import validate_rows
+    from common.validation import validate_rows
     bundle, data = args.bundle, args.data
     manifest = bundle / 'partition_manifest.csv'
     if sha(manifest) != MANIFEST_HASH:
@@ -162,7 +163,7 @@ def train_yolo(args, job, work, target, state):
     from ultralytics import YOLO
     initial, provenance = official_weight(args, job)
     parameters = dict(data=str(args.work/'data.yaml'), epochs=2000, patience=5,
-                      imgsz=640, batch=2, nbs=64, optimizer='auto', seed=0, deterministic=True,
+                      imgsz=640, batch=2, nbs=64, optimizer='auto', seed=TRAINING_SEED, deterministic=True,
                       amp=True, cache=False, device=0, workers=2, save=True, plots=False,
                       save_dir=str(work), project=str(work.parent), name=work.name, exist_ok=True)
     save_json(work/'protocol.json', dict(parameters=parameters, initialization=provenance))
@@ -202,9 +203,9 @@ def train_unet(args, job, work, target, state, rows):
     import cv2
     import keras
     import numpy as np
-    from fresh_maskrcnn_data import instance_masks
-    from train_unet_640_diagnostic import build_unet
-    keras.utils.set_random_seed(0)
+    from mask_rcnn.data import instance_masks
+    from u_net.model import build_unet
+    keras.utils.set_random_seed(TRAINING_SEED)
     keras.mixed_precision.set_global_policy('mixed_float16')
     class Dataset(keras.utils.PyDataset):
         def __init__(self, role):
@@ -212,7 +213,7 @@ def train_unet(args, job, work, target, state, rows):
             self.role = role
             self.rows = [r for r in rows if r['split'] == role]
             self.ids = np.arange(len(self.rows))
-            self.rng = np.random.default_rng(0)
+            self.rng = np.random.default_rng(TRAINING_SEED)
             if role == 'train' and state:
                 self.ids = np.asarray(state['next_train_indices'])
                 self.rng.bit_generator.state = state['rng']
@@ -242,7 +243,7 @@ def train_unet(args, job, work, target, state, rows):
     current = dict(state or dict(epoch=0, best_loss=None, bad_epochs=0))
     if state and (current['bad_epochs'] >= 5 or current['epoch'] >= 2000):
         finish(args,job,work,target,work/'best.keras',current,
-               dict(imgsz=640,batch=2,epochs=2000,patience=5,Adam_lr=0.001,loss='BCE',initialization='new random',selection='valid833 val_loss'))
+               dict(imgsz=640,batch=2,epochs=2000,patience=5,seed=TRAINING_SEED,Adam_lr=0.001,loss='BCE',initialization='new random',selection='valid833 val_loss'))
         return
     class Persist(keras.callbacks.Callback):
         def on_epoch_end(self, epoch, logs=None):
@@ -259,7 +260,7 @@ def train_unet(args, job, work, target, state, rows):
     model.fit(train,validation_data=valid,initial_epoch=current['epoch'],epochs=2000,
               callbacks=[keras.callbacks.CSVLogger(str(work/'history.csv'),append=bool(state)),Persist()],verbose=2)
     finish(args,job,work,target,work/'best.keras',current,
-           dict(imgsz=640,batch=2,epochs=2000,patience=5,Adam_lr=0.001,loss='BCE',initialization='new random',selection='valid833 val_loss'))
+           dict(imgsz=640,batch=2,epochs=2000,patience=5,seed=TRAINING_SEED,Adam_lr=0.001,loss='BCE',initialization='new random',selection='valid833 val_loss'))
 
 
 class ValidationStop(Exception):
@@ -272,6 +273,7 @@ def train_mask(args, job, work, target, state, records):
     from detectron2.data import DatasetCatalog, MetadataCatalog
     from detectron2.engine import DefaultTrainer, HookBase
     from detectron2.evaluation import COCOEvaluator
+    from detectron2.utils.env import seed_all_rng
     initial, provenance = official_weight(args,job)
     cfg = get_cfg()
     cfg.merge_from_file(model_zoo.get_config_file(job['config']))
@@ -300,7 +302,7 @@ def train_mask(args, job, work, target, state, records):
     cfg.SOLVER.CHECKPOINT_PERIOD=cfg.SOLVER.MAX_ITER+1
     cfg.DATALOADER.NUM_WORKERS=2
     cfg.DATALOADER.FILTER_EMPTY_ANNOTATIONS=False
-    cfg.SEED=0
+    cfg.SEED=TRAINING_SEED
     cfg.OUTPUT_DIR=str(work)
     for role in ('train','valid'):
         name=job['model']+'_'+role
@@ -313,7 +315,7 @@ def train_mask(args, job, work, target, state, records):
     current=dict(state or dict(step=0,best_ap=None,bad_validations=0))
     parameters=dict(schedule='official model-zoo schedule scaled for batch2; new protocol',
                     max_iterations=cfg.SOLVER.MAX_ITER,steps=list(cfg.SOLVER.STEPS),lr=cfg.SOLVER.BASE_LR,
-                    evaluation_period=cfg.TEST.EVAL_PERIOD,patience_validations=5,initialization=provenance)
+                    evaluation_period=cfg.TEST.EVAL_PERIOD,patience_validations=5,seed=cfg.SEED,initialization=provenance)
     if state and (current['bad_validations'] >= 5 or current['step'] >= cfg.SOLVER.MAX_ITER):
         finish(args,job,work,target,work/'best_validation.pth',current,parameters)
         return
@@ -343,6 +345,7 @@ def train_mask(args, job, work, target, state, records):
             return COCOEvaluator(name,tasks=('segm',),distributed=False,use_fast_impl=False,output_dir=str(work/'valid_eval'))
         def build_hooks(self):
             return super().build_hooks()+[Select()]
+    seed_all_rng(cfg.SEED)
     trainer=Trainer(cfg)
     if state:
         (work/'last_checkpoint').write_text('latest.pth')
@@ -393,7 +396,7 @@ def predictor(job, record):
 def test_ground_truth(rows,data):
     import cv2
     from pycocotools import mask as mask_utils
-    from fresh_maskrcnn_data import instance_masks
+    from mask_rcnn.data import instance_masks
     result=dict(info={},images=[],annotations=[],categories=[dict(id=1,name='Forest')])
     for image_id,row in enumerate(rows,1):
         image=cv2.imread(str(data/'test/images'/row['image']))
@@ -414,7 +417,7 @@ def evaluate(args,job,record,rows):
     from pycocotools import mask as mask_utils
     from pycocotools.coco import COCO
     from pycocotools.cocoeval import COCOeval
-    from evaluate_yolo_defortrack_test import metrics,yolo_mask
+    from yolov8_yolov11.evaluate import metrics,yolo_mask
     gpu_key=''.join(c if c.isalnum() else '_' for c in torch.cuda.get_device_name(0))
     target=args.output/'evaluation'/gpu_key/job['model'];target.mkdir(parents=True,exist_ok=True)
     if (target/'complete.json').exists():
@@ -477,7 +480,7 @@ def evaluate(args,job,record,rows):
     if job['family']=='keras': __import__('keras').backend.clear_session()
     gc.collect();torch.cuda.empty_cache()
     import subprocess
-    subprocess.run([sys.executable,str(Path(__file__).with_name('colab_profile_model.py')),
+    subprocess.run([sys.executable,str(Path(__file__).with_name('profile_checkpoint.py')),
         '--bundle',str(args.bundle),'--data',str(args.data),
         '--record',str(args.output/'models'/job['model']/'completed.json'),
         '--output',str(target/'computational_profile.json')],check=True)
@@ -521,12 +524,14 @@ def main():
         saved=args.output/(name+'_content_manifest.json')
         if saved.exists() and read_json(saved)!=content: raise ValueError('External files changed across Colab sessions')
         save_json(saved,content)
-    protocol=dict(counts=COUNTS,partition_manifest_sha256=MANIFEST_HASH,models=17,
+    code_root=Path(__file__).resolve().parent
+    code_paths=sorted(code_root.rglob('*.py'))
+    protocol=dict(counts=COUNTS,partition_manifest_sha256=MANIFEST_HASH,models=17,training_seed=TRAINING_SEED,
           gpu=torch.cuda.get_device_name(0),torch=torch.__version__,ultralytics=ultralytics.__version__,
           selection='valid833 only',test_used_for_selection=False,pixel_max_detections=100,
           boundary='3 erosion iterations 3x3; dilation elliptic7x7; tolerance3px',
           scope='new local V2 derivative; not historical results or published V2 counts',
-          script_sha256=sha(__file__),code_sha256={p.name:sha(p) for p in Path(__file__).parent.glob('*.py')})
+          script_sha256=sha(__file__),code_sha256={p.relative_to(code_root).as_posix():sha(p) for p in code_paths})
     if (args.output/'protocol.json').exists():
         previous_protocol=read_json(args.output/'protocol.json')
         if previous_protocol.get('torch')!=protocol['torch'] or previous_protocol.get('ultralytics')!=protocol['ultralytics']:
@@ -566,7 +571,7 @@ def main():
         elif job['family']=='keras': train_unet(args,job,work,target,state,rows)
         elif job['family']=='detectron2':
             if records is None:
-                from fresh_maskrcnn_data import build_records
+                from mask_rcnn.data import build_records
                 records={role:build_records(rows,role,args.data,COUNTS[role]) for role in ('train','valid')}
             train_mask(args,job,work,target,state,records)
         else: raise ValueError('Unknown family')
@@ -599,14 +604,10 @@ def main():
             if path.is_file() and path.suffix in {'.csv','.json'}: archive.write(path,path.relative_to(args.output))
         for path in args.bundle.iterdir():
             if path.is_file() and path.suffix in {'.csv','.json'}: archive.write(path,Path('protocol_inputs')/path.name)
-        for path in Path(__file__).parent.glob('*.py'): archive.write(path,Path('code')/path.name)
+        for path in code_paths: archive.write(path,Path('code')/path.relative_to(code_root))
     print('COMPLETE. Results and public_supplement.zip saved on Drive. No raw weights/images in supplement.',flush=True)
     if read_json(lease)==owner: lease.unlink()
 
 
 if __name__=='__main__':
-    try: main()
-    except BaseException:
-        import traceback
-        traceback.print_exc()
-        raise
+    main()

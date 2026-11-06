@@ -5,7 +5,7 @@ import json
 import time
 from pathlib import Path
 
-from colab_full_revision import MANIFEST_HASH, predictor, read_csv, read_json, save_json, sha
+from run_benchmark import MANIFEST_HASH, predictor, read_csv, read_json, save_json, sha
 
 
 def main():
@@ -13,7 +13,7 @@ def main():
     for key in ('bundle','data','record','output'): parser.add_argument('--'+key,type=Path,required=True)
     args=parser.parse_args()
     import cv2,numpy as np,torch
-    from profile_model_local import ResourceSampler
+    from common.resources import ResourceSampler
     if not torch.cuda.is_available(): raise ValueError('CUDA required')
     if sha(args.bundle/'partition_manifest.csv') != MANIFEST_HASH: raise ValueError('Changed test manifest')
     record=read_json(args.record)

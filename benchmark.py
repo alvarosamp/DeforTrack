@@ -62,7 +62,7 @@ def model_record(name, weights):
 
 
 def load_predictor(record, weights):
-    from colab_full_revision import predictor
+    from run_benchmark import predictor
 
     if record["architecture"] != "mask-rcnn":
         return predictor({"family": FAMILIES[record["architecture"]]}, {"best_checkpoint": str(weights)})
@@ -90,7 +90,7 @@ def evaluate(args):
     import torch
 
     sys.path.insert(0, str(HERE / "training"))
-    from evaluate_yolo_defortrack_test import metrics, yolo_mask
+    from yolov8_yolov11.evaluate import metrics, yolo_mask
 
     record = model_record(args.model, args.weights)
     rows = rows_for(args.dataset)
@@ -100,7 +100,7 @@ def evaluate(args):
     threshold = THRESHOLDS[record["architecture"]]
     score_ap = args.dataset == "test" and record["architecture"] != "u-net"
     if score_ap:
-        from colab_full_revision import test_ground_truth
+        from run_benchmark import test_ground_truth
         from pycocotools import mask as mask_utils
         from pycocotools.coco import COCO
         from pycocotools.cocoeval import COCOeval

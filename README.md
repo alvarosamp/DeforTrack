@@ -63,7 +63,7 @@ All checkpoints were selected on the validation set; the test set was not used f
 | [mask_rcnn_R_101_FPN_3x](models/mask-rcnn/mask_rcnn_R_101_FPN_3x/) | 84.19 | 90.04 | 46.56 | 10.58 | 69.5 | 503.1 |
 | [U-Net](models/u-net/U-Net/) | 76.67 | 85.05 | 45.14 | 2.60 | 82.7 | 37.8 |
 
-Full metrics (precision, recall, Boundary IoU/F1, mask AP, confidence intervals, energy) are in [`results/`](results/), and per-image scores are in each model folder.
+The consolidated results cover the [internal test](results/internal_test.csv), [external datasets](results/external_datasets.csv) and [computational profiles](results/computational_profiles.csv). Per-image scores are in each model folder.
 
 ## Repository layout
 
@@ -79,6 +79,11 @@ v1/            DeforTrack V1 (first version, 895 validation images)
 ```
 
 Each checkpoint folder has `training/` (settings and log), `internal/` (test scores), `external/` (Forest Aerial Images and Amazon/Atlantic Forest scores) and `profile/` (latency, memory, energy).
+
+[`training/run_benchmark.py`](training/run_benchmark.py) trains and evaluates all four model families. Architecture-specific code is in [`yolov8_yolov11/`](training/yolov8_yolov11/), [`mask_rcnn/`](training/mask_rcnn/) and [`u_net/`](training/u_net/). Shared validation and profiling code is in [`common/`](training/common/).
+
+The V2 training runner sets seed `0` for YOLOv8, YOLOv11, Mask R-CNN and U-Net. This does not guarantee identical results across hardware and software environments.
+Use a new output directory for a new run. The runner checks the recorded source hashes before resuming an existing run.
 
 ## Usage
 

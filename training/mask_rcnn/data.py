@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 from pycocotools import mask as mask_utils
 
-from fresh_training_guards import verify_live_file
+from common.validation import verify_live_file
 
 
 def instance_masks(text, height, width):
