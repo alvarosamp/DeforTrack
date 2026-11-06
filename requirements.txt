@@ -1,4 +1,4 @@
-# Versions used for the standardized local evaluation on 2026-08-29.
+# Versions used in the evaluation.
 # Install the CUDA-compatible PyTorch build for the target machine separately.
 torch==2.8.0
 torchvision==0.23.0
