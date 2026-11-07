@@ -1,0 +1,26 @@
+{
+  "splits": {
+    "train": 12861,
+    "valid": 895,
+    "test": 892
+  },
+  "total": 14648,
+  "mean_percent": 42.36751325972936,
+  "std_percent": 26.6383730532941,
+  "min_percent": 0.0,
+  "max_percent": 99.686767578125,
+  "bins_0_25_50_75_100": [
+    4955,
+    4079,
+    3290,
+    2324
+  ],
+  "rasterization": "float32 coordinates; round(x*(size-1)); clip to canvas; polygon union",
+  "bin_intervals_percent": [
+    "[0,25)",
+    "[25,50)",
+    "[50,75)",
+    "[75,100]"
+  ],
+  "standard_deviation_ddof": 0
+}

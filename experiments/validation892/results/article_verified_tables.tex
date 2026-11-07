@@ -1,0 +1,111 @@
+% Replacement excerpts for the English manuscript. The original article is untouched.
+% Validation and fusion summaries are in validation_summary.csv and fusion_summary.csv.
+
+% Replace the historical inter-annotator paragraph and table together.
+The annotation study used the manual polygons for 248 matched source images
+from three annotators. It did not use any of the inherited masks added to
+validation or used as test replacements. The three pairwise scores were
+averaged within each image before summarizing the 248 image-level averages.
+Mean IoU was 75.52\%, and the approximate 95\% confidence interval was
+73.43--77.61\% under an image-independence assumption. IoU against a
+majority-vote consensus was 85.37\%, 85.97\%, and 89.17\% for annotators 1, 2,
+and 3, respectively. The consensus includes each annotator's own contribution
+and is not an independent reference.
+
+\begin{table}[t]
+\centering
+\caption{Agreement among three annotators on 248 matched source images. Entries are means and sample standard deviations.}
+\label{tab:interannotator}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Annotator pair} & \textbf{IoU [\%]} & \textbf{Dice/F1 [\%]}
+& \textbf{Precision [\%]} & \textbf{Kappa} \\ \hline
+Annotators 1 and 2 & $73.53 \pm 19.49$ & $82.88 \pm 17.09$ & $85.24 \pm 18.55$ & $0.732 \pm 0.200$ \\ \hline
+Annotators 1 and 3 & $76.45 \pm 18.32$ & $85.14 \pm 14.86$ & $85.33 \pm 15.64$ & $0.755 \pm 0.197$ \\ \hline
+Annotators 2 and 3 & $76.59 \pm 20.95$ & $84.60 \pm 18.52$ & $84.81 \pm 15.82$ & $0.757 \pm 0.233$ \\ \hline
+Per-image mean of the three pairs & $75.52 \pm 16.78$ & $84.21 \pm 14.18$ & $85.13 \pm 13.04$ & $0.748 \pm 0.178$ \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+% Add to the experimental protocol.
+The expanded validation partition contains 892 image--mask pairs: the 833 retained
+DeforTrack validation pairs and 59 pairs from Forest Aerial Images. The training
+and internal test partitions were unchanged, yielding 12,861 training, 892
+validation, and 892 test samples (14,645 after augmentation and 6,071 before
+augmentation). The new masks were inherited from Forest Aerial Images and
+converted to YOLO polygons. Rasterization of these polygons reproduced their
+source masks with a mean IoU of 99.68\% and a minimum of 99.09\%. These values
+measure conversion fidelity, not semantic correctness. Nine additions were
+flagged for semantic review. The expanded split is an experimental derivative
+and is distinct from the published Roboflow v3 split.
+
+All 17 checkpoints were originally selected with the 833-image validation
+partition. The expanded partition is used for evaluation of the frozen
+checkpoints, not for checkpoint selection or retraining. The internal test
+images, reference masks, and checkpoints are unchanged, so previously measured
+internal results and computational profiles remain attributable to the original
+evaluation protocol. The 59 added images were excluded from the Forest Aerial
+external benchmark, leaving 4,963 of the previous 5,022 pairs. The external
+metrics were re-aggregated from the existing per-image scores after confirming
+the retained image and mask hashes. Amazon/Atlantic Forest retained all 599
+pairs. These screens do not establish geographic or temporal independence.
+
+With weights fixed, all 17 models scored lower in mean IoU on the expanded
+validation partition than on its original 833-image subset. The decreases
+ranged from 3.04 to 3.47 percentage points. YOLOv11x remained the highest
+scoring checkpoint, with 89.86\% on the original subset, 41.51\% on the 59
+additions alone, and 86.66\% on the expanded validation partition. This
+comparison reflects the change in evaluation samples, not a change in
+checkpoint weights. Recalibrating the weighted fusion rule on the expanded
+validation partition again selected the threshold of 0.05.
+
+% Replace only the final block of Table 3. Keep the original audit block.
+\multicolumn{8}{|c|}{\textbf{Experimental partition with 892 validation images}} \\ \hline
+\textbf{Query $\rightarrow$ reference} & \textbf{Queries} & \textbf{References}
+& \textbf{Mean nearest} & \textbf{P99 nearest} & \textbf{Maximum}
+& \textbf{Pairs $\geq 0.98$} & \textbf{Shared SHA-256} \\ \hline
+Test $\rightarrow$ training & 892 & 12,861 & 0.9413 & 0.9782 & 0.9799 & 0 & 0 \\ \hline
+Test $\rightarrow$ validation & 892 & 892 & 0.8980 & 0.9743 & 0.9785 & 0 & 0 \\ \hline
+Validation $\rightarrow$ training & 892 & 12,861 & 0.9447 & 0.9792 & 0.9799 & 0 & 0 \\ \hline
+
+% Coverage table. The left column is the recomposed release before validation exclusions.
+\begin{table}[t]
+\centering
+\caption{Image-plane forest cover before the validation exclusions and in the expanded experimental split, using the same rasterization.}
+\label{t4}
+\begin{tabular}{|l|r|r|}
+\hline
+\textbf{Metric} & \textbf{Before exclusions} & \textbf{Expanded split} \\ \hline
+Reference masks & 14,648 & 14,645 \\ \hline
+Mean forest cover & 42.37\% & 42.37\% \\ \hline
+Population standard deviation & 26.64 p.p. & 26.64 p.p. \\ \hline
+Minimum & 0.00\% & 0.00\% \\ \hline
+Maximum & 99.69\% & 99.69\% \\ \hline
+$0\% \leq A_f < 25\%$ & 4,955 & 4,955 \\ \hline
+$25\% \leq A_f < 50\%$ & 4,079 & 4,078 \\ \hline
+$50\% \leq A_f < 75\%$ & 3,290 & 3,288 \\ \hline
+$75\% \leq A_f \leq 100\%$ & 2,324 & 2,324 \\ \hline
+\end{tabular}
+\end{table}
+
+% External results for the same checkpoints. Replace the previous external table.
+\begin{table}[!t]
+\centering
+\caption{Top three fixed checkpoints by mean IoU on each screened external dataset.}
+\label{t6}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|l|c|l|r|r|r|}
+\hline
+\textbf{External dataset} & \textbf{Rank} & \textbf{Model} & \textbf{Images}
+& \textbf{IoU [\%]} & \textbf{Dice/F1 [\%]} \\ \hline
+Forest Aerial Images & 1 & YOLOv11n & 4,963 & \textbf{51.15} & 57.87 \\ \hline
+Forest Aerial Images & 2 & YOLOv11s & 4,963 & 50.15 & 57.23 \\ \hline
+Forest Aerial Images & 3 & YOLOv8s & 4,963 & 48.80 & 55.89 \\ \hline
+Amazon/Atlantic Forest & 1 & YOLOv8s & 599 & \textbf{47.80} & 58.21 \\ \hline
+Amazon/Atlantic Forest & 2 & YOLOv8m & 599 & 40.72 & 50.42 \\ \hline
+Amazon/Atlantic Forest & 3 & YOLOv8n & 599 & 33.86 & 41.67 \\ \hline
+\end{tabular}%
+}
+\end{table}

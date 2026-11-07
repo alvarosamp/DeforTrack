@@ -1,2 +1,3 @@
 data/partition_manifest.csv -text
 training/bundle/partition_manifest.csv -text
+experiments/validation892/data/** -text whitespace=cr-at-eol

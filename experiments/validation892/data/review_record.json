@@ -1,0 +1,104 @@
+{
+  "selected_sources_sha256": "beeb7b9defc43ef5de6f0cd5823c58a67be539a9a5e499766935b5c600f4a7c5",
+  "review_scope": "exploratory_only",
+  "review_type": "AI-assisted visual inspection of source-mask overlays; not independent expert annotation validation",
+  "screened_source_images": [
+    "133209_sat_13.jpg",
+    "210473_sat_21.jpg",
+    "866782_sat_68.jpg",
+    "940229_sat_84.jpg",
+    "122104_sat_50.jpg",
+    "96870_sat_84.jpg",
+    "122104_sat_51.jpg",
+    "668465_sat_07.jpg",
+    "605764_sat_40.jpg",
+    "351271_sat_17.jpg",
+    "498049_sat_32.jpg",
+    "156574_sat_24.jpg",
+    "204494_sat_12.jpg",
+    "739122_sat_27.jpg",
+    "940229_sat_18.jpg",
+    "340898_sat_82.jpg",
+    "296279_sat_05.jpg",
+    "772567_sat_62.jpg",
+    "632489_sat_53.jpg",
+    "767012_sat_02.jpg",
+    "496948_sat_38.jpg",
+    "156574_sat_35.jpg",
+    "650253_sat_86.jpg",
+    "897901_sat_67.jpg",
+    "454655_sat_34.jpg",
+    "182422_sat_60.jpg",
+    "72807_sat_76.jpg",
+    "400179_sat_42.jpg",
+    "226788_sat_03.jpg",
+    "691384_sat_52.jpg",
+    "291214_sat_55.jpg",
+    "114473_sat_88.jpg",
+    "810749_sat_21.jpg",
+    "612214_sat_57.jpg",
+    "986342_sat_76.jpg",
+    "400179_sat_53.jpg",
+    "192918_sat_84.jpg",
+    "406425_sat_76.jpg",
+    "950926_sat_05.jpg",
+    "967818_sat_27.jpg",
+    "296279_sat_61.jpg",
+    "111335_sat_60.jpg",
+    "563092_sat_86.jpg",
+    "280861_sat_23.jpg",
+    "939614_sat_23.jpg",
+    "665914_sat_31.jpg",
+    "668465_sat_15.jpg",
+    "563092_sat_48.jpg",
+    "417313_sat_63.jpg",
+    "277994_sat_45.jpg",
+    "950926_sat_55.jpg",
+    "691384_sat_34.jpg",
+    "111335_sat_44.jpg",
+    "340898_sat_27.jpg",
+    "679507_sat_07.jpg",
+    "133209_sat_12.jpg",
+    "534154_sat_66.jpg",
+    "838669_sat_65.jpg",
+    "810749_sat_72.jpg"
+  ],
+  "priority_semantic_review": [
+    {
+      "image": "767012_sat_02.jpg",
+      "reason": "Sparse vegetation and ambiguous forest boundary"
+    },
+    {
+      "image": "612214_sat_57.jpg",
+      "reason": "Sparse vegetation and bare-ground mixture"
+    },
+    {
+      "image": "400179_sat_53.jpg",
+      "reason": "Sparse vegetation and road-edge mixture"
+    },
+    {
+      "image": "192918_sat_84.jpg",
+      "reason": "Sparse vegetation and cultivated-field transition"
+    },
+    {
+      "image": "939614_sat_23.jpg",
+      "reason": "Cultivated or developed land may be included"
+    },
+    {
+      "image": "668465_sat_15.jpg",
+      "reason": "Dark linear feature and shoreline/road transition"
+    },
+    {
+      "image": "679507_sat_07.jpg",
+      "reason": "Sparse vegetation and developed boundary"
+    },
+    {
+      "image": "838669_sat_65.jpg",
+      "reason": "Sparse vegetation and tracks"
+    },
+    {
+      "image": "810749_sat_72.jpg",
+      "reason": "Built-up areas intermixed with canopy"
+    }
+  ]
+}

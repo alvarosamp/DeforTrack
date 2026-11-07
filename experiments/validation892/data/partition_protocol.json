@@ -1,0 +1,72 @@
+{
+  "status": "frozen_for_training",
+  "counts": {
+    "train": 12861,
+    "valid": 892,
+    "test": 892
+  },
+  "threshold": 0.98,
+  "baseline_manifest_sha256": "e14eecf7e8c253dfb1182fc31a916587148f0f3bd66ee21337d5c1b05a090b3c",
+  "weights_sha256": "f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec",
+  "live_reference_images_verified": false,
+  "manifest_sha256": "5b6b01d962517d343c2185a51134c1c17ef1b6cf00a35c25d3528ef0091630ef",
+  "inherited_mask_count": 59,
+  "comparisons": [
+    {
+      "comparison": "test-train",
+      "queries": 892,
+      "references": 12861,
+      "nearest_mean": 0.941272956440267,
+      "nearest_p99": 0.9781639897823334,
+      "nearest_max": 0.9798965454101562,
+      "pairs_at_or_above_threshold": 0,
+      "queries_at_or_above_threshold": 0,
+      "queries_with_nearest_within_0_001_of_threshold": 5
+    },
+    {
+      "comparison": "test-valid",
+      "queries": 892,
+      "references": 892,
+      "nearest_mean": 0.8979728338830674,
+      "nearest_p99": 0.9742897766828537,
+      "nearest_max": 0.9785473942756653,
+      "pairs_at_or_above_threshold": 0,
+      "queries_at_or_above_threshold": 0,
+      "queries_with_nearest_within_0_001_of_threshold": 0
+    },
+    {
+      "comparison": "valid-train",
+      "queries": 892,
+      "references": 12861,
+      "nearest_mean": 0.9446859691843323,
+      "nearest_p99": 0.9791836261749267,
+      "nearest_max": 0.9798924922943115,
+      "pairs_at_or_above_threshold": 0,
+      "queries_at_or_above_threshold": 0,
+      "queries_with_nearest_within_0_001_of_threshold": 10
+    }
+  ],
+  "shared_sha256_across_splits": 0,
+  "forest_aerial_external": 4963,
+  "amazon_atlantic_external": 599,
+  "coverage": {
+    "mean": 0.42366165260114375,
+    "population_sd": 0.2663638327548225,
+    "minimum": 0.0,
+    "maximum": 0.99686767578125,
+    "bins": [
+      4955,
+      4078,
+      3288,
+      2324
+    ]
+  },
+  "review_sha256": "bd730db01705598409473786e173edf1d20d3689b2e14613385bc3a919e4895a",
+  "review_scope": "exploratory_only",
+  "staged_manifest_pairs_verified": 14645,
+  "unresolved_semantic_flags": 9,
+  "external_screen_sha256": {
+    "forest_aerial_overlap.csv": "1f7b2791a2cea55cc1675d479f29116f2b7cd1afe568fa45ec47bb9c085fbcf6",
+    "amazon_atlantic_overlap.csv": "e4f6140675ff45b03b98bc7be60c70185d43e22e6934b9c26fe6210bd9faee18"
+  }
+}

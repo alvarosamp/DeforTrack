@@ -7,6 +7,14 @@ DeforTrack is a multi-source RGB dataset for binary forest / non-forest segmenta
 **Dataset:** [DeforTrack on Roboflow (version 3)](https://universe.roboflow.com/eu-sr6tp/defortrack-oqdcu/dataset/3)
 **Weights:** [release v2.0](https://github.com/alvarosamp/DeforTrack/releases/tag/v2.0)
 
+## Expanded validation experiment
+
+This branch adds the [892-image validation re-evaluation](experiments/validation892/README.md).
+It uses the same 17 released checkpoints, which were selected on 833 validation images.
+No new checkpoints were used or selected. The original V2 dataset and results below are unchanged.
+The expanded split and the updated external results are recorded separately under
+[`experiments/validation892/`](experiments/validation892/).
+
 ## V2 vs. V1
 
 | | V1 | V2 |
@@ -41,7 +49,7 @@ In the final split no pair across splits reaches 0.98 and no file is shared. Thi
 
 ## Results
 
-All checkpoints were selected on the validation set; the test set was not used for selection. IoU and Dice are per-image means in %. Latency is batch 1 on an RTX 4060 Laptop GPU, including image loading and preprocessing.
+All checkpoints were selected on the original 833-image validation set. The test set was not used for selection. The table below is the released V2 benchmark, with 5,022 Forest Aerial pairs. For the screened 4,963-pair result see the expanded experiment. IoU and Dice are per-image means in %. Latency is batch 1 on an RTX 4060 Laptop GPU, including image loading and preprocessing.
 
 | Model | Test IoU | Test Dice/F1 | Forest Aerial IoU | Amazon/Atlantic IoU | Latency (ms) | Weights (MB) |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -74,6 +82,7 @@ models/        one folder per architecture, one subfolder per checkpoint
 annotation/    agreement between the three annotators (248 images)
 training/      Colab training pipeline and helpers
 results/       consolidated metrics for the 17 checkpoints
+experiments/   expanded validation manifests, results, and re-evaluation code
 benchmark.py   data verification and evaluation
 v1/            DeforTrack V1 (first version, 895 validation images)
 ```
